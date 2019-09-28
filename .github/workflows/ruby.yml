@@ -11,7 +11,7 @@ jobs:
       uses: gimenete/rubocop-action@1.0
     
   testing:
-    need: 
+    needs: 
       - rubocop_check
   
     runs-on: ubuntu-latest
