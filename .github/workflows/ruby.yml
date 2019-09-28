@@ -1,12 +1,19 @@
 name: Ruby
 
 on:
+  pull_request:
   push:
 
 jobs:
+  rubocop_check:
+  - name: Rubocop checks
+    uses: gimenete/rubocop-action@1.0
+    
   testing:
+    need: 
+      - rubocop_check
+  
     runs-on: ubuntu-latest
-
     steps:
     - name: Getting files from GitHub
       uses: actions/checkout@v1
