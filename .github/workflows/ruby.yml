@@ -13,6 +13,7 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
+    - name: Checking Ruby version
       run: |
         ruby -v
     - name: Build and test with Rake
