@@ -8,6 +8,8 @@ jobs:
   rubocop_check:
     runs-on: ubuntu-latest
     steps:
+    - name: Getting files from GitHub
+      uses: actions/checkout@v1
     - name: Rubocop checks
       uses: gimenete/rubocop-action@1.0
       env:
