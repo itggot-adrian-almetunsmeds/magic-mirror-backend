@@ -1,0 +1,5 @@
+public_transport:
+  reseplanerare:
+    api_key: XYZ-XYZ
+  stolptidstabeller:
+    api_key: XYZ-XYZ
