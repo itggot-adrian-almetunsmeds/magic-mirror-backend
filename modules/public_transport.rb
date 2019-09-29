@@ -4,21 +4,7 @@ require 'httparty'
 require 'json'
 require 'pp'
 require 'yaml'
-
-# Public: Encodes a string to be used as a link
-#
-# link - The string to be encoded
-#
-# Returns a url-encoded string
-#
-class Link
-  def self.encode(link)
-    link.gsub(/\s/, '%20')
-    link.gsub('å', '%C5')
-    link.gsub('ä', '%E4')
-    link.gsub('ö', '%F6')
-  end
-end
+require_relative 'link.rb'
 
 # Public: Used to get the following departures
 # from a station.
