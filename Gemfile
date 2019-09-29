@@ -3,6 +3,6 @@
 source 'https://rubygems.org'
 
 gem 'rack'
-gem 'sinatra'
 gem 'sassc'
+gem 'sinatra'
 gem 'slim'
