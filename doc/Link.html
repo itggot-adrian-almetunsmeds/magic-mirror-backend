@@ -137,12 +137,13 @@
 
           
           <div class="method-source-code" id="encode-source">
-            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 15</span>
+            <pre><span class="ruby-comment"># File modules/link.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">encode</span>(<span class="ruby-identifier">link</span>)
-  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\s/</span>, <span class="ruby-string">&#39;%20&#39;</span>)
-  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;å&#39;</span>, <span class="ruby-string">&#39;%C5&#39;</span>)
-  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;ä&#39;</span>, <span class="ruby-string">&#39;%E4&#39;</span>)
-  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;ö&#39;</span>, <span class="ruby-string">&#39;%F6&#39;</span>)
+  <span class="ruby-identifier">link</span> = <span class="ruby-constant">Link</span>.<span class="ruby-identifier">squish</span>(<span class="ruby-identifier">link</span>)
+  <span class="ruby-comment"># FIXME: Whitespace should be replaced with %20</span>
+  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;å&#39;</span>, <span class="ruby-string">&#39;%C3%A5&#39;</span>)
+  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;ä&#39;</span>, <span class="ruby-string">&#39;%C3%A4&#39;</span>)
+  <span class="ruby-identifier">link</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;ö&#39;</span>, <span class="ruby-string">&#39;%C3%B6&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

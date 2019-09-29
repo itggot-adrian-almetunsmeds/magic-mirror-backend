@@ -162,7 +162,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 45</span>
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">location</span>) <span class="ruby-comment"># rubocop:disable Metrics/MethodLength</span>
   <span class="ruby-ivar">@config</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-string">&#39;configuration.yaml&#39;</span>)
   <span class="ruby-identifier">location</span> = <span class="ruby-constant">Link</span>.<span class="ruby-identifier">encode</span>(<span class="ruby-identifier">location</span>)
@@ -213,7 +213,7 @@
 
           
           <div class="method-source-code" id="too_many_locations-source">
-            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 77</span>
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">too_many_locations</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&#39;Please use one of the following locations&#39;</span>\
   <span class="ruby-string">&#39;in the configuration.yaml file&#39;</span>

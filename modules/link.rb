@@ -7,11 +7,11 @@
 # Returns a url-encoded string
 #
 class Link
-    def self.encode(link)
-        link = Link.squish(link)
-        # FIXME: Whitespace should be replaced with %20 
-        link.gsub('å', '%C3%A5')
-        link.gsub('ä', '%C3%A4')
-        link.gsub('ö', '%C3%B6')
-    end
+  def self.encode(link)
+    link = Link.squish(link)
+    # FIXME: Whitespace should be replaced with %20
+    link.gsub('å', '%C3%A5')
+    link.gsub('ä', '%C3%A4')
+    link.gsub('ö', '%C3%B6')
+  end
 end
