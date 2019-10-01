@@ -1,0 +1,29 @@
+{
+    "public_transit": {
+        "in": "Om",
+        "next_service": "Nästa tjänst",
+        "arrives": "Anländer",
+        "arrives-in": "Anländer om"
+    },
+    "time": {
+        "mon": "Måndag",
+        "tue": "Tisdag",
+        "wen": "Onsdag",
+        "thu": "Torsdag",
+        "fri": "Fredag",
+        "sat": "Lördag",
+        "sun": "Söndag",
+        "jan": "Januari",
+        "feb": "Februari",
+        "mar": "Mars",
+        "apr": "April",
+        "may": "Maj",
+        "june": "Juni",
+        "july": "July",
+        "aug": "Augusti",
+        "sep": "September",
+        "oct": "Oktober",
+        "nov": "November",
+        "dec": "December"
+    }
+}

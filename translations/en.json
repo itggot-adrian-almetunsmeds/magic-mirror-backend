@@ -1,0 +1,29 @@
+{
+    "public_transit": {
+        "in": "In",
+        "next_service": "Next service",
+        "arrives": "Arrives",
+        "arrives_in": "Arrives in"
+    },
+    "time": {
+        "mon": "Monday",
+        "tue": "Tuesday",
+        "wen": "Wednesday",
+        "thu": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday",
+        "jan": "January",
+        "feb": "February",
+        "mar": "Mars",
+        "apr": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "aug": "August",
+        "sep": "September",
+        "oct": "October",
+        "nov": "November",
+        "dec": "December"
+    }
+}

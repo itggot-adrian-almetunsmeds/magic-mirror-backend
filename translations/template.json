@@ -1,0 +1,29 @@
+{
+    "public_transit": {
+        "in": "",
+        "next_service": "",
+        "arrives": "",
+        "arrives-in": ""
+    },
+    "time": {
+        "mon": "",
+        "tue": "",
+        "wen": "",
+        "thu": "",
+        "fri": "",
+        "sat": "",
+        "sun": "",
+        "jan": "",
+        "feb": "",
+        "mar": "",
+        "apr": "",
+        "may": "",
+        "june": "",
+        "july": "",
+        "aug": "",
+        "sep": "",
+        "oct": "",
+        "nov": "",
+        "dec": ""
+    }
+}
