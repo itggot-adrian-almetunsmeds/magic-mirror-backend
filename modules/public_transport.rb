@@ -4,7 +4,7 @@ require 'httparty'
 require 'json'
 require 'pp'
 require 'yaml'
-require_relative 'link.rb'
+require_relative 'web_handler.rb'
 
 # Public: Used to get the following departures
 # from a station.
@@ -27,10 +27,10 @@ require_relative 'link.rb'
 #      ["Svart", nil, "12:15:00", "S\u00E4vedalen Ljungkullen (Partille kn)", "V\u00E4sttrafik", "279"]]
 #
 class PublicTransport
-  attr_reader :departures
+  attr_reader :departures, :json
   def initialize(location) # rubocop:disable Metrics/MethodLength
     @config = YAML.load_file('configuration.yaml')
-    location = Link.encode(location)
+    location = WebHandler.encode(location)
     response = HTTParty.get('https://api.resrobot.se/v2/location.name.json?key='\
       "#{@config['public_transport']['reseplanerare']['api_key']}"\
       "&input=#{location}")
