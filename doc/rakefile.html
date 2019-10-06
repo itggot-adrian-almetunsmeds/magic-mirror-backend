@@ -86,11 +86,11 @@
 
 <main role="main" aria-label="Page rakefile">
 
-<p>require &#39;rake&#39; require &#39;rspec/core/rake_task&#39;</p>
-
-<p>RSpec::Core::RakeTask.new(:spec) </p>
+<p>require &#39;rake&#39; require &#39;rspec/core/rake_task&#39; require &#39;yaml&#39; RSpec::Core::RakeTask.new(:spec) </p>
 
 <p>task :default  =&gt; :spec task :test =&gt; :spec</p>
+
+<p>data = YAML.load_file “configuration.yaml” <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">reseplanerare’]</a> = <a href="'API_KEY_RESEPLANERARE'">ENV</a> <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">stolptidstabeller’]</a> = <a href="'API_KEY_STOLPTIDSTABELLER'">ENV</a> File.open(“configuration.yaml”, &#39;w&#39;) { |f| YAML.dump(data, f) }</p>
 </main>
 
 
