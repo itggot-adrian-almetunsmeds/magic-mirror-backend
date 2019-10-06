@@ -31,6 +31,8 @@ jobs:
       run: |
         ruby -v
     - name: Build and test with Rake
+      env:
+        super_secret: ${{ secrets.API_KEYS }}
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3

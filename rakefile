@@ -1,7 +1,12 @@
 require 'rake'
 require 'rspec/core/rake_task'
-
+require 'yaml'
 RSpec::Core::RakeTask.new(:spec) 
 
 task :default  => :spec
 task :test => :spec
+
+data = YAML.load_file "configuration.yaml"
+data["public_transport"]['reseplanerare']['api_key'] = ENV['API_KEY_RESEPLANERARE']
+data["public_transport"]['stolptidstabeller']['api_key'] = ENV['API_KEY_STOLPTIDSTABELLER']
+File.open("configuration.yaml", 'w') { |f| YAML.dump(data, f) }
