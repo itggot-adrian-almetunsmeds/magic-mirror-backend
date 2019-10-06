@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
-# Public: Encodes a string to be used as a link
+# Webhandler contans methods for http related tasks
 #
-# link - The string to be encoded
+# self.encode(link) - Returns url-encoded string
 #
-# Returns a url-encoded string
-#
-class Link
+class WebHandler
+  # Public: Encodes a string to be used as a link
+  #
+  # link - The string to be encoded
+  #
+  # Returns a url-encoded string
+  #
   # rubocop:disable Metrics/MethodLength
   def self.encode(link) # rubocop:disable Metrics/AbcSize
     link = link.downcase
