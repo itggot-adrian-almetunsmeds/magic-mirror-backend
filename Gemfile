@@ -2,7 +2,9 @@
 
 source 'https://rubygems.org'
 
+gem 'httparty'
 gem 'rack'
 gem 'sassc'
 gem 'sinatra'
 gem 'slim'
+gem 'pp'
