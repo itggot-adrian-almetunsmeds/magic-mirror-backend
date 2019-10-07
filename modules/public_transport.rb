@@ -1,6 +1,5 @@
 # frozen_string_literal: false
 
-require 'httparty'
 require 'json'
 require 'pp'
 require 'yaml'
