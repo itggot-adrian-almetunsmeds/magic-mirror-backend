@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'slim'
+require 'json'
 Dir['modules/**/*.rb'].each do |f|
   require_relative f
 end
@@ -9,25 +10,20 @@ end
 set :bind, '0.0.0.0'
 
 get '/' do
-  before do
-    SassCompiler.compile
-  end
+  # before do
+  SassCompiler.compile
+  # end
   slim :index
 end
 
-# namespace '/api/v1' do
-#   before do
-#     content_type 'application/json'
-#   end
+get '/api/translations/:language_id' do
+  JSON.parse(File.read("translations/#{params[:language_id]}.json")).to_json
+end
 
-#   get '/weather' do
-#     return text.to_json
-#   end
-
-#   get '/version/:id' do |_id|
-#     json({ foo: 'bar' }, encoder: :to_json, content_type: :js)
-#   end
-# end
+get '/api/translations/:language_id/:component' do
+  translations = JSON.parse(File.read("translations/#{params[:language_id]}.json"))
+  translations[params[:component]].to_json
+end
 
 not_found do
   status 404

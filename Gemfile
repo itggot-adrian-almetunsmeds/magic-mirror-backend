@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+gem 'httparty'
+gem 'pp'
 gem 'rack'
 gem 'sassc'
 gem 'sinatra'

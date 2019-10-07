@@ -133,6 +133,19 @@
         </div>
       </div>
       
+      <div id="attribute-i-json" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">json</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
     </section>
     
 
@@ -162,11 +175,11 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 31</span>
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">location</span>) <span class="ruby-comment"># rubocop:disable Metrics/MethodLength</span>
   <span class="ruby-ivar">@config</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-string">&#39;configuration.yaml&#39;</span>)
-  <span class="ruby-identifier">location</span> = <span class="ruby-constant">Link</span>.<span class="ruby-identifier">encode</span>(<span class="ruby-identifier">location</span>)
-  <span class="ruby-identifier">response</span> = <span class="ruby-constant">HTTParty</span>.<span class="ruby-identifier">get</span>(<span class="ruby-string">&#39;https://api.resrobot.se/v2/location.name.json?key=&#39;</span>\
+  <span class="ruby-identifier">location</span> = <span class="ruby-constant">WebHandler</span>.<span class="ruby-identifier">encode</span>(<span class="ruby-identifier">location</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-constant">WebHandler</span>.<span class="ruby-identifier">request</span>(<span class="ruby-string">&#39;https://api.resrobot.se/v2/location.name.json?key=&#39;</span>\
     <span class="ruby-node">&quot;#{@config[&#39;public_transport&#39;][&#39;reseplanerare&#39;][&#39;api_key&#39;]}&quot;</span>\
     <span class="ruby-node">&quot;&amp;input=#{location}&quot;</span>)
   <span class="ruby-ivar">@json</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">response</span>.<span class="ruby-identifier">body</span>)
@@ -213,7 +226,7 @@
 
           
           <div class="method-source-code" id="too_many_locations-source">
-            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 63</span>
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">too_many_locations</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-string">&#39;Please use one of the following locations&#39;</span>\
   <span class="ruby-string">&#39;in the configuration.yaml file&#39;</span>
