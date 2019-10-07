@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
+require 'httparty'
+
 # Webhandler contans methods for http related tasks
 #
 # self.encode(link) - Returns url-encoded string
 #
 class WebHandler
+  def self.request(url)
+    HTTParty.get(url)
+  rescue StandardError
+    raise "Failed to fetch translations. Unable to connect to #{url}"
+  end
+
   # Public: Encodes a string to be used as a link
   #
   # link - The string to be encoded

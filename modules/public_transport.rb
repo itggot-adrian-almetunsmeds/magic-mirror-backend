@@ -31,7 +31,7 @@ class PublicTransport
   def initialize(location) # rubocop:disable Metrics/MethodLength
     @config = YAML.load_file('configuration.yaml')
     location = WebHandler.encode(location)
-    response = HTTParty.get('https://api.resrobot.se/v2/location.name.json?key='\
+    response = WebHandler.request('https://api.resrobot.se/v2/location.name.json?key='\
       "#{@config['public_transport']['reseplanerare']['api_key']}"\
       "&input=#{location}")
     @json = JSON.parse(response.body)
@@ -45,7 +45,7 @@ class PublicTransport
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Lint/DuplicateMethods
   def departures # rubocop:disable Metrics/AbcSize
-    response = HTTParty.get('https://api.resrobot.se/v2/departureBoard?key='\
+    response = WebHandler.request('https://api.resrobot.se/v2/departureBoard?key='\
       "#{@config['public_transport']['stolptidstabeller']['api_key']}"\
       "&id=#{@json['StopLocation'][0]['id']}&format=json&passlist=0")
     @json = JSON.parse(response.body)
