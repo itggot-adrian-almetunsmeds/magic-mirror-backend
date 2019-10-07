@@ -32,7 +32,8 @@ jobs:
         ruby -v
     - name: Build and test with Rake
       env:
-        super_secret: ${{ secrets.API_KEYS }}
+        API_KEY_RESEPLANERARE: ${{ secrets.API_KEY_RESEPLANERARE }}
+        API_KEY_STOLPTIDSTABELLER: ${{ secrets.API_KEY_STOLPTIDSTABELLER }}
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
