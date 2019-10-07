@@ -87,6 +87,8 @@
     
     <li ><a href="#method-c-encode">::encode</a>
     
+    <li ><a href="#method-c-request">::request</a>
+    
   </ul>
 </div>
 
@@ -117,6 +119,49 @@
     
 
     
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-request" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">request</span><span
+            class="method-args">(url)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="request-source">
+            <pre><span class="ruby-comment"># File modules/web_handler.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">request</span>(<span class="ruby-identifier">url</span>)
+  <span class="ruby-constant">HTTParty</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">url</span>)
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Failed to fetch translations. Unable to connect to #{url}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 
   <section id="Public" class="documentation-section">
@@ -173,7 +218,7 @@
 
           
           <div class="method-source-code" id="encode-source">
-            <pre><span class="ruby-comment"># File modules/web_handler.rb, line 15</span>
+            <pre><span class="ruby-comment"># File modules/web_handler.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">encode</span>(<span class="ruby-identifier">link</span>) <span class="ruby-comment"># rubocop:disable Metrics/AbcSize</span>
   <span class="ruby-identifier">link</span> = <span class="ruby-identifier">link</span>.<span class="ruby-identifier">downcase</span>
   <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>

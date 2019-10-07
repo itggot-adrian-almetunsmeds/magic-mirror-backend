@@ -88,9 +88,12 @@
 
 <p>require &#39;rake&#39; require &#39;rspec/core/rake_task&#39; require &#39;yaml&#39; RSpec::Core::RakeTask.new(:spec) </p>
 
-<p>task :default  =&gt; :spec task :test =&gt; :spec</p>
+<p>task :default  =&gt; :spec task :test =&gt; :spec # Makes the tests possible to run on github actions # even though the API keys are not inserted into the # public config file data = YAML.load_file “./configuration.yaml” <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">reseplanerare’]</a> = <a href="'API_KEY_RESEPLANERARE'">ENV</a>.to_s <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">stolptidstabeller’]</a> = <a href="'API_KEY_STOLPTIDSTABELLER'">ENV</a>.to_s unless <a href="'API_KEY_RESEPLANERARE'">ENV</a> == nil || <a href="'API_KEY_STOLPTIDSTABELLER'">ENV</a> == nil</p>
 
-<p>data = YAML.load_file “configuration.yaml” <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">reseplanerare’]</a> = <a href="'API_KEY_RESEPLANERARE'">ENV</a> <a href=""public_transport"">data</a>[&#39;<a href="'api_key'">stolptidstabeller’]</a> = <a href="'API_KEY_STOLPTIDSTABELLER'">ENV</a> File.open(“configuration.yaml”, &#39;w&#39;) { |f| YAML.dump(data, f) }</p>
+<pre class="ruby"><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-string">&#39;./configuration.yaml&#39;</span>, <span class="ruby-string">&#39;w&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">f</span>) }
+</pre>
+
+<p>end</p>
 </main>
 
 
