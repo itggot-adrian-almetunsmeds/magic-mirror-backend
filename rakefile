@@ -5,8 +5,9 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default  => :spec
 task :test => :spec
-# TODO: Make tests run on github even if they do not have the config file
-p ENV
+# Makes the tests possible to run on github actions
+# even though the API keys are not inserted into the
+# public config file
 data = YAML.load_file "./configuration.yaml"
 data["public_transport"]['reseplanerare']['api_key'] = ENV['API_KEY_RESEPLANERARE'].to_s
 data["public_transport"]['stolptidstabeller']['api_key'] = ENV['API_KEY_STOLPTIDSTABELLER'].to_s
