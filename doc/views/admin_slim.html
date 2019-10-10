@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>error.slim - Magic Mirror Backend</title>
+<title>admin.slim - Magic Mirror Backend</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -88,11 +88,50 @@
   </div>
 </nav>
 
-<main role="main" aria-label="Page views/error.slim">
+<main role="main" aria-label="Page views/admin.slim">
 
-<p>h4 Not found</p>
+<p>script src=“/js/admin.js” admin-wrapper</p>
 
-<pre>== yield</pre>
+<pre>h1 Admin configuration
+
+div#configuration-div
+    h4 User configuration
+    - if User.excists?
+        table
+            th ID
+            th Name
+            - User.all.each do |user|
+                tr
+                    td #{user[0]}
+                    td #{user[1]}
+        form action=&quot;/post/user/new&quot; method=&quot;post&quot; id=&quot;user_form&quot;
+            input# type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
+            input type=&quot;submit&quot; value=&quot;Add&quot;/
+
+div#configuration-div
+    h4 API configuration
+
+div#configuration-div
+    h4 Location configuration
+
+div#configuration-div
+    h4 Public Transit configuration
+    - if PublicTransport.stops != nil
+        table
+            th Stop Name
+            th Stop ID
+            th User ID
+            - PublicTransport.stops.each do |stop|
+                tr
+                    td #{stop[0]}
+                    td #{stop[1]}
+                    td #{stop[2]}
+
+    form action=&quot;/post/public-transit/new&quot; method=&quot;post&quot; id=&quot;transport_form&quot;
+        input# type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
+        input# type=&quot;number&quot; name=&quot;stop_id&quot; value=&quot;0&quot;/
+        input# type=&quot;number&quot; name=&quot;user_id&quot; value=&quot;0&quot;/
+        input type=&quot;submit&quot; value=&quot;Add&quot; class=&quot;submit&quot;/</pre>
 </main>
 
 

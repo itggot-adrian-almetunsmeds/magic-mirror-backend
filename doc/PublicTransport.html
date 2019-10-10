@@ -76,6 +76,10 @@
     
     <li ><a href="#method-c-new">::new</a>
     
+    <li ><a href="#method-c-stop_add">::stop_add</a>
+    
+    <li ><a href="#method-c-stops">::stops</a>
+    
     <li ><a href="#method-i-too_many_locations">#too_many_locations</a>
     
   </ul>
@@ -188,6 +192,73 @@
   <span class="ruby-keyword">else</span>
     <span class="ruby-ivar">@departures</span>
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-stop_add" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">stop_add</span><span
+            class="method-args">(name, stop_id, user_id)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="stop_add-source">
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">stop_add</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">stop_id</span>, <span class="ruby-identifier">user_id</span>)
+  <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-string">&#39;PublicTransit&#39;</span>, <span class="ruby-node">%w[Name stop_id user_id]</span>, [<span class="ruby-identifier">name</span>, <span class="ruby-identifier">stop_id</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">user_id</span>.<span class="ruby-identifier">to_i</span>])
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-stops" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">stops</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="stops-source">
+            <pre><span class="ruby-comment"># File modules/public_transport.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">stops</span>
+  <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT * FROM PublicTransit&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
