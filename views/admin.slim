@@ -1,0 +1,42 @@
+script src="/js/admin.js"
+#admin-wrapper
+    h1 Admin configuration
+
+    div#configuration-div
+        h4 User configuration
+        - if User.excists?
+            table
+                th ID
+                th Name
+                - User.all.each do |user|
+                    tr
+                        td #{user[0]}
+                        td #{user[1]}
+            form action="/post/user/new" method="post" id="user_form"
+                input# type="text" name="name" value="Name"/
+                input type="submit" value="Add"/
+
+    div#configuration-div
+        h4 API configuration
+
+    div#configuration-div
+        h4 Location configuration
+
+    div#configuration-div
+        h4 Public Transit configuration
+        - if PublicTransport.stops != nil
+            table
+                th Stop Name
+                th Stop ID
+                th User ID
+                - PublicTransport.stops.each do |stop|
+                    tr
+                        td #{stop[0]}
+                        td #{stop[1]}
+                        td #{stop[2]}
+
+        form action="/post/public-transit/new" method="post" id="transport_form"
+            input# type="text" name="name" value="Name"/
+            input# type="number" name="stop_id" value="0"/
+            input# type="number" name="user_id" value="0"/
+            input type="submit" value="Add" class="submit"/

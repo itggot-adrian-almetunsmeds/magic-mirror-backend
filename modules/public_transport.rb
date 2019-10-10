@@ -66,4 +66,13 @@ class PublicTransport
       PP.pp(stop['name'])
     end
   end
+
+  def self.stop_add(name, stop_id, user_id)
+    DBConnector.insert('PublicTransit', %w[Name stop_id user_id], [name, stop_id.to_i, user_id.to_i])
+    true
+  end
+
+  def self.stops
+    DBConnector.connect.execute('SELECT * FROM PublicTransit')
+  end
 end
