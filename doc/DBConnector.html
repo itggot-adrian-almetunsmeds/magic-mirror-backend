@@ -80,6 +80,8 @@
     
     <li ><a href="#method-c-new">::new</a>
     
+    <li ><a href="#method-c-remove">::remove</a>
+    
   </ul>
 </div>
 
@@ -135,7 +137,7 @@
           <div class="method-source-code" id="connect-source">
             <pre><span class="ruby-comment"># File modules/db_connector.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">connect</span>
-  <span class="ruby-ivar">@db</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">SQLite3</span><span class="ruby-operator">::</span><span class="ruby-constant">Database</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&#39;db/some.db&#39;</span>
+  <span class="ruby-ivar">@db</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">SQLite3</span><span class="ruby-operator">::</span><span class="ruby-constant">Database</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&#39;db/configuration.db&#39;</span>
   <span class="ruby-ivar">@db</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -179,7 +181,7 @@
 
   <span class="ruby-identifier">values</span> = <span class="ruby-string">&#39;?&#39;</span>
   (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">times</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">values</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;, ?&#39;</span> }
-  <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;INSERT INTO #{db} (#{positions}) VALUES (#{values})&quot;</span>, <span class="ruby-identifier">value</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">length</span>])
+  <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;INSERT INTO #{db} (#{positions}) VALUES (#{values})&quot;</span>, <span class="ruby-identifier">value</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">length</span>])
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -213,6 +215,39 @@
             <pre><span class="ruby-comment"># File modules/db_connector.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
   <span class="ruby-identifier">connect</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-remove" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove</span><span
+            class="method-args">(db, condition, value)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove-source">
+            <pre><span class="ruby-comment"># File modules/db_connector.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">remove</span>(<span class="ruby-identifier">db</span>, <span class="ruby-identifier">condition</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;DELETE FROM #{db} WHERE #{condition} = &#39;?&#39;&quot;</span>, <span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

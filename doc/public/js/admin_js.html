@@ -82,6 +82,8 @@
   
     <li><a href="../../views/layout_slim.html">layout.slim</a>
   
+    <li><a href="../../views/login_slim.html">login.slim</a>
+  
   </ul>
 </div>
 
@@ -89,6 +91,20 @@
 </nav>
 
 <main role="main" aria-label="Page public/js/admin.js">
+
+<p>function confirmRemoval(element) {</p>
+
+<pre>console.log(element)
+var r = confirm(&quot;Are you sure you want to remove this.&quot;);
+if (r == true) {
+    txt = &quot;Deleting&quot;;
+    // Perform deleting of element using sql.
+
+} else {
+    txt = &quot;Aborted&quot;;
+}</pre>
+
+<p>}</p>
 </main>
 
 

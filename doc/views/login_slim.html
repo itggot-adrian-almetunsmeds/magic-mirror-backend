@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>index.slim - Magic Mirror Backend</title>
+<title>login.slim - Magic Mirror Backend</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -90,9 +90,15 @@
   </div>
 </nav>
 
-<main role="main" aria-label="Page views/index.slim">
+<main role="main" aria-label="Page views/login.slim">
 
-<p>main-wrapper</p>
+<p>script src=“/js/admin.js” admin-wrapper</p>
+
+<pre>h1 Admin configuration
+form action=&quot;/post/login&quot; method=&quot;post&quot;
+    input type=&quot;text&quot; value=&quot;name&quot; name=&quot;name&quot;/
+    input type=&quot;text&quot; value=&quot;password&quot; name=&quot;password&quot;
+    input type=&quot;submit&quot; value=&quot;Sign in&quot;/</pre>
 </main>
 
 

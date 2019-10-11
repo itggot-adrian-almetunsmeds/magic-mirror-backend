@@ -78,7 +78,11 @@
     
     <li ><a href="#method-c-excists-3F">::excists?</a>
     
+    <li ><a href="#method-c-login">::login</a>
+    
     <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-c-remove">::remove</a>
     
   </ul>
 </div>
@@ -133,7 +137,7 @@
 
           
           <div class="method-source-code" id="all-source">
-            <pre><span class="ruby-comment"># File modules/user.rb, line 14</span>
+            <pre><span class="ruby-comment"># File modules/user.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">all</span>
   <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT * FROM Users&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -166,7 +170,7 @@
 
           
           <div class="method-source-code" id="excists-3F-source">
-            <pre><span class="ruby-comment"># File modules/user.rb, line 6</span>
+            <pre><span class="ruby-comment"># File modules/user.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">excists?</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">all</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-keyword">false</span>
@@ -184,11 +188,53 @@
       </div>
 
     
+      <div id="method-c-login" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">login</span><span
+            class="method-args">(username, password)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="login-source">
+            <pre><span class="ruby-comment"># File modules/user.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">login</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>)
+  <span class="ruby-identifier">p</span> <span class="ruby-identifier">username</span>
+  <span class="ruby-identifier">p</span> <span class="ruby-identifier">password</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT * FROM Users WHERE&#39;</span>\
+          <span class="ruby-string">&#39; name=? AND password=?&#39;</span>, <span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>)
+  <span class="ruby-identifier">p</span> <span class="ruby-ivar">@user</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@user</span> <span class="ruby-operator">==</span> [] <span class="ruby-operator">||</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-node">&quot;Unable to sign in #{username}&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@user</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-c-new" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(name)</span>
+            class="method-args">(name, pass)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -203,9 +249,42 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File modules/user.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">new</span>(<span class="ruby-identifier">name</span>)
-  <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-string">&#39;users&#39;</span>, [<span class="ruby-string">&#39;name&#39;</span>], [<span class="ruby-identifier">name</span>])
+            <pre><span class="ruby-comment"># File modules/user.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">pass</span>)
+  <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-string">&#39;users&#39;</span>, <span class="ruby-node">%w[name password]</span>, [<span class="ruby-identifier">name</span>, <span class="ruby-identifier">pass</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-remove" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove</span><span
+            class="method-args">(where, equals)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove-source">
+            <pre><span class="ruby-comment"># File modules/user.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">remove</span>(<span class="ruby-identifier">where</span>, <span class="ruby-identifier">equals</span>)
+  <span class="ruby-constant">DBConnector</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-string">&#39;Users&#39;</span>, <span class="ruby-identifier">where</span>, <span class="ruby-identifier">equals</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

@@ -82,6 +82,8 @@
   
     <li><a href="../views/layout_slim.html">layout.slim</a>
   
+    <li><a href="../views/login_slim.html">login.slim</a>
+  
   </ul>
 </div>
 
@@ -92,7 +94,11 @@
 
 <p>script src=“/js/admin.js” admin-wrapper</p>
 
-<pre>h1 Admin configuration
+<pre>- if session[:user_id] == nil
+    javascript:
+        window.location.href = &#39;/admin/login&#39;
+
+h1 Admin configuration
 
 div#configuration-div
     h4 User configuration
@@ -104,8 +110,11 @@ div#configuration-div
                 tr
                     td #{user[0]}
                     td #{user[1]}
+                    td 
+                        button type=&quot;submit&quot; onclick=&quot;confirmRemoval(this)&quot; Remove
         form action=&quot;/post/user/new&quot; method=&quot;post&quot; id=&quot;user_form&quot;
-            input# type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
+            input type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
+            input type=&quot;password&quot; name=&quot;password&quot; value=&quot;Password&quot;/
             input type=&quot;submit&quot; value=&quot;Add&quot;/
 
 div#configuration-div
@@ -128,9 +137,9 @@ div#configuration-div
                     td #{stop[2]}
 
     form action=&quot;/post/public-transit/new&quot; method=&quot;post&quot; id=&quot;transport_form&quot;
-        input# type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
-        input# type=&quot;number&quot; name=&quot;stop_id&quot; value=&quot;0&quot;/
-        input# type=&quot;number&quot; name=&quot;user_id&quot; value=&quot;0&quot;/
+        input type=&quot;text&quot; name=&quot;name&quot; value=&quot;Name&quot;/
+        input type=&quot;number&quot; name=&quot;stop_id&quot; value=&quot;0&quot;/
+        input type=&quot;number&quot; name=&quot;user_id&quot; value=&quot;0&quot;/
         input type=&quot;submit&quot; value=&quot;Add&quot; class=&quot;submit&quot;/</pre>
 </main>
 
