@@ -27,4 +27,8 @@ class DBConnector
     (value.length - 1).times { |_| values += ', ?' }
     connect.execute("INSERT INTO #{db} (#{positions}) VALUES (#{values})", value[0..value.length])
   end
+
+  def self.remove(db, condition, value)
+    connect.execute("DELETE FROM #{db} WHERE #{condition} = '?'", value)
+  end
 end

@@ -1,5 +1,9 @@
 script src="/js/admin.js"
 #admin-wrapper
+    - if session[:user_id] == nil
+        javascript:
+            window.location.href = '/admin/login'
+
     h1 Admin configuration
 
     div#configuration-div
@@ -12,8 +16,11 @@ script src="/js/admin.js"
                     tr
                         td #{user[0]}
                         td #{user[1]}
+                        td 
+                            button type="submit" onclick="confirmRemoval(this)" Remove
             form action="/post/user/new" method="post" id="user_form"
-                input# type="text" name="name" value="Name"/
+                input type="text" name="name" value="Name"/
+                input type="password" name="password" value="Password"/
                 input type="submit" value="Add"/
 
     div#configuration-div
@@ -36,7 +43,7 @@ script src="/js/admin.js"
                         td #{stop[2]}
 
         form action="/post/public-transit/new" method="post" id="transport_form"
-            input# type="text" name="name" value="Name"/
-            input# type="number" name="stop_id" value="0"/
-            input# type="number" name="user_id" value="0"/
+            input type="text" name="name" value="Name"/
+            input type="number" name="stop_id" value="0"/
+            input type="number" name="user_id" value="0"/
             input type="submit" value="Add" class="submit"/
