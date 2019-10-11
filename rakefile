@@ -8,7 +8,6 @@ task :test => :spec
 # Makes the tests possible to run on github actions
 # even though the API keys are not inserted into the
 # public config file
-`sudo apt-get install libsqlite3-dev`
 data = YAML.load_file "./configuration.yaml"
 data["public_transport"]['reseplanerare']['api_key'] = ENV['API_KEY_RESEPLANERARE'].to_s
 data["public_transport"]['stolptidstabeller']['api_key'] = ENV['API_KEY_STOLPTIDSTABELLER'].to_s
