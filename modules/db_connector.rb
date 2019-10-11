@@ -10,7 +10,7 @@ class DBConnector
   end
 
   def self.connect
-    @db ||= SQLite3::Database.new 'db/some.db'
+    @db ||= SQLite3::Database.new 'db/configuration.db'
     @db
   end
 
@@ -25,6 +25,6 @@ class DBConnector
 
     values = '?'
     (value.length - 1).times { |_| values += ', ?' }
-    @db.execute("INSERT INTO #{db} (#{positions}) VALUES (#{values})", value[0..value.length])
+    connect.execute("INSERT INTO #{db} (#{positions}) VALUES (#{values})", value[0..value.length])
   end
 end
