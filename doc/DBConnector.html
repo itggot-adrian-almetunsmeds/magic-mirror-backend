@@ -76,11 +76,15 @@
     
     <li ><a href="#method-c-connect">::connect</a>
     
+    <li ><a href="#method-c-get_language">::get_language</a>
+    
     <li ><a href="#method-c-insert">::insert</a>
     
     <li ><a href="#method-c-new">::new</a>
     
     <li ><a href="#method-c-remove">::remove</a>
+    
+    <li ><a href="#method-c-translation_available-3F">::translation_available?</a>
     
   </ul>
 </div>
@@ -139,6 +143,39 @@
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">connect</span>
   <span class="ruby-ivar">@db</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">SQLite3</span><span class="ruby-operator">::</span><span class="ruby-constant">Database</span>.<span class="ruby-identifier">new</span> <span class="ruby-string">&#39;db/configuration.db&#39;</span>
   <span class="ruby-ivar">@db</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-get_language" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_language</span><span
+            class="method-args">(session)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_language-source">
+            <pre><span class="ruby-comment"># File modules/db_connector.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_language</span>(<span class="ruby-identifier">session</span>)
+  <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT lang from Users WHERE id = ?&#39;</span>, <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>])[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -248,6 +285,44 @@
             <pre><span class="ruby-comment"># File modules/db_connector.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">remove</span>(<span class="ruby-identifier">db</span>, <span class="ruby-identifier">condition</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;DELETE FROM #{db} WHERE #{condition} = &#39;?&#39;&quot;</span>, <span class="ruby-identifier">value</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-translation_available-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">translation_available?</span><span
+            class="method-args">(session)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="translation_available-3F-source">
+            <pre><span class="ruby-comment"># File modules/db_connector.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">translation_available?</span>(<span class="ruby-identifier">session</span>)
+  <span class="ruby-identifier">temp</span> = <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT lang from Users WHERE id = ?&#39;</span>, <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">temp</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [] <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [[<span class="ruby-keyword">nil</span>]]
+    <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
