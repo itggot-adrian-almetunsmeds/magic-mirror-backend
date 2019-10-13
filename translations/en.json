@@ -25,5 +25,18 @@
         "oct": "October",
         "nov": "November",
         "dec": "December"
+    },
+    "configuration": {
+        "admin_configuration": "Admin Configuration",
+        "user_configuration": "User Configuration",
+        "name": "Name",
+        "add": "Add",
+        "remove": "remove",
+        "api_configuration": "API Configuration",
+        "location_configuration": "Location Configuration",
+        "public_transit_configuration": "Public Transit Configuration",
+        "stop_name": "Stop Name",
+        "stop_id": "Stop ID",
+        "user_id": "User ID"
     }
 }

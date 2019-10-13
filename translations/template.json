@@ -25,5 +25,18 @@
         "oct": "",
         "nov": "",
         "dec": ""
+    },
+    "configuration": {
+        "admin_configuration": "",
+        "user_configuration": "",
+        "name": "",
+        "add": "",
+        "remove": "",
+        "api_configuration": "",
+        "location_configuration": "",
+        "public_transit_configuration": "",
+        "stop_name": "",
+        "stop_id": "",
+        "user_id": ""
     }
 }

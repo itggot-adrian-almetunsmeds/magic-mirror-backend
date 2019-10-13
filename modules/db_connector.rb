@@ -31,4 +31,17 @@ class DBConnector
   def self.remove(db, condition, value)
     connect.execute("DELETE FROM #{db} WHERE #{condition} = '?'", value)
   end
+
+  def self.translation_available?(session)
+    temp = connect.execute('SELECT lang from Users WHERE id = ?', session[:user_id])
+    if temp.nil? || temp == [] || temp == [[nil]]
+      false
+    else
+      true
+    end
+  end
+
+  def self.get_language(session)
+    connect.execute('SELECT lang from Users WHERE id = ?', session[:user_id])[0][0]
+  end
 end

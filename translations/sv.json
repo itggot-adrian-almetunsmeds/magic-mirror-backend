@@ -1,18 +1,18 @@
 {
     "public_transit": {
         "in": "Om",
-        "next_service": "NÃ¤sta tjÃ¤nst",
-        "arrives": "AnlÃ¤nder",
-        "arrives-in": "AnlÃ¤nder om"
+        "next_service": "N„sta tj„nst",
+        "arrives": "Anl„nder",
+        "arrives-in": "Anl„nder om"
     },
     "time": {
-        "mon": "MÃ¥ndag",
+        "mon": "M?ndag",
         "tue": "Tisdag",
         "wen": "Onsdag",
         "thu": "Torsdag",
         "fri": "Fredag",
-        "sat": "LÃ¶rdag",
-        "sun": "SÃ¶ndag",
+        "sat": "L”rdag",
+        "sun": "S”ndag",
         "jan": "Januari",
         "feb": "Februari",
         "mar": "Mars",
@@ -25,5 +25,18 @@
         "oct": "Oktober",
         "nov": "November",
         "dec": "December"
+    },
+    "configuration": {
+        "admin_configuration": "Admin Konfiguration",
+        "user_configuration": "Anv„ndar Konfiguration",
+        "name": "Namn",
+        "add": "L„gg till",
+        "remove": "Ta bort",
+        "api_configuration": "API Konfiguration",
+        "location_configuration": "Plats Konfiguration",
+        "public_transit_configuration": "Kollektivtrafiks Konfiguration",
+        "stop_name": "Stop Namn",
+        "stop_id": "Stop ID",
+        "user_id": "Anv„ndar ID"
     }
 }

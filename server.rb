@@ -61,12 +61,11 @@ end
 
 # NON ADMIN PAGES
 get '/api/translations/:language_id' do
-  JSON.parse(File.read("translations/#{params[:language_id]}.json")).to_json
+  Translation.get(params[:language_id]).to_json
 end
 
 get '/api/translations/:language_id/:component' do
-  translations = JSON.parse(File.read("translations/#{params[:language_id]}.json"))
-  translations[params[:component]].to_json
+  Translation.get_component(params[:language_id], params[:component])
 end
 
 not_found do
