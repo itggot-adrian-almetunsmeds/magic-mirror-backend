@@ -173,8 +173,9 @@
 
           
           <div class="method-source-code" id="get_language-source">
-            <pre><span class="ruby-comment"># File modules/db_connector.rb, line 44</span>
+            <pre><span class="ruby-comment"># File modules/db_connector.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_language</span>(<span class="ruby-identifier">session</span>)
+  <span class="ruby-string">&#39;en&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT lang from Users WHERE id = ?&#39;</span>, <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>])[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -317,8 +318,9 @@
           <div class="method-source-code" id="translation_available-3F-source">
             <pre><span class="ruby-comment"># File modules/db_connector.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">translation_available?</span>(<span class="ruby-identifier">session</span>)
+  <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>].<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">temp</span> = <span class="ruby-identifier">connect</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-string">&#39;SELECT lang from Users WHERE id = ?&#39;</span>, <span class="ruby-identifier">session</span>[<span class="ruby-value">:user_id</span>])
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">temp</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [] <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [[<span class="ruby-keyword">nil</span>]]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">temp</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [] <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [[<span class="ruby-keyword">nil</span>]] <span class="ruby-operator">||</span> <span class="ruby-identifier">temp</span> <span class="ruby-operator">==</span> [[<span class="ruby-string">&#39;&#39;</span>]]
     <span class="ruby-keyword">false</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">true</span>
