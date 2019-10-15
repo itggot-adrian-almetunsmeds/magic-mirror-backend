@@ -7,11 +7,11 @@ The backend source code for a magic mirror
 
 ### Updating documentation
 ```
-require 'rdoc'
+require 'yard'
 ```
-Command to run in terminal to update documentation.
+Command to run in the terminal in order to update the documentation.
 ```
-§ rdoc
+§ yard doc *
 ```
 
 ### Running tests
