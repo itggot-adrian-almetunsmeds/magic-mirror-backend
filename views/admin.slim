@@ -1,6 +1,6 @@
 script src="/js/admin.js"
 #admin-wrapper
-    - if session[:user_id] == nil
+    - if session[:user_id] == nil || DBConnector.connect.execute("SELECT type FROM Users where id = ?", session[:user_id])[0][0] != "admin"
         javascript:
             window.location.href = '/admin/login'
 
