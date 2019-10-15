@@ -4,8 +4,8 @@ require 'sinatra'
 # require 'sinatra/cookies'
 require 'slim'
 require 'json'
-Dir['modules/**/*.rb'].each do |f|
-  require_relative f
+Dir['modules/**/*.rb'].each do |file|
+  require_relative file
 end
 
 set :bind, '0.0.0.0'
