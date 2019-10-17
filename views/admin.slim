@@ -3,95 +3,95 @@ script src="/js/admin.js"
     - if session[:user_id] == nil || DBConnector.connect.execute("SELECT type FROM Users where id = ?", session[:user_id])[0][0] != "admin"
         javascript:
             window.location.href = '/admin/login'
-
+    / TRANSLATED VERSION
     - if DBConnector.translation_available?(session)
         - lang = DBConnector.get_language(session)
         h1 #{JSON.parse(Translation.get_component(lang, 'configuration'))['admin_configuration']}
-    - else
-        h1 #{JSON.parse(Translation.get_component('en', 'configuration'))['admin_configuration']}
 
-    div#configuration-div
-        - if DBConnector.translation_available?(session)
-            - lang = DBConnector.get_language(session)
+        div#configuration-div
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['user_configuration']}
-        - else
-            h4 #{JSON.parse(Translation.get_component('en', 'configuration'))['user_configuration']}
-        - if User.excists?
-            table
-                th ID
-                - if DBConnector.translation_available?(session)
-                    - lang = DBConnector.get_language(session)
+            - if User.excists?
+                table
+                    th ID
                     th #{JSON.parse(Translation.get_component(lang, 'configuration'))['name']}
-                - else
-                    th #{JSON.parse(Translation.get_component('en', 'configuration'))['name']}
-                - User.all.each do |user|
-                    tr
-                        td #{user[0]}
-                        td #{user[1]}
-                        td 
-                            - if DBConnector.translation_available?(session)
-                                - lang = DBConnector.get_language(session)
+                    - User.all.each do |user|
+                        tr
+                            td #{user[0]}
+                            td #{user[1]}
+                            td    
                                 button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component(lang, 'configuration'))['remove']}
-                            - else
-                                button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component('en', 'configuration'))['remove']}
-            form action="/post/user/new" method="post" id="user_form"
-                input type="text" name="name" value="Name"/
-                input type="password" name="password" value="Password"/
-                - if DBConnector.translation_available?(session)
-                    - lang = DBConnector.get_language(session)
+                              
+                form action="/post/user/new" method="post" id="user_form"
+                    input type="text" name="name" value="Name"/
+                    input type="password" name="password" value="Password"/
                     input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
-                - else
-                    input type="submit" value="#{JSON.parse(Translation.get_component('en', 'configuration'))['add']}"/
-
-    div#configuration-div
-        - if DBConnector.translation_available?(session)
-            - lang = DBConnector.get_language(session)
+        
+        div#configuration-div   
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['api_configuration']}
-        - else
-            h4 #{JSON.parse(Translation.get_component('en', 'configuration'))['api_configuration']}
 
-    div#configuration-div
-        - if DBConnector.translation_available?(session)
-            - lang = DBConnector.get_language(session)
+        div#configuration-div
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['location_configuration']}
-        - else
-            h4 #{JSON.parse(Translation.get_component('en', 'configuration'))['location_configuration']}
 
-    div#configuration-div
-        - if DBConnector.translation_available?(session)
-            - lang = DBConnector.get_language(session)
+        div#configuration-div
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['public_transit_configuration']}
-        - else
-            h4 #{JSON.parse(Translation.get_component('en', 'configuration'))['public_transit_configuration']}
-        - if PublicTransport.stops != nil
-            table
-                - if DBConnector.translation_available?(session)
-                    - lang = DBConnector.get_language(session)
+            - if PublicTransport.stops != nil
+                table
                     th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_name']}
-                - else
-                    th #{JSON.parse(Translation.get_component('en', 'configuration'))['stop_name']}
-                - if DBConnector.translation_available?(session)
-                    - lang = DBConnector.get_language(session)
                     th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_id']}
-                - else
-                    th #{JSON.parse(Translation.get_component('en', 'configuration'))['stop_id']}
-                - if DBConnector.translation_available?(session)
-                    - lang = DBConnector.get_language(session)
                     th #{JSON.parse(Translation.get_component(lang, 'configuration'))['user_id']}
-                - else
-                    th #{JSON.parse(Translation.get_component('en', 'configuration'))['user_id']}
-                - PublicTransport.stops.each do |stop|
-                    tr
-                        td #{stop[0]}
-                        td #{stop[1]}
-                        td #{stop[2]}
+                    - PublicTransport.stops.each do |stop|
+                        tr
+                            td #{stop[0]}
+                            td #{stop[1]}
+                            td #{stop[2]}
 
-        form action="/post/public-transit/new" method="post" id="transport_form"
-            input type="text" name="name" value="Name"/
-            input type="number" name="stop_id" value="0"/
-            input type="number" name="user_id" value="0"/
-            - if DBConnector.translation_available?(session)
-                - lang = DBConnector.get_language(session)
+            form action="/post/public-transit/new" method="post" id="transport_form"
+                input type="text" name="name" value="Name"/
+                input type="number" name="stop_id" value="0"/
+                input type="number" name="user_id" value="0"/
                 input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
-            - else
-                input type="submit" value="#{JSON.parse(Translation.get_component('en', 'configuration'))['add']}"/
+    - else
+        h1 #{JSON.parse(Translation.get_component("en", 'configuration'))['admin_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['user_configuration']}
+            - if User.excists?
+                table
+                    th ID
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['name']}
+                    - User.all.each do |user|
+                        tr
+                            td #{user[0]}
+                            td #{user[1]}
+                            td    
+                                button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component("en", 'configuration'))['remove']}
+                              
+                form action="/post/user/new" method="post" id="user_form"
+                    input type="text" name="name" value="Name"/
+                    input type="password" name="password" value="Password"/
+                    input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
+        
+        div#configuration-div   
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['api_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['location_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['public_transit_configuration']}
+            - if PublicTransport.stops != nil
+                table
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_name']}
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_id']}
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['user_id']}
+                    - PublicTransport.stops.each do |stop|
+                        tr
+                            td #{stop[0]}
+                            td #{stop[1]}
+                            td #{stop[2]}
+
+            form action="/post/public-transit/new" method="post" id="transport_form"
+                input type="text" name="name" value="Name"/
+                input type="number" name="stop_id" value="0"/
+                input type="number" name="user_id" value="0"/
+                input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
