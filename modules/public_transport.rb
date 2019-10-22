@@ -4,6 +4,7 @@ require 'json'
 require 'pp'
 require 'yaml'
 require_relative 'web_handler.rb'
+require_relative 'db_connector.rb'
 
 # Public: Used to get the following departures
 # from a station.
@@ -26,12 +27,33 @@ require_relative 'web_handler.rb'
 #      ["Svart", nil, "12:15:00", "S\u00E4vedalen Ljungkullen (Partille kn)", "V\u00E4sttrafik", "279"]]
 #
 class PublicTransport
-  attr_reader :departures, :json
-  def initialize(location) # rubocop:disable Metrics/MethodLength
+
+  def self.stopID(querry)
     @config = YAML.load_file('configuration.yaml')
-    location = WebHandler.encode(location)
+    location = WebHandler.encode(querry)
     response = WebHandler.request('https://api.resrobot.se/v2/location.name.json?key='\
       "#{@config['public_transport']['reseplanerare']['api_key']}"\
+      "&input=#{querry}")
+      response.body
+    end
+
+
+
+
+
+
+
+
+
+
+  attr_reader :departures, :json
+  def initialize(location) # rubocop:disable Metrics/MethodLength
+    @config = DBConnector.connect
+    @config.results_as_hash = true
+    @config = @config.execute('SELECT * FROM ApiKeys')[0]
+    location = WebHandler.encode(location)
+    response = WebHandler.request('https://api.resrobot.se/v2/location.name.json?key='\
+      "#{@config['reseplanerare']}"\
       "&input=#{location}")
     @json = JSON.parse(response.body)
     if @json['StopLocation'].length > 1
@@ -45,7 +67,7 @@ class PublicTransport
   # rubocop:disable Lint/DuplicateMethods
   def departures # rubocop:disable Metrics/AbcSize
     response = WebHandler.request('https://api.resrobot.se/v2/departureBoard?key='\
-      "#{@config['public_transport']['stolptidstabeller']['api_key']}"\
+      "#{@config['stolptidstabeller']}"\
       "&id=#{@json['StopLocation'][0]['id']}&format=json&passlist=0")
     @json = JSON.parse(response.body)
     traffic = []
