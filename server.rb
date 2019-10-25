@@ -21,6 +21,11 @@ end
 
 # ADMIN PAGES
 get '/admin' do
+  if session[:user_id].nil? ||
+     DBConnector.connect.execute('SELECT type FROM Users where id = ?',
+                                 session[:user_id])[0][0] != 'admin'
+    redirect '/admin/login'
+  end
   SassCompiler.compile
   if !session[:stops].nil?
     @transit = PublicTransport.stopID(session[:stops])
@@ -40,7 +45,8 @@ post '/post/public-transit/new' do
 end
 
 post '/post/api/update' do
-  DBConnector.connect.execute('UPDATE ApiKeys SET reseplanerare = ?, stolptidstabeller = ?', params['reseplanerare'], params['stolptidstabeller'])
+  DBConnector.connect.execute('UPDATE ApiKeys SET reseplanerare = ?, stolptidstabeller = ?',
+                              params['reseplanerare'], params['stolptidstabeller'])
   redirect '/admin'
 end
 

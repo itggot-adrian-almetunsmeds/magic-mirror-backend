@@ -1,8 +1,5 @@
 script src="/js/admin.js"
 #admin-wrapper
-    - if session[:user_id] == nil || DBConnector.connect.execute("SELECT type FROM Users where id = ?", session[:user_id])[0][0] != "admin"
-        javascript:
-            window.location.href = '/admin/login'
     / TRANSLATED VERSION
     - if DBConnector.translation_available?(session)
         - lang = DBConnector.get_language(session)
@@ -24,6 +21,8 @@ script src="/js/admin.js"
                 form action="/post/user/new" method="post" id="user_form"
                     input type="text" name="name" placeholder="Name"/
                     input type="password" name="password" placeholder="Password"/
+                    input type="text" name="lang" placeholder="lang"/
+                    input type="text" name="admin" placeholder="admin"/
                     input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
         
         div#configuration-div   
@@ -89,6 +88,8 @@ script src="/js/admin.js"
                 form action="/post/user/new" method="post" id="user_form"
                     input type="text" name="name" paceholder="Name"/
                     input type="password" name="password" placeholder="Password"/
+                    input type="text" name="lang" placeholder="lang"/
+                    input type="text" name="admin" placeholder="admin"/
                     input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
         
         div#configuration-div   
