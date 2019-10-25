@@ -28,6 +28,20 @@ post '/post/public-transit/new' do
   PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
   redirect '/admin'
 end
+post '/post/public-transit/new' do
+  PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
+  redirect '/admin'
+end
+
+post '/post/api/update' do
+  DBConnector.connect.execute('UPDATE ApiKeys SET reseplanerare = ?, stolptidstabeller = ?', params['reseplanerare'], params['stolptidstabeller'])
+  redirect '/admin'
+end
+# TODO: Make this search thing possible
+post '/post/public-transit/stops' do
+  p PublicTransport.stopID(params['querry'])
+  redirect '/admin'
+end
 
 post '/post/user/new' do
   User.new(params[:name], params[:password])

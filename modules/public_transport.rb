@@ -29,10 +29,12 @@ require_relative 'db_connector.rb'
 class PublicTransport
 
   def self.stopID(querry)
-    @config = YAML.load_file('configuration.yaml')
+    @config = DBConnector.connect
+    @config.results_as_hash = true
+    @config = @config.execute('SELECT * FROM ApiKeys')[0]
     location = WebHandler.encode(querry)
     response = WebHandler.request('https://api.resrobot.se/v2/location.name.json?key='\
-      "#{@config['public_transport']['reseplanerare']['api_key']}"\
+      "#{@config['reseplanerare']}"\
       "&input=#{querry}")
       response.body
     end
