@@ -1,0 +1,130 @@
+script src="/js/admin.js"
+#admin-wrapper
+    / TRANSLATED VERSION
+    - if DBConnector.translation_available?(session)
+        - lang = DBConnector.get_language(session)
+        h1 #{JSON.parse(Translation.get_component(lang, 'configuration'))['admin_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['user_configuration']}
+            - if User.excists?
+                table
+                    th ID
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['name']}
+                    - User.all.each do |user|
+                        tr
+                            td #{user[0]}
+                            td #{user[1]}
+                            td    
+                                button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component(lang, 'configuration'))['remove']}
+                              
+                form action="/post/user/new" method="post" id="user_form"
+                    input type="text" name="name" placeholder="Name"/
+                    input type="password" name="password" placeholder="Password"/
+                    input type="text" name="lang" placeholder="lang"/
+                    input type="text" name="admin" placeholder="admin"/
+                    input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
+        
+        div#configuration-div   
+            h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['api_configuration']}
+            - if DBConnector.connect.execute('SELECT * FROM ApiKeys') != [[nil]]
+                    span style="margin-right: 20vw;" Resplanerare
+                    span Stolptider
+                    - DBConnector.connect.execute('SELECT * FROM ApiKeys').each do |key|
+                            form action="/post/api/update" method="post"
+                                input type="text" name="reseplanerare" value="#{key[0]}"
+                                input type="text" name="stolptidstabeller" value="#{key[1]}"
+                                button type="submit" Update
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['location_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['public_transit_configuration']}
+            h5 #{JSON.parse(Translation.get_component(lang, 'configuration'))['search_stop_id']}
+            form action="/post/public-transit/stops" method="post"
+                input type="text" name="querry"/
+                button type="submit" #{JSON.parse(Translation.get_component(lang, 'configuration'))['search']}
+            - if !@transit.nil?
+                table style="margin-bottom:20px"
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_id']}
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_name']}
+                    - JSON.parse(@transit)['StopLocation'].each do |stop|
+                        tr
+                            td= stop['id']
+                            td= stop['name']
+            - if PublicTransport.stops != nil
+                table
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_name']}
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['stop_id']}
+                    th #{JSON.parse(Translation.get_component(lang, 'configuration'))['user_id']}
+                    - PublicTransport.stops.each do |stop|
+                        tr
+                            td #{stop[0]}
+                            td #{stop[1]}
+                            td #{stop[2]}
+
+            form action="/post/public-transit/new" method="post" id="transport_form"
+                input type="text" name="name" placeholder="Name"/
+                input type="number" name="stop_id" value="0"/
+                input type="number" name="user_id" value="0"/
+                input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
+    - else
+        h1 #{JSON.parse(Translation.get_component("en", 'configuration'))['admin_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['user_configuration']}
+            - if User.excists?
+                table
+                    th ID
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['name']}
+                    - User.all.each do |user|
+                        tr
+                            td #{user[0]}
+                            td #{user[1]}
+                            td    
+                                button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component("en", 'configuration'))['remove']}
+                              
+                form action="/post/user/new" method="post" id="user_form"
+                    input type="text" name="name" paceholder="Name"/
+                    input type="password" name="password" placeholder="Password"/
+                    input type="text" name="lang" placeholder="lang"/
+                    input type="text" name="admin" placeholder="admin"/
+                    input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
+        
+        div#configuration-div   
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['api_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['location_configuration']}
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['public_transit_configuration']}
+            h5 #{JSON.parse(Translation.get_component("en", 'configuration'))['search_stop_id']}
+            form action="/post/public-transit/stops" method="post"
+                input type="text" name="querry"/
+                button type="submit" #{JSON.parse(Translation.get_component("en", 'configuration'))['search']}
+            - if !@transit.nil?
+                table style="margin-bottom:20px"
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_id']}
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_name']}
+                    - JSON.parse(@transit)['StopLocation'].each do |stop|
+                        tr
+                            td= stop['id']
+                            td= stop['name']
+            - if PublicTransport.stops != nil
+                table
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_name']}
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['stop_id']}
+                    th #{JSON.parse(Translation.get_component("en", 'configuration'))['user_id']}
+                    - PublicTransport.stops.each do |stop|
+                        tr
+                            td #{stop[0]}
+                            td #{stop[1]}
+                            td #{stop[2]}
+
+            form action="/post/public-transit/new" method="post" id="transport_form"
+                input type="text" name="name" placeholder="Name"/
+                input type="number" name="stop_id" value="0"/
+                input type="number" name="user_id" value="0"/
+                input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/

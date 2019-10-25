@@ -35,6 +35,7 @@ jobs:
         API_KEY_RESEPLANERARE: ${{ secrets.API_KEY_RESEPLANERARE }}
         API_KEY_STOLPTIDSTABELLER: ${{ secrets.API_KEY_STOLPTIDSTABELLER }}
       run: |
+        sudo apt-get install libsqlite3-dev
         gem install bundler
         bundle install --jobs 4 --retry 3
         gem install rspec
