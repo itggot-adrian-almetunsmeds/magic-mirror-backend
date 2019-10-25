@@ -1,12 +1,12 @@
 {
     "public_transit": {
         "in": "Om",
-        "next_service": "N„sta tj„nst",
-        "arrives": "Anl„nder",
-        "arrives-in": "Anl„nder om"
+        "next_service": "N?sta tj?nst",
+        "arrives": "Anl?nder",
+        "arrives-in": "Anl?nder om"
     },
     "time": {
-        "mon": "M?ndag",
+        "mon": "M†ndag",
         "tue": "Tisdag",
         "wen": "Onsdag",
         "thu": "Torsdag",
@@ -37,6 +37,8 @@
         "public_transit_configuration": "Kollektivtrafiks Konfiguration",
         "stop_name": "Stop Namn",
         "stop_id": "Stop ID",
-        "user_id": "Anv„ndar ID"
+        "user_id": "Anv„ndar ID",
+        "search_stop_id": "S”k efter h†llplats",
+        "search": "S”k"
     }
 }

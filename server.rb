@@ -22,6 +22,12 @@ end
 # ADMIN PAGES
 get '/admin' do
   SassCompiler.compile
+  if !session[:stops].nil?
+    @transit = PublicTransport.stopID(session[:stops])
+    session[:stops] = nil
+  else
+    @transit = nil
+  end
   slim :admin
 end
 post '/post/public-transit/new' do
@@ -37,9 +43,9 @@ post '/post/api/update' do
   DBConnector.connect.execute('UPDATE ApiKeys SET reseplanerare = ?, stolptidstabeller = ?', params['reseplanerare'], params['stolptidstabeller'])
   redirect '/admin'
 end
-# TODO: Make this search thing possible
+
 post '/post/public-transit/stops' do
-  p PublicTransport.stopID(params['querry'])
+  session[:stops] = params['querry']
   redirect '/admin'
 end
 

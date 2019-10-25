@@ -37,6 +37,8 @@
         "public_transit_configuration": "Public Transit Configuration",
         "stop_name": "Stop Name",
         "stop_id": "Stop ID",
-        "user_id": "User ID"
+        "user_id": "User ID",
+        "search_stop_id": "Search stop",
+        "search": "Search"
     }
 }

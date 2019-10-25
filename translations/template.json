@@ -37,6 +37,8 @@
         "public_transit_configuration": "",
         "stop_name": "",
         "stop_id": "",
-        "user_id": ""
+        "user_id": "",
+        "search_stop_id": "",
+        "search": ""
     }
 }
