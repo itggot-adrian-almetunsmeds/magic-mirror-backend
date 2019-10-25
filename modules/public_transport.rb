@@ -38,7 +38,6 @@ class PublicTransport
     response.body
   end
 
-  attr_reader :departures, :json
   # rubocop:disable Metrics/MethodLength
   def self.departures(stop_id) # rubocop:disable Metrics/AbcSize
     @config = DBConnector.connect

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-# require 'sinatra/cookies'
 require 'slim'
 require 'json'
 Dir['modules/**/*.rb'].each do |file|
