@@ -18,31 +18,53 @@ script src="/js/admin.js"
                             td    
                                 button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component(lang, 'configuration'))['remove']}
                               
-                form action="/post/user/new" method="post" id="user_form"
-                    input type="text" name="name" placeholder="Name"/
-                    input type="password" name="password" placeholder="Password"/
-                    input type="text" name="lang" placeholder="lang"/
-                    input type="text" name="admin" placeholder="admin"/
-                    input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
+            form action="/admin/user/new" method="post" id="user_form"
+                input type="text" name="name" placeholder="Name"/
+                input type="password" name="password" placeholder="Password"/
+                input type="text" name="lang" placeholder="lang"/
+                input type="text" name="admin" placeholder="admin"/
+                input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
         
         div#configuration-div   
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['api_configuration']}
-            - if DBConnector.connect.execute('SELECT * FROM ApiKeys') != [[nil]]
-                    span style="margin-right: 20vw;" Resplanerare
-                    span Stolptider
-                    - DBConnector.connect.execute('SELECT * FROM ApiKeys').each do |key|
-                            form action="/post/api/update" method="post"
-                                input type="text" name="reseplanerare" value="#{key[0]}"
-                                input type="text" name="stolptidstabeller" value="#{key[1]}"
-                                button type="submit" Update
+            - if DBConnector.connect.execute('SELECT * FROM ApiKeys') != [[nil]] && DBConnector.connect.execute('SELECT * FROM ApiKeys') != []
+                span style="margin-right: 20vw;" Resplanerare
+                span Stolptider
+                - DBConnector.connect.execute('SELECT * FROM ApiKeys').each do |key|
+                    form action="/admin/api/update" method="post"
+                        input type="text" name="reseplanerare" value="#{key[0]}"
+                        input type="text" name="stolptidstabeller" value="#{key[1]}"
+                        button type="submit" Update
+            - else
+                span style="margin-right: 20vw;" Resplanerare
+                span Stolptider
+                form action="/admin/api/new" method="post"
+                    input type="text" name="reseplanerare" placeholder="ABC-XYZ"
+                    input type="text" name="stolptidstabeller" placeholder="ABC-XYZ"
+                    button type="submit" Update
 
         div#configuration-div
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['location_configuration']}
+            - if DBConnector.connect.execute('SELECT * FROM Location') != [[nil]] && DBConnector.connect.execute('SELECT * FROM Location') != []
+                - DBConnector.connect.execute('SELECT * FROM Location').each do |key|
+                    form action="/admin/api/locationupdate" method="post"
+                        input type="text" name="county" value="#{key[0]}"
+                        input type="text" name="lat" value="#{key[1]}"
+                        input type="text" name="long" value="#{key[2]}"
+                        input type="text" name="user_id" value="#{key[3]}"
+                        button type="submit" Update
+            - else
+                form action="/admin/api/locationnew" method="post"
+                    input type="text" name="county" placeholder="County"
+                    input type="text" name="lat" placeholder="lat"
+                    input type="text" name="long" placeholder="long"
+                    input type="text" name="user_id" placeholder="user_id"
+                    button type="submit" Add
 
         div#configuration-div
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['public_transit_configuration']}
             h5 #{JSON.parse(Translation.get_component(lang, 'configuration'))['search_stop_id']}
-            form action="/post/public-transit/stops" method="post"
+            form action="/admin/public-transit/stops" method="post"
                 input type="text" name="querry"/
                 button type="submit" #{JSON.parse(Translation.get_component(lang, 'configuration'))['search']}
             - if !@transit.nil?
@@ -64,7 +86,7 @@ script src="/js/admin.js"
                             td #{stop[1]}
                             td #{stop[2]}
 
-            form action="/post/public-transit/new" method="post" id="transport_form"
+            form action="/admin/public-transit/new" method="post" id="transport_form"
                 input type="text" name="name" placeholder="Name"/
                 input type="number" name="stop_id" value="0"/
                 input type="number" name="user_id" value="0"/
@@ -85,23 +107,53 @@ script src="/js/admin.js"
                             td    
                                 button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component("en", 'configuration'))['remove']}
                               
-                form action="/post/user/new" method="post" id="user_form"
-                    input type="text" name="name" paceholder="Name"/
-                    input type="password" name="password" placeholder="Password"/
-                    input type="text" name="lang" placeholder="lang"/
-                    input type="text" name="admin" placeholder="admin"/
-                    input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
+            form action="/admin/user/new" method="post" id="user_form"
+                input type="text" name="name" paceholder="Name"/
+                input type="password" name="password" placeholder="Password"/
+                input type="text" name="lang" placeholder="lang"/
+                input type="text" name="admin" placeholder="admin"/
+                input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
         
         div#configuration-div   
             h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['api_configuration']}
+            - if DBConnector.connect.execute('SELECT * FROM ApiKeys') != [[nil]] && DBConnector.connect.execute('SELECT * FROM ApiKeys') != []
+                span style="margin-right: 20vw;" Resplanerare
+                span Stolptider
+                - DBConnector.connect.execute('SELECT * FROM ApiKeys').each do |key|
+                        form action="/admin/api/update" method="post"
+                            input type="text" name="reseplanerare" value="#{key[0]}"
+                            input type="text" name="stolptidstabeller" value="#{key[1]}"
+                            button type="submit" Update
+            - else
+                span style="margin-right: 20vw;" Resplanerare
+                span Stolptider
+                form action="/admin/api/new" method="post"
+                    input type="text" name="reseplanerare" placeholder="ABC-XYZ"
+                    input type="text" name="stolptidstabeller" placeholder="ABC-XYZ"
+                    button type="submit" Update
 
-        div#configuration-div
+        div#configuration-div   
             h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['location_configuration']}
+            - if DBConnector.connect.execute('SELECT * FROM Location') != [[nil]] && DBConnector.connect.execute('SELECT * FROM Location') != []
+                - DBConnector.connect.execute('SELECT * FROM Location').each do |key|
+                    form action="/admin/api/location/update" method="post"
+                        input type="text" name="county" value="#{key[0]}"
+                        input type="text" name="lat" value="#{key[1]}"
+                        input type="text" name="long" value="#{key[2]}"
+                        input type="text" name="user_id" value="#{key[3]}"
+                        button type="submit" Update
+            - else
+                form action="/admin/api/location/new" method="post"
+                    input type="text" name="county" placeholder="County"
+                    input type="text" name="lat" placeholder="lat"
+                    input type="text" name="long" placeholder="long"
+                    input type="text" name="user_id" placeholder="user_id"
+                    button type="submit" Add
 
         div#configuration-div
             h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['public_transit_configuration']}
             h5 #{JSON.parse(Translation.get_component("en", 'configuration'))['search_stop_id']}
-            form action="/post/public-transit/stops" method="post"
+            form action="/admin/public-transit/stops" method="post"
                 input type="text" name="querry"/
                 button type="submit" #{JSON.parse(Translation.get_component("en", 'configuration'))['search']}
             - if !@transit.nil?
@@ -123,7 +175,7 @@ script src="/js/admin.js"
                             td #{stop[1]}
                             td #{stop[2]}
 
-            form action="/post/public-transit/new" method="post" id="transport_form"
+            form action="/admin/public-transit/new" method="post" id="transport_form"
                 input type="text" name="name" placeholder="Name"/
                 input type="number" name="stop_id" value="0"/
                 input type="number" name="user_id" value="0"/
