@@ -33,7 +33,7 @@ class DBConnector
   end
 
   def self.translation_available?(session)
-    false if session[:user_id].nil?
+    return false if session[:user_id].nil?
     temp = connect.execute('SELECT lang from Users WHERE id = ?', session[:user_id])
     if temp.nil? || temp == [] || temp == [[nil]] || temp == [['']]
       false
