@@ -32,7 +32,7 @@ class User
     DBConnector.connect.execute('SELECT * FROM Users')
   end
 
-  def self.new(name, pass)
-    DBConnector.insert('users', %w[name password], [name, pass])
+  def self.new(name, pass, lang, admin)
+    DBConnector.insert('users', %w[name password lang type], [name, pass, lang, admin])
   end
 end
