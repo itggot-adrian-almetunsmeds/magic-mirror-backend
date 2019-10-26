@@ -34,31 +34,50 @@ get '/admin' do
   end
   slim :admin
 end
-post '/post/public-transit/new' do
+post '/admin/public-transit/update' do
   PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
   redirect '/admin'
 end
-post '/post/public-transit/new' do
+post '/admin/public-transit/new' do
   PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
   redirect '/admin'
 end
 
-post '/post/api/update' do
+post '/admin/public-transit/stops' do
+  session[:stops] = params['querry']
+  redirect '/admin'
+end
+
+post '/admin/api/update' do
   DBConnector.connect.execute('UPDATE ApiKeys SET reseplanerare = ?, stolptidstabeller = ?',
                               params['reseplanerare'], params['stolptidstabeller'])
   redirect '/admin'
 end
 
-post '/post/public-transit/stops' do
-  session[:stops] = params['querry']
+post '/admin/api/new' do
+  DBConnector.connect.execute('INSERT INTO ApiKeys (reseplanerare, stolptidstabeller) VALUES (?, ?)',
+  params['reseplanerare'], params['stolptidstabeller'])
   redirect '/admin'
 end
 
-post '/post/user/new' do
-  User.new(params[:name], params[:password])
+post '/admin/api/location/update' do
+  DBConnector.connect.execute('UPDATE Location SET county = ?, lat = ?, long = ?, user_id = ?',
+                              params['county'], params['lat'], params['long'], params['user_id'])
   redirect '/admin'
 end
-post '/post/user/remove' do
+
+post '/admin/api/location/new' do
+  DBConnector.connect.execute('INSERT INTO Location (county, lat, long, user_id) VALUES (?, ?, ?, ?)',
+      params['county'], params['lat'], params['long'], params['user_id'])
+  redirect '/admin'
+end
+
+
+post '/admin/user/new' do
+  User.new(params[:name], params[:password], params[:lang], params[:admin])
+  redirect '/admin'
+end
+post '/admin/user/remove' do
   User.remove('id', params[:user_id])
   redirect '/admin'
 end
@@ -69,7 +88,7 @@ get '/admin/login' do
   params[:password]
   slim :login
 end
-post '/post/login' do
+post '/admin/login' do
   p session
   @user = User.login(params[:name], params[:password])
   if @user.is_a? Integer
@@ -80,7 +99,7 @@ post '/post/login' do
     redirect '/admin/login'
   end
 end
-post '/post/signout' do
+post '/admin/signout' do
   session[:user_id] = nil
 end
 
@@ -94,5 +113,5 @@ get '/api/translations/:language_id/:component' do
 end
 
 not_found do
-  status 404
+  slim :error
 end
