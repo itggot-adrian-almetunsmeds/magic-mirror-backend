@@ -56,7 +56,7 @@ end
 
 post '/admin/api/new' do
   DBConnector.connect.execute('INSERT INTO ApiKeys (reseplanerare, stolptidstabeller) VALUES (?, ?)',
-  params['reseplanerare'], params['stolptidstabeller'])
+                              params['reseplanerare'], params['stolptidstabeller'])
   redirect '/admin'
 end
 
@@ -68,10 +68,9 @@ end
 
 post '/admin/api/location/new' do
   DBConnector.connect.execute('INSERT INTO Location (county, lat, long, user_id) VALUES (?, ?, ?, ?)',
-      params['county'], params['lat'], params['long'], params['user_id'])
+                              params['county'], params['lat'], params['long'], params['user_id'])
   redirect '/admin'
 end
-
 
 post '/admin/user/new' do
   User.new(params[:name], params[:password], params[:lang], params[:admin])
