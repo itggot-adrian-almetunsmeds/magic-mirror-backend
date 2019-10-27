@@ -4,11 +4,8 @@
 #
 class User
   def self.login(username, password)
-    p username
-    p password
     @user = DBConnector.connect.execute('SELECT * FROM Users WHERE'\
             ' name=? AND password=?', username, password)
-    p @user
     if @user == [] || @user.nil?
       "Unable to sign in #{username}"
     else
