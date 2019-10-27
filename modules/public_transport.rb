@@ -4,6 +4,7 @@ require 'json'
 require 'pp'
 require 'yaml'
 require_relative 'web_handler.rb'
+require_relative 'db_connector.rb'
 
 # Public: Used to get the following departures
 # from a station.
@@ -12,58 +13,60 @@ require_relative 'web_handler.rb'
 #
 # Examples:
 #
-# PublicTransport.new("chalmers")
-#   => "Please use one of the following locationsin the configuration.yaml file"
-#         "Chalmers (G\u00F6teborg kn)"
-#         "Chalmers golfklubb (H\u00E4rryda kn)"
-#         "Chalmers Tv\u00E4rgata (G\u00F6teborg kn)"
-#         "Chalmersplatsen (G\u00F6teborg kn)"
+# PublicTransport.stopID("chalmers")
+#   => "{\n  \"StopLocation\" : [ {\n    \"id\" : \"740059559\",\n
+#     \"extId\" : \"740059559\",\n    \"name\" : \"Skra Bro (G\u00F6teborg kn)\",
+#     \n    \"lon\" : 11.83118,\n    \"lat\" : 57.758201,\n    \"weight\" : 465,
+#     \n    \"products\" : 128\n
+#     } ]\n}"
 #
 #
-# PublicTransport.new("skra bro")
+# PublicTransport.departures("740059559")
 #   => [["Svart", nil, "12:10:00", "Amhult Resecentrum (G\u00F6teborg kn)", "V\u00E4sttrafik", "279"],
 #      ["Buss SVART", "12:13:00", "12:10:00", "Amhults Torg", "LT V\u00E4sttrafik", "279"],
 #      ["Svart", nil, "12:15:00", "S\u00E4vedalen Ljungkullen (Partille kn)", "V\u00E4sttrafik", "279"]]
 #
 class PublicTransport
-  attr_reader :departures, :json
-  def initialize(location) # rubocop:disable Metrics/MethodLength
-    @config = YAML.load_file('configuration.yaml')
-    location = WebHandler.encode(location)
+  def self.stopID(querry) # rubocop:disable Naming/MethodName
+    @config = DBConnector.connect
+    @config.results_as_hash = true
+    @config = @config.execute('SELECT * FROM ApiKeys')[0]
+    location = WebHandler.encode(querry)
     response = WebHandler.request('https://api.resrobot.se/v2/location.name.json?key='\
-      "#{@config['public_transport']['reseplanerare']['api_key']}"\
+      "#{@config['reseplanerare']}"\
       "&input=#{location}")
-    @json = JSON.parse(response.body)
-    if @json['StopLocation'].length > 1
-      too_many_locations
-    else
-      @departures
-    end
+    response.body
   end
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Lint/DuplicateMethods
-  def departures # rubocop:disable Metrics/AbcSize
+  def self.departures(stop_id) # rubocop:disable Metrics/AbcSize
+    @config = DBConnector.connect
+    @config.results_as_hash = true
+    @config = @config.execute('SELECT * FROM ApiKeys').first
     response = WebHandler.request('https://api.resrobot.se/v2/departureBoard?key='\
-      "#{@config['public_transport']['stolptidstabeller']['api_key']}"\
-      "&id=#{@json['StopLocation'][0]['id']}&format=json&passlist=0")
+    "#{@config['stolptidstabeller']}"\
+    "&id=#{stop_id}&format=json&passlist=0")
     @json = JSON.parse(response.body)
-    traffic = []
-    @json['Departure'].each do |bus|
-      traffic << [bus['Product']['num'], bus['rtTime'], bus['time'],
-                  bus['direction'], bus['Product']['operator'],
-                  bus['Product']['operatorCode']]
+    if @json['errorText'].nil?
+      traffic = []
+      @json['Departure'].each do |bus|
+        traffic << [bus['Product']['num'], bus['rtTime'], bus['time'],
+                    bus['direction'], bus['Product']['operator'],
+                    bus['Product']['operatorCode']]
+      end
+      traffic
+    else
+      ['No data available']
     end
-    traffic
   end
-  # rubocop:enable Lint/DuplicateMethods
   # rubocop:enable Metrics/MethodLength
 
-  def too_many_locations
-    puts 'Please use one of the following locations'\
-    'in the configuration.yaml file'
-    @json['StopLocation'].each do |stop|
-      PP.pp(stop['name'])
-    end
+  def self.stop_add(name, stop_id, user_id)
+    DBConnector.insert('PublicTransit', %w[Name stop_id user_id], [name, stop_id.to_i, user_id.to_i])
+    true
+  end
+
+  def self.stops
+    DBConnector.connect.execute('SELECT * FROM PublicTransit')
   end
 end

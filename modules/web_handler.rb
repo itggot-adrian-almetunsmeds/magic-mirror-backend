@@ -10,7 +10,7 @@ class WebHandler
   def self.request(url)
     HTTParty.get(url)
   rescue StandardError
-    raise "Failed to fetch translations. Unable to connect to #{url}"
+    raise "Failed to fetch data. Unable to connect to #{url}"
   end
 
   # Public: Encodes a string to be used as a link
