@@ -7,8 +7,6 @@ class Server < Sinatra::Base
     require_relative file
   end
 
-  set :bind, '0.0.0.0'
-
   enable :sessions
 
   # DEFAULT PAGE
