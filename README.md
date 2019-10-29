@@ -5,7 +5,18 @@ The backend source code for a magic mirror
 <br>
 <br>
 
-## Documenation
+## Running
+
+```
+§ rackup
+```
+or using rerun
+
+```
+§ rerun rackup
+```
+
+## Documentation
 
 #### See [Github-docs](https://itggot-adrian-almetunsmeds.github.io/magic-mirror-backend/index.html)
 ## Updating documentation

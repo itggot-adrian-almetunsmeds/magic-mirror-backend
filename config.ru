@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
-require './app'
+require 'bundler'
 
-run Sinatra::Application
+Bundler.require
+
+require_relative './server'
+
+run Server
