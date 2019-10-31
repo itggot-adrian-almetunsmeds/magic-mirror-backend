@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# require 'faye/websocket'
 # rubocop:disable Metrics/ClassLength
 # Webserver handeling all routes
 class Server < Sinatra::Base
@@ -9,13 +10,47 @@ class Server < Sinatra::Base
 
   enable :sessions
 
+  use Faye::RackAdapter, mount: '/faye', timeout: 45
+  # set :faye_client, Faye::Client.new('http://192.168.1.64:9292/faye')
+  set :saved_data, Hash.new([])
+
+  # # Sending data to client
+  # settings.faye_client.publish(channel, message)
+  # # Save data for reloading of client page
+  # settings.saved_data[channel] = [message]
+
   # DEFAULT PAGE
+  def initialize
+    super
+    @clients = []
+  end
 
   get '/' do
-    # before do
-    SassCompiler.compile
-    # end
-    slim :index
+    if Faye::WebSocket.websocket?(request.env)
+      ws = Faye::WebSocket.new(request.env)
+
+      ws.on(:open) do |_event|
+        @clients << ws
+        puts 'WS connection opened'
+      end
+
+      ws.on(:message) do |msg|
+        p msg.data
+        Websocket.send(ws, 'test', 'message')
+      end
+
+      ws.on(:close) do |_event|
+        @clients.delete(ws)
+        puts 'WS connection closed'
+      end
+
+      ws.rack_response
+    else
+      # before do
+      SassCompiler.compile
+      # end
+      slim :index
+    end
   end
 
   before '/admin*' do |s|
@@ -132,6 +167,12 @@ class Server < Sinatra::Base
     else
       return 'No results'
     end
+  end
+
+  get '/assets/js/application.js' do
+    content_type :js
+    @scheme = ENV['RACK_ENV'] == 'production' ? 'wss://' : 'ws://'
+    erb :'websocket.js'
   end
 
   not_found do
