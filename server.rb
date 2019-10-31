@@ -20,16 +20,19 @@ class Server < Sinatra::Base
     super
     @clients = [] # Websocket clients
   end
-
+  # rubocop:disable Metrics/BlockLength
   get '/' do
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
       ws.on(:open) do |_event|
         @clients << [ws, session[:user_id]]
-        if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?', session[:user_id]) == [[nil]] ||
-           DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?', session[:user_id]) == []
-          DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)', session[:user_id])
+        if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                       session[:user_id]) == [[nil]] ||
+           DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                       session[:user_id]) == []
+          DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)',
+                                      session[:user_id])
         end
         puts "WS connection opened by user #{session[:user_id]}"
       end
@@ -50,6 +53,7 @@ class Server < Sinatra::Base
       slim :index
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   before '/admin*' do |s|
     unless s == '/login'
