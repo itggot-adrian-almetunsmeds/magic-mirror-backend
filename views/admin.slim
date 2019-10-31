@@ -47,7 +47,7 @@ script src="/js/admin.js"
             h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['location_configuration']}
             - if DBConnector.connect.execute('SELECT * FROM Location') != [[nil]] && DBConnector.connect.execute('SELECT * FROM Location') != []
                 - DBConnector.connect.execute('SELECT * FROM Location').each do |key|
-                    form action="/admin/api/locationupdate" method="post"
+                    form action="/admin/api/location/update" method="post"
                         input type="text" name="county" value="#{key[0]}"
                         input type="text" name="lat" value="#{key[1]}"
                         input type="text" name="long" value="#{key[2]}"
@@ -108,7 +108,7 @@ script src="/js/admin.js"
                                 button type="submit" onclick="confirmRemoval(this)" #{JSON.parse(Translation.get_component("en", 'configuration'))['remove']}
                               
             form action="/admin/user/new" method="post" id="user_form"
-                input type="text" name="name" paceholder="Name"/
+                input type="text" name="name" placeholder="Name"/
                 input type="password" name="password" placeholder="Password"/
                 input type="text" name="lang" placeholder="lang"/
                 input type="text" name="admin" placeholder="admin"/
@@ -120,10 +120,10 @@ script src="/js/admin.js"
                 span style="margin-right: 20vw;" Resplanerare
                 span Stolptider
                 - DBConnector.connect.execute('SELECT * FROM ApiKeys').each do |key|
-                        form action="/admin/api/update" method="post"
-                            input type="text" name="reseplanerare" value="#{key[0]}"
-                            input type="text" name="stolptidstabeller" value="#{key[1]}"
-                            button type="submit" Update
+                    form action="/admin/api/update" method="post"
+                        input type="text" name="reseplanerare" value="#{key[0]}"
+                        input type="text" name="stolptidstabeller" value="#{key[1]}"
+                        button type="submit" Update
             - else
                 span style="margin-right: 20vw;" Resplanerare
                 span Stolptider
