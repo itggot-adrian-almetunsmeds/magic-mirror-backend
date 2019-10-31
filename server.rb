@@ -12,26 +12,27 @@ class Server < Sinatra::Base
 
   use Faye::RackAdapter, mount: '/faye', timeout: 45
   # set :faye_client, Faye::Client.new('http://192.168.1.64:9292/faye')
-  set :saved_data, Hash.new([])
+  set :saved_data, Hash.new([]) # Saved Websocket data
 
-  # # Sending data to client
-  # settings.faye_client.publish(channel, message)
   # # Save data for reloading of client page
   # settings.saved_data[channel] = [message]
-
+  before do
+    SassCompiler.compile
+  end
   # DEFAULT PAGE
   def initialize
     super
-    @clients = []
+    @clients = [] # Websocket clients
   end
 
   get '/' do
+    redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
 
       ws.on(:open) do |_event|
         @clients << [ws, session[:user_id]]
-        puts "WS connection opened to user #{session[:user_id]}"
+        puts "WS connection opened by user #{session[:user_id]}"
       end
 
       ws.on(:message) do |msg|
@@ -46,9 +47,6 @@ class Server < Sinatra::Base
 
       ws.rack_response
     else
-      # before do
-      SassCompiler.compile
-      # end
       slim :index
     end
   end
@@ -66,7 +64,6 @@ class Server < Sinatra::Base
   # ADMIN PAGES
 
   get '/admin' do
-    SassCompiler.compile
     if !session[:stops].nil?
       @transit = PublicTransport.stopID(session[:stops])
       session[:stops] = nil
@@ -128,6 +125,8 @@ class Server < Sinatra::Base
   # Signing in to the admin page
 
   get '/admin/login' do
+    @title = 'Admin configuartion'
+    @action = '/admin/login'
     slim :login
   end
 
@@ -147,6 +146,23 @@ class Server < Sinatra::Base
   end
 
   # NON ADMIN PAGES
+
+  get '/login' do
+    @title = 'Sign in'
+    @action = '/login'
+    slim :login
+  end
+
+  post '/login' do
+    @user = User.login(params[:name], params[:password])
+    if @user.is_a? Integer
+      session[:user_id] = @user
+      redirect '/'
+    else
+      session[:user_id] = nil
+      redirect '/login'
+    end
+  end
 
   get '/api/translations/:language_id' do
     Translation.get(params[:language_id]).to_json
