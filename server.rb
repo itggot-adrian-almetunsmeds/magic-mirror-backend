@@ -30,8 +30,8 @@ class Server < Sinatra::Base
       ws = Faye::WebSocket.new(request.env)
 
       ws.on(:open) do |_event|
-        @clients << ws
-        puts 'WS connection opened'
+        @clients << [ws, session[:user_id]]
+        puts "WS connection opened to user #{session[:user_id]}"
       end
 
       ws.on(:message) do |msg|
@@ -40,7 +40,7 @@ class Server < Sinatra::Base
       end
 
       ws.on(:close) do |_event|
-        @clients.delete(ws)
+        @clients.delete([ws, session[:user_id]])
         puts 'WS connection closed'
       end
 
@@ -169,7 +169,7 @@ class Server < Sinatra::Base
     end
   end
 
-  get '/assets/js/application.js' do
+  get '/js/application.js' do
     content_type :js
     @scheme = ENV['RACK_ENV'] == 'production' ? 'wss://' : 'ws://'
     erb :'websocket.js'
