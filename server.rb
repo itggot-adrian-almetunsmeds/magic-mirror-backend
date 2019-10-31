@@ -11,11 +11,7 @@ class Server < Sinatra::Base
   enable :sessions
 
   use Faye::RackAdapter, mount: '/faye', timeout: 45
-  # set :faye_client, Faye::Client.new('http://192.168.1.64:9292/faye')
-  set :saved_data, Hash.new([]) # Saved Websocket data
 
-  # # Save data for reloading of client page
-  # settings.saved_data[channel] = [message]
   before do
     SassCompiler.compile
   end
@@ -29,9 +25,12 @@ class Server < Sinatra::Base
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
-
       ws.on(:open) do |_event|
         @clients << [ws, session[:user_id]]
+        if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?', session[:user_id]) == [[nil]] ||
+           DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?', session[:user_id]) == []
+          DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)', session[:user_id])
+        end
         puts "WS connection opened by user #{session[:user_id]}"
       end
 
@@ -42,6 +41,7 @@ class Server < Sinatra::Base
 
       ws.on(:close) do |_event|
         @clients.delete([ws, session[:user_id]])
+        DBConnector.connect.execute('DELETE FROM current_sessions WHERE user_id = ?', session[:user_id])
         puts 'WS connection closed'
       end
 
