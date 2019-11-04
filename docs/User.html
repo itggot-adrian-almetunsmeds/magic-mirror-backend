@@ -142,7 +142,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieves the users from the db.</p>
+</div></span>
   
 </li>
 
@@ -164,7 +166,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Checks if there is a user in the db.</p>
+</div></span>
   
 </li>
 
@@ -186,7 +190,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Checks if the login details are correct and then return the users id If unable to sign in a error message is returned.</p>
+</div></span>
   
 </li>
 
@@ -208,7 +214,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Adds a new user to the db.</p>
+</div></span>
   
 </li>
 
@@ -230,7 +238,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Removes a user from the Users db.</p>
+</div></span>
   
 </li>
 
@@ -253,18 +263,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrieves the users from the db</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-28
-29
-30</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/user.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'modules/user.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span>
   <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="DBConnector.html#connect-class_method" title="DBConnector.connect (method)">connect</a></span></span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT * FROM Users</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -286,6 +307,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Checks if there is a user in the db</p>
+
 
   </div>
 </div>
@@ -311,16 +334,16 @@
       <pre class="lines">
 
 
-20
-21
-22
-23
-24
-25
-26</pre>
+27
+28
+29
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/user.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'modules/user.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_excists?'>excists?</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -343,24 +366,35 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Checks if the login details are correct and then return the users id If unable to sign in a error message is returned</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-6
-7
 8
 9
 10
 11
 12
 13
-14</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/user.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'modules/user.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span><span class='lparen'>(</span><span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='ivar'>@user</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="DBConnector.html#connect-class_method" title="DBConnector.connect (method)">connect</a></span></span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT * FROM Users WHERE</span><span class='tstring_end'>&#39;</span></span>\
@@ -385,18 +419,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Adds a new user to the db</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-32
-33
-34</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/user.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'modules/user.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_pass'>pass</span><span class='comma'>,</span> <span class='id identifier rubyid_lang'>lang</span><span class='comma'>,</span> <span class='id identifier rubyid_admin'>admin</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_insert'><span class='object_link'><a href="DBConnector.html#insert-class_method" title="DBConnector.insert (method)">insert</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>name</span><span class='words_sep'> </span><span class='tstring_content'>password</span><span class='words_sep'> </span><span class='tstring_content'>lang</span><span class='words_sep'> </span><span class='tstring_content'>type</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_pass'>pass</span><span class='comma'>,</span> <span class='id identifier rubyid_lang'>lang</span><span class='comma'>,</span> <span class='id identifier rubyid_admin'>admin</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -415,18 +460,31 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Removes a user from the Users db</p>
+
+<p>where - String indicating where = ? equals - String indicating ? = equals</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-16
-17
-18</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/user.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'modules/user.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='id identifier rubyid_where'>where</span><span class='comma'>,</span> <span class='id identifier rubyid_equals'>equals</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove'><span class='object_link'><a href="DBConnector.html#remove-class_method" title="DBConnector.remove (method)">remove</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Users</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_where'>where</span><span class='comma'>,</span> <span class='id identifier rubyid_equals'>equals</span><span class='rparen'>)</span>
@@ -441,7 +499,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Oct 29 15:54:53 2019 by
+  Generated on Mon Nov  4 19:20:11 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.5.3).
 </div>
