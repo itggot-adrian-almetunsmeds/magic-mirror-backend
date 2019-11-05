@@ -43,4 +43,3 @@ function timeComponent(){
 translations = JSON.parse(translations('sv'))
 console.log(translations)
 timeComponent()
-

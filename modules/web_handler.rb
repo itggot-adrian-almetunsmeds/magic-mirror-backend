@@ -7,6 +7,11 @@ require 'httparty'
 # self.encode(link) - Returns url-encoded string
 #
 class WebHandler
+  # Does a webrequest from a given url
+  # If a error occurs a error message is given.
+  #
+  # url - String
+  #
   def self.request(url)
     HTTParty.get(url)
   rescue StandardError

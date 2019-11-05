@@ -5,6 +5,12 @@ class Weather
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
+
+  # Gets the weather forecast from SMHI
+  #
+  # lat - Float
+  # long - Float
+  #
   def self.current(lat, long)
     x = WebHandler.request('https://opendata-download-metfcst.smhi.se/api/category/'\
         "pmp3g/version/2/geotype/point/lon/#{long}/lat/#{lat}/data.json")
@@ -38,7 +44,16 @@ class Weather
     end
     forecast
   end
+
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
+
+  # Gets the cached weather from the db
+  #
+  def self.get(id)
+    z = DBConnector.connect
+    z.results_as_hash = true
+    z.execute('SELECT * FROM weather WHERE user_id = ?', id)
+  end
 end

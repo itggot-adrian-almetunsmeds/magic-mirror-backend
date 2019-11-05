@@ -27,6 +27,7 @@ require_relative 'db_connector.rb'
 #      ["Svart", nil, "12:15:00", "S\u00E4vedalen Ljungkullen (Partille kn)", "V\u00E4sttrafik", "279"]]
 #
 class PublicTransport
+  # Does a search for available stops via the TrafikLabs api
   def self.stopID(querry) # rubocop:disable Naming/MethodName
     @config = DBConnector.connect
     @config.results_as_hash = true
@@ -38,6 +39,8 @@ class PublicTransport
     response.body
   end
 
+  # Gets the up and comming departues from TrafikLabs
+  #
   # rubocop:disable Metrics/MethodLength
   def self.departures(stop_id) # rubocop:disable Metrics/AbcSize
     @config = DBConnector.connect
@@ -61,11 +64,42 @@ class PublicTransport
   end
   # rubocop:enable Metrics/MethodLength
 
+  # Gets the current departures for a given user
+  #
+  # id - Integer
+  #
+  # Examples
+  # get(1)
+  # => ['Chalmers', [{'direction': 'Nordstan', 'line': '16'}]]
+  #
+  def self.get(id)
+    z = DBConnector.connect
+    z.results_as_hash = true
+    z = z.execute('SELECT Name FROM PublicTransit WHERE user_id = ?', id).first
+    [z['Name'], current(id)]
+  end
+
+  # Retrieves the cached departures from the db
+  #
+  # id - Integer
+  #
+  # Examples
+  # current(1)
+  # => [['16', 'Chalmers', '16:23:21'],[...],[...]]
+  #
+  def self.current(id)
+    DBConnector.connect.execute('SELECT * FROM transport WHERE user_id = ?', id)
+  end
+
+  # Adds a stop to the db
+  #
   def self.stop_add(name, stop_id, user_id)
     DBConnector.insert('PublicTransit', %w[Name stop_id user_id], [name, stop_id.to_i, user_id.to_i])
     true
   end
 
+  # Gets all the stops available in the db
+  #
   def self.stops
     DBConnector.connect.execute('SELECT * FROM PublicTransit')
   end

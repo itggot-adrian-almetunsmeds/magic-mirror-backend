@@ -1,0 +1,26 @@
+const scheme = "<%= @scheme %>";
+var uri = scheme + window.document.location.host + "/";
+
+function connectWebsocket() {
+    const ws = new WebSocket(uri);
+    useWebSocket(ws)
+}
+
+function useWebSocket(ws) {
+    if (ws) {
+        ws.onopen = function () {
+           console.log('Connected to ws')
+        }
+        ws.onmessage = function (message) {
+            console.log(JSON.parse(message.data))
+        }
+        ws.onclose = function () {
+            console.log('Disconnected from ws')
+            setTimeout(connectWebsocket(), 4000)
+        }
+    } else {
+        setTimeout(connectWebsocket(), 4000)
+    }
+}
+
+connectWebsocket()

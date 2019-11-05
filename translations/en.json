@@ -30,6 +30,7 @@
         "admin_configuration": "Admin Configuration",
         "user_configuration": "User Configuration",
         "name": "Name",
+        "password": "Password",
         "add": "Add",
         "remove": "remove",
         "api_configuration": "API Configuration",

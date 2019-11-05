@@ -168,7 +168,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Does a webrequest from a given url If a error occurs a error message is given.</p>
+</div></span>
   
 </li>
 
@@ -214,11 +216,6 @@
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
 28
 29
 30
@@ -234,10 +231,15 @@
 40
 41
 42
-43</pre>
+43
+44
+45
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/web_handler.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'modules/web_handler.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_encode'>encode</span><span class='lparen'>(</span><span class='id identifier rubyid_link'>link</span><span class='rparen'>)</span> <span class='comment'># rubocop:disable Metrics/AbcSize
 </span>  <span class='id identifier rubyid_link'>link</span> <span class='op'>=</span> <span class='id identifier rubyid_link'>link</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
@@ -274,20 +276,33 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does a webrequest from a given url If a error occurs a error message is given.</p>
+
+<p>url - String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-10
-11
-12
-13
-14</pre>
+15
+16
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/web_handler.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'modules/web_handler.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
   <span class='const'>HTTParty</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
@@ -304,7 +319,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Oct 27 23:00:49 2019 by
+  Generated on Mon Nov  4 19:20:12 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.5.3).
 </div>
