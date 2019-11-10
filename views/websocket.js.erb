@@ -1,5 +1,6 @@
 const scheme = "<%= @scheme %>";
 var uri = scheme + window.document.location.host + "/";
+var count = 0
 
 function connectWebsocket() {
     const ws = new WebSocket(uri);
@@ -7,8 +8,9 @@ function connectWebsocket() {
 }
 
 function useWebSocket(ws) {
-    if (ws) {
+    if (ws && count < 2) {
         ws.onopen = function () {
+           count = 0
            console.log('Connected to ws')
         }
         ws.onmessage = function (message) {
@@ -16,10 +18,11 @@ function useWebSocket(ws) {
         }
         ws.onclose = function () {
             console.log('Disconnected from ws')
+            count += 1
             setTimeout(connectWebsocket(), 4000)
         }
     } else {
-        setTimeout(connectWebsocket(), 4000)
+        setTimeout(connectWebsocket(), 15000)
     }
 }
 
