@@ -15,13 +15,17 @@ class Server < Sinatra::Base
   before do
     SassCompiler.compile
   end
+
   # DEFAULT PAGE
   def initialize
     super
     @clients = [] # Websocket clients
   end
+
   # rubocop:disable Metrics/BlockLength
   get '/' do
+    # FIXME: Verify user session if connecting from gosu front end
+    # Currently the cookie is not present and there by redirects the user before establishing ws
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
@@ -41,13 +45,14 @@ class Server < Sinatra::Base
 
       ws.on(:message) do |msg|
         p msg.data
-        Websocket.send(ws, 'test', 'message received')
+        Websocket.send_message(ws, 'test', 'message received')
       end
 
       ws.on(:close) do |_event|
         @clients.delete([ws, session[:user_id]])
         DBConnector.connect.execute('DELETE FROM current_sessions WHERE user_id = ?', session[:user_id])
         puts 'WS connection closed'
+        Websocket.remove(ws, session[:user_id])
       end
 
       ws.rack_response

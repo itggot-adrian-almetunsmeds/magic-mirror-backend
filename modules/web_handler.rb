@@ -39,7 +39,7 @@ class WebHandler
       i += 1
     end
 
-    # TODO [$5dc8716b6a66ed00071445e0]: Make this process neater.
+    # TODO: [$5dc8716b6a66ed00071445e0]: Make this process neater.
     # The entire method is questionable in how it operates
     link.gsub('\u00E4', '%C3%A4')
     link.gsub('å', '%C3%A5')
