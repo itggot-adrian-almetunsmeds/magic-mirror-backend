@@ -13,4 +13,4 @@ Style/GuardClause:
     - 'modules/websocket.rb'
 Style/CommentAnnotation:
   Exclude:
-  - 'modules/'
+  - 'modules/*'
