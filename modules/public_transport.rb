@@ -76,7 +76,12 @@ class PublicTransport
     z = DBConnector.connect
     z.results_as_hash = true
     z = z.execute('SELECT Name FROM PublicTransit WHERE user_id = ?', id).first
-    [z['Name'], current(id)]
+    q = current(id)
+    if q == []
+      ['No data']
+    else
+      [z['Name'], q]
+    end
   end
 
   # Retrieves the cached departures from the db
