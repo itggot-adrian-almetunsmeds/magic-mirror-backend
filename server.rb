@@ -24,7 +24,7 @@ class Server < Sinatra::Base
 
   # rubocop:disable Metrics/BlockLength
   get '/' do
-    # TODO [$5dc9bf2ead94840007cb4a32]: Verify user session if connecting from gosu front end
+    # TODO [#22]: Verify user session if connecting from gosu front end
     #
     # Currently the cookie is not present and there by redirects the user before establishing ws
 
