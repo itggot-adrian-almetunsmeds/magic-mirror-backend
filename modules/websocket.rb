@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'sucker_punch'
+# require 'sucker_punch'
 
 # Handles websocket connections
 class Websocket
@@ -44,8 +44,12 @@ class Websocket
       Websocket.send_message(websocket, 'weather', [Weather.get(user_id)])
       Websocket.send_message(websocket, 'traffic', PublicTransport.get(user_id))
       perform_in(5, ['update_data', websocket, user_id])
-      # TODO [#15]: The above action can not be run as perform is not defined, but defined
+      # TODO [#15]: Perform_in action can not be run more than once
+      #
+      # The update_data function requires perform that in turn
       # requires update_data to be defined for it to run.
+      # There by creating a moment 22 situation, where it can only
+      # be run the first time
     end
   end
 
