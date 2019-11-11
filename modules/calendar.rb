@@ -15,4 +15,4 @@ class Calendar
     )
     redirect client.authorization_uri.to_s
   end
-  end
+end
