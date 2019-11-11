@@ -38,7 +38,8 @@ class Websocket
   # Returns nothing
   #
   def update_data(websocket, user_id)
-    x = DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?', user_id.to_s).first
+    x = DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                    user_id.to_s).first
     unless x.nil?
       Websocket.send_message(websocket, 'weather', [Weather.get(user_id)])
       Websocket.send_message(websocket, 'traffic', PublicTransport.get(user_id))
