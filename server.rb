@@ -24,8 +24,49 @@ class Server < Sinatra::Base
 
   # rubocop:disable Metrics/BlockLength
   get '/' do
-    # FIXME: Verify user session if connecting from gosu front end
+    # FIXME: TODO: Verify user session if connecting from gosu front end
+    #
     # Currently the cookie is not present and there by redirects the user before establishing ws
+
+    # FIXME: TODO: Server crashes on attempted connection to ws
+    #
+    # Error message:
+    # ```
+    # "Connection: close\r\n", "Server: thin\r\n"]>, @status=304, @persistent=true,
+    # @skip_body=false, @body=[]>, @backend=#<Thin::Backends::TcpServer:0x0000000008386758 ...>,
+    # @app=Server, @threaded=nil, @can_persist=true, @serving=nil, @idle=false>, 44986000=>
+    # #<Thin::Connection:0x00000000055cdd20 ...>, 54047880=>#<Thin::Connection:0x0000000006716910
+    #  @signature=17, @request=#<Thin::Request:0x0000000006714b60 @parser=#<Thin::HttpParser:
+    #  0x0000000006714750>, @data="", @nparsed=0, @body=#<StringIO:0x0000000006714520>,
+    #  @env={"SERVER_SOFTWARE"=>"thin 1.7.2 codename Bachmanity", "SERVER_NAME"=>"localhost",
+    #  "rack.input"=>#<StringIO:0x0000000006714520>, "rack.version"=>[1, 0], "rack.errors"=>
+    #  #<IO:<STDERR>>, "rack.multithread"=>false, "rack.multiprocess"=>false,
+    #  "rack.run_once"=>false}>, @response=#<Thin::Response:0x00000000067140e8
+    #  @headers=#<Thin::Headers:0x00000000067140c0 @sent={}, @out=[]>, @status=200,
+    #  @persistent=false, @skip_body=false>, @backend=#<Thin::Backends::TcpServer:
+    #  0x0000000008386758 ...>, @app=Server, @threaded=nil, @can_persist=true>},
+    #  @timeout=30, @persistent_connection_count=4, @maximum_connections=1024,
+    #  @maximum_persistent_connections=100, @no_epoll=false, @ssl=nil, @threaded=nil,
+    #   @started_reactor=true, @server=#<Thin::Server:0x0000000008386898 @app=Server,
+    #   @tag=nil, @backend=#<Thin::Backends::TcpServer:0x0000000008386758 ...>,
+    #  @setup_signals=true, @signal_queue=[], @signal_timer=#<EventMachine::PeriodicTimer
+    #  :0x0000000008385bf0 @interval=1, @code=#<Proc:0x0000000008385c18@C:/Ruby25-x64/lib
+    #  /ruby/gems/2.5.0/gems/thin-1.7.2/lib/thin/server.rb:244>, @cancelled=false,
+    #  @work=#<Method: EventMachine::PeriodicTimer#fire>>>, @stopping=false, @signature=2,
+    #  @running=true>, @app=Server, @threaded=nil, @can_persist=true, @serving=:websocket,
+    #  @idle=false, @socket_stream=#<Faye::WebSocket::Stream:0x00000000067b8c38 ...>>,
+    #  @stream_send=#<Proc:0x00000000067b8490@C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/
+    #  thin-1.7.2/lib/thin/response.rb:96>, @rack_hijack_io_reader=nil,
+    #  @rack_hijack_io=nil, @deferred_status=:unknown, @callbacks=[#<Proc:0x000000000671c0b8
+    #  @C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/thin-1.7.2/lib/thin/connection.rb:126>,
+    #  #<Proc:0x00000000067b81e8@C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/thin-1.7.2/lib/thin/
+    #  connection.rb:126>], @errbacks=[#<Proc:0x000000000671c090@C:/Ruby25-x64/lib/ruby/gems/2
+    #  .5.0/gems/thin-1.7.2/lib/thin/connection.rb:127>, #<Proc:0x00000000067b3da0@C:/Ruby25-
+    #  x64/lib/ruby/gems/2.5.0/gems/thin-1.7.2/lib/thin/connection.rb:127>]>,
+    #  @proxy=nil, @ping_timer=nil, @close_timer=nil, @close_params=nil, @onerror=nil,
+    #  @onclose=nil, @onmessage=nil, @onopen=nil, @driver_started=true, @event_buffers={}>
+    #  is not a symbol nor a string (TypeError)
+    # ```
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
@@ -41,6 +82,7 @@ class Server < Sinatra::Base
         puts "WS connection opened by user #{session[:user_id]}"
         Websocket.send(ws, 'traffic', PublicTransport.get(session[:user_id]))
         Websocket.send(ws, 'weather', [Weather.get(session[:user_id])])
+        Websocket.store(ws, session[:user_id])
       end
 
       ws.on(:message) do |msg|
