@@ -35,8 +35,8 @@ class Server < Sinatra::Base
                                       session[:user_id])
         end
         puts "WS connection opened by user #{session[:user_id]}"
-        Websocket.send(ws, 'traffic', PublicTransport.get(session[:user_id]))
-        Websocket.send(ws, 'weather', [Weather.get(session[:user_id])])
+        # Websocket.send(ws, 'traffic', PublicTransport.get(session[:user_id]))
+        # Websocket.send(ws, 'weather', [Weather.get(session[:user_id])])
       end
 
       ws.on(:message) do |msg|
