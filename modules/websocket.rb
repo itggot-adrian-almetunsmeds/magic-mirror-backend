@@ -28,24 +28,13 @@ class Websocket
   end
 
   def perform(websocket, user_id)
-    p user_id
-    p 'PERFORMED'
     x = DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
                                     user_id.to_s).first
-    # p x
     unless x.nil?
-      p 'EXECUTED'
       Websocket.send_message(websocket, 'weather', [Weather.get(user_id)])
       Websocket.send_message(websocket, 'traffic', PublicTransport.get(user_id))
     end
-    Async.quue(5, self, 'update_data', websocket, user_id)
-    # TODO [#23]: Running Async.quee resluts in Undefined method
-    #
-    # Running Async.quee calls the method who in turn calls
-    # Websocket.update_data that runs perform_in using Sucket_Punch
-    # but that call results in a
-    # ``` NoMethodError undefined method `update_data' for #<Websocket:0x0000000008496c38> ```
-    # situation.
+    Async.quue(5, Websocket, 'update_data', websocket, user_id)
   end
 
   # Sends data to clients after it having been updated
