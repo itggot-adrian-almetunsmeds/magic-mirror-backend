@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'dotenv'
 gem 'faye'
 gem 'faye-websocket'
 gem 'httparty'
@@ -10,4 +11,5 @@ gem 'sassc'
 gem 'sinatra'
 gem 'slim'
 gem 'sqlite3'
+gem 'sucker_punch'
 gem 'thin'
