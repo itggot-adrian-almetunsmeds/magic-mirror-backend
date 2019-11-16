@@ -37,7 +37,7 @@ class Websocket
     Async.quue(5, Websocket, 'update_data', websocket, user_id)
   end
 
-  # Sends data to clients after it having been updated
+  # Relays data to method who sends it to clients after it has been updated
   #
   # time - Integer (Time in secounds until function call)
   # ws - Object (Websocket)
@@ -58,7 +58,7 @@ class Websocket
   #
   def self.store(websocket, user_id)
     @sockets << [websocket, user_id]
-    Async.quue(5, self, 'update_data', websocket, user_id)
+    Async.quue(30, self, 'update_data', websocket, user_id)
   end
 
   # Removes a ws session from the stored sessions array
