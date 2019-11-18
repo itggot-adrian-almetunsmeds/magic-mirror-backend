@@ -59,7 +59,7 @@ class Seeder
             CREATE TABLE "PublicTransit" (
                 "Name"             TEXT NOT NULL,
                 "stop_id"          INTEGER NOT NULL,
-                "user_id"          INTEGER NOT NULL UNIQE
+                "user_id"          INTEGER NOT NULL UNIQUE
             );
     SQL
 
@@ -114,7 +114,8 @@ class Seeder
     ]
 
     users.each do |d|
-      db.execute('INSERT INTO Users (name, password, lang, type) VALUES (?,?,?,?)', d[:name], d[:password], d[:lang], d[:type])
+      db.execute('INSERT INTO Users (name, password, lang, type) VALUES (?,?,?,?)',
+                 d[:name], d[:password], d[:lang], d[:type])
     end
   end
 end

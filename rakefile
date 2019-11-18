@@ -9,12 +9,12 @@ task :test => :spec
 
 task :seed do
   Seeder.seed!
+  # Makes the tests possible to run on github actions
+  # even though the API keys are not in the db
+  if DBConnector.connect.execute('SELECT * FROM ApiKeys').first.nil? || 
+    DBConnector.connect.execute('SELECT * FROM ApiKeys').first[0].nil? || 
+    DBConnector.connect.execute('SELECT * FROM ApiKeys').first[1].nil? 
+    DBConnector.connect.execute('INSERT INTO ApiKeys (reseplanerare, stolptidstabeller) VALUES (?, ?)', ENV['API_KEY_RESEPLANERARE'].to_s, ENV['API_KEY_STOLPTIDSTABELLER'].to_s)
+  end
 end
 
-# Makes the tests possible to run on github actions
-# even though the API keys are not in the db
-if DBConnector.connect.execute('SELECT * FROM ApiKeys').first.nil? || 
-  DBConnector.connect.execute('SELECT * FROM ApiKeys').first[0].nil? || 
-  DBConnector.connect.execute('SELECT * FROM ApiKeys').first[1].nil? 
-  DBConnector.connect.execute('INSERT INTO ApiKeys (reseplanerare, stolptidstabeller) VALUES (?, ?)', ENV['API_KEY_RESEPLANERARE'].to_s, ENV['API_KEY_STOLPTIDSTABELLER'].to_s)
-end
