@@ -39,4 +39,5 @@ jobs:
         gem install bundler
         bundle install --jobs 4 --retry 3
         gem install rspec
+        rake seed
         rake test

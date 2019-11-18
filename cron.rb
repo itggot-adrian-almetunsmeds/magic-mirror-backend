@@ -25,14 +25,19 @@ unless x.nil?
 
   x.each do |id|
     k = z.execute('SELECT lat, long FROM Location WHERE user_id = ?', id).first
-    w = Weather.current(k['lat'], k['long'])
-    z.execute('DELETE FROM weather WHERE user_id = ?', id)
-    w.each do |weather|
-      z.execute('INSERT INTO weather (user_id, temp, wind_speed, wind_gust, '\
-          'humidity, thunder, symbol, time)'\
-      ' VALUES (?,?,?,?,?,?,?,?)', id, weather[:temp], weather[:wind_speed],
-                weather[:wind_gust], weather[:humidity],
-                weather[:thunder], weather[:symbol], weather[:valid_time])
+    if !k.nil? && !k['lat'].nil? && !k['long'].nil?
+      puts 'Updated weather'
+      w = Weather.current(k['lat'], k['long'])
+      z.execute('DELETE FROM weather WHERE user_id = ?', id)
+      w.each do |weather|
+        z.execute('INSERT INTO weather (user_id, temp, wind_speed, wind_gust, '\
+            'humidity, thunder, symbol, time, pcat)'\
+        ' VALUES (?,?,?,?,?,?,?,?,?)', id, weather[:temp], weather[:wind_speed],
+                  weather[:wind_gust], weather[:humidity],
+                  weather[:thunder], weather[:symbol], weather[:valid_time], weather[:pcat])
+      end
+    else
+      puts 'Did not update weather'
     end
   end
 end
