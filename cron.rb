@@ -29,10 +29,10 @@ unless x.nil?
     z.execute('DELETE FROM weather WHERE user_id = ?', id)
     w.each do |weather|
       z.execute('INSERT INTO weather (user_id, temp, wind_speed, wind_gust, '\
-          'humidity, thunder, symbol, time)'\
-      ' VALUES (?,?,?,?,?,?,?,?)', id, weather[:temp], weather[:wind_speed],
+          'humidity, thunder, symbol, time, pcat)'\
+      ' VALUES (?,?,?,?,?,?,?,?,?)', id, weather[:temp], weather[:wind_speed],
                 weather[:wind_gust], weather[:humidity],
-                weather[:thunder], weather[:symbol], weather[:valid_time])
+                weather[:thunder], weather[:symbol], weather[:valid_time], weather[:pcat])
     end
   end
 end

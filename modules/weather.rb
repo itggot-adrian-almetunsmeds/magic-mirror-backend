@@ -38,6 +38,9 @@ class Weather
         when 'Wsymb2'
           weather_symbol = q['values'].first.to_s
           temp[:symbol] = weather_symbol
+        when 'pcat'
+          rain_category = q['values'].first.to_s
+          temp[:pcat] = rain_category
         end
       end
       forecast << temp
