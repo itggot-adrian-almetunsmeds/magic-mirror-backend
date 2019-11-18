@@ -2,7 +2,12 @@
 
 require 'sqlite3'
 
+# Creates a database and populates it with data.
 class Seeder
+  # Seeds the database
+  #
+  # Brings the database to excistance and removes the old db if there is one
+  #
   def self.seed!
     db = connect
     drop_tables(db)
@@ -13,10 +18,15 @@ class Seeder
     puts 'Populated tables'
   end
 
+  # Connects to the db
+  #
+  # Returns a database object
+  #
   def self.connect
     SQLite3::Database.new 'db/configuration.db'
   end
 
+  # Drops all tables if they exists
   def self.drop_tables(db)
     db.execute('DROP TABLE IF EXISTS ApiKeys;')
     db.execute('DROP TABLE IF EXISTS Location;')
@@ -27,7 +37,8 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS weather;')
   end
 
-  def self.create_tables(db)
+  # Creates all tables for the db
+  def self.create_tables(db) # rubocop:disable Metrics/MethodLength
     db.execute <<-SQL
             CREATE TABLE "ApiKeys" (
                 "reseplanerare"  TEXT,
@@ -78,7 +89,7 @@ class Seeder
                 "operator"	    TEXT,
                 "operatorcode"	TEXT
             );
-            
+
     SQL
 
     db.execute <<-SQL
@@ -96,10 +107,10 @@ class Seeder
     SQL
   end
 
+  # Populates the tables with data
   def self.populate_tables(db)
-
     users = [
-        {name: 'admin', password: 'admin', lang: 'en', type: 'admin'}
+      { name: 'admin', password: 'admin', lang: 'en', type: 'admin' }
     ]
 
     users.each do |d|
