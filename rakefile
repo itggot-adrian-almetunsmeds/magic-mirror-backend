@@ -1,10 +1,12 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require_relative 'modules/db_connector'
+require_relative 'db/seeder'
 RSpec::Core::RakeTask.new(:spec) 
 
 task :default  => :spec
 task :test => :spec
+task :seed => Seeder.seed!
 # Makes the tests possible to run on github actions
 # even though the API keys are not in the db
 if DBConnector.connect.execute('SELECT * FROM ApiKeys').first.nil? || 
