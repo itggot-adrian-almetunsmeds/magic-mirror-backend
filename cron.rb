@@ -25,8 +25,8 @@ unless x.nil?
 
   x.each do |id|
     k = z.execute('SELECT lat, long FROM Location WHERE user_id = ?', id).first
-    if k != nil && k['lat'] != nil && k['long'] != nil
-      puts "Updated weather"
+    if !k.nil? && !k['lat'].nil? && !k['long'].nil?
+      puts 'Updated weather'
       w = Weather.current(k['lat'], k['long'])
       z.execute('DELETE FROM weather WHERE user_id = ?', id)
       w.each do |weather|
@@ -37,7 +37,7 @@ unless x.nil?
                   weather[:thunder], weather[:symbol], weather[:valid_time], weather[:pcat])
       end
     else
-      puts "Did not update weather"
+      puts 'Did not update weather'
     end
   end
 end
