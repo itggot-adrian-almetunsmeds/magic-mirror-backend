@@ -15,7 +15,7 @@ class Weather
     x = WebHandler.request('https://opendata-download-metfcst.smhi.se/api/category/'\
         "pmp3g/version/2/geotype/point/lon/#{long}/lat/#{lat}/data.json")
     forecast = []
-    x['timeSeries'].each do |z|
+    x['timeSeries'].each do |z| # rubocop:disable Metrics/BlockLength
       valid_time = z['validTime']
       temp = { valid_time: valid_time }
       z['parameters'].each do |q|
@@ -57,6 +57,11 @@ class Weather
   def self.get(id)
     z = DBConnector.connect
     z.results_as_hash = true
-    z.execute('SELECT * FROM weather WHERE user_id = ?', id)
+    o = z.execute('SELECT * FROM weather WHERE user_id = ?', id)
+    if o == []
+      'No data'
+    else
+      o
+    end
   end
 end
