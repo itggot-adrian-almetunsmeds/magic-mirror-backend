@@ -48,7 +48,7 @@ class Seeder
 
     db.execute <<-SQL
             CREATE TABLE "location" (
-                "conty"	         TEXT,
+                "county"	         TEXT,
                 "lat"            TEXT NOT NULL,
                 "long"           TEXT NOT NULL,
                 "user_id"        INTEGER NOT NULL
@@ -59,7 +59,7 @@ class Seeder
             CREATE TABLE "PublicTransit" (
                 "Name"             TEXT NOT NULL,
                 "stop_id"          INTEGER NOT NULL,
-                "user_id"          INTEGER NOT NULL
+                "user_id"          INTEGER NOT NULL UNIQE
             );
     SQL
 
@@ -81,9 +81,9 @@ class Seeder
 
     db.execute <<-SQL
             CREATE TABLE "transport" (
-                "user_id"	    INTEGER NOT NULL,
+                "user_id"	      INTEGER NOT NULL,
                 "line"	        TEXT NOT NULL,
-                "rtTime"	    TEXT,
+                "rtTime"	      TEXT,
                 "time"	        TEXT NOT NULL,
                 "direction"	    TEXT NOT NULL,
                 "operator"	    TEXT,
