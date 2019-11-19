@@ -72,18 +72,21 @@
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_§'>§</span> <span class='id identifier rubyid_rerun'>rerun</span> <span class='id identifier rubyid_rackup'>rackup</span>
 </code></pre>
 
+<h2 id="label-Errors">Errors</h2>
+
+<p>Error message: <code>Unable to load the EventMachine C extension; To use the pure-ruby reactor, require &#39;em/pure_ruby&#39;</code> Solution: On Windows do <code>gem uninstall eventmachine</code> and then <code>gem install eventmachine --platform=ruby</code></p>
+
 <h2 id="label-Documentation">Documentation</h2>
 
 <h4 id="label-See+Github-docs">See <a href="https://itggot-adrian-almetunsmeds.github.io/magic-mirror-backend/index.html">Github-docs</a></h4>
 
-<h2 id="label-Updating+documentation">Updating documentation</h2>
+<h1 id="label-Developer-3F">Developer?</h1>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>yard</span><span class='tstring_end'>&#39;</span></span>
-</code></pre>
+<h2 id="label-Updating+documentation+locally">Updating documentation locally</h2>
 
-<p>Command to run in the terminal in order to update the documentation. <code> § yard doc * </code></p>
+<p>NOTE The documentation is automatically updated when commiting to the master <code> require &#39;yard&#39; </code> Command to run in the terminal in order to update the documentation. <code> § yard doc * </code></p>
 
-<h3 id="label-Running+tests">Running tests</h3>
+<h2 id="label-Running+tests">Running tests</h2>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rspec</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
@@ -92,7 +95,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Mon Nov 18 19:01:53 2019 by
+  Generated on Tue Nov 19 09:16:07 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.3).
 </div>
