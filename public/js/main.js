@@ -7,9 +7,9 @@ function translations(lang){
     return xmlHttp.responseText;
 }
 
-const transl = JSON.parse(translations('sv'));
+const translation = JSON.parse(translations('en'));
 
-function timeComponent(transl){
+function timeComponent(){
     let wrapper = document.getElementById("main-wrapper");
     let timeComponent = document.createElement("div");
     timeComponent.classList.add("time-component");
@@ -35,7 +35,8 @@ function timeComponent(transl){
                     seconds = ("0"+ seconds);
                 }
         clock.innerHTML = (hours + ":" + minutes + ":" + seconds);
-        transl = transl['time']
+
+        transl = translation['time']
         let days_hash = {1: "mon", 2: "tue", 3: "wen", 4: "thu", 5: "fri", 6: "sat", 7: "sun"};
         let months_hash = {1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "june", 7: "july", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"};
         let day = transl[days_hash[time.getDay()]];
@@ -47,4 +48,4 @@ function timeComponent(transl){
     }, 500)
 }
 
-timeComponent(transl)
+timeComponent()
