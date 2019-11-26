@@ -35,10 +35,17 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS current_sessions;')
     db.execute('DROP TABLE IF EXISTS transport;')
     db.execute('DROP TABLE IF EXISTS weather;')
+    db.execute('DROP TABLE IF EXISTS tokens;')
   end
 
   # Creates all tables for the db
   def self.create_tables(db) # rubocop:disable Metrics/MethodLength
+    db.execute <<-SQL
+            CREATE TABLE "tokens" (
+                "user_id"  INTEGER NOT NULL,
+                "token" TEXT NOT NULL
+            );
+    SQL
     db.execute <<-SQL
             CREATE TABLE "ApiKeys" (
                 "reseplanerare"  TEXT,
