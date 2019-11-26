@@ -3,7 +3,7 @@
 require 'securerandom'
 # require 'faye/websocket'
 # Webserver handeling all routes
-class Server < Sinatra::Base
+class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   Dir['modules/**/*.rb'].each do |file|
     require_relative file
   end
@@ -22,17 +22,22 @@ class Server < Sinatra::Base
     @clients = [] # Websocket clients
   end
 
+  # Generates a token to be used as identifier when connecting from gosu
   get '/token/:user_id' do
     token = SecureRandom.hex(10)
-    DBConnector.connect.execute('INSERT INTO tokens (user_id, token) VALUES (?, ?)', params[:user_id], token)
+    DBConnector.connect.execute('INSERT INTO tokens (user_id, token) VALUES (?, ?)',
+                                params[:user_id], token)
     token
   end
 
+  # rubocop:disable Metrics/BlockLength
+
+  # Handles gosu based connection
   get '/socket' do
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
       ws.on(:open) do |_event|
-        puts "WS connection opened by user #{session[:user_id]}"
+        puts 'WS connection opened'
       end
 
       ws.on(:message) do |msg|
@@ -56,43 +61,28 @@ class Server < Sinatra::Base
       end
 
       ws.on(:close) do |_event|
-        p @clients[0].last
-        # TODO [#26]: When closing the connection the server crashes
-        #
-        # When disconnecting the user_id has to be retrived from the @client list
-        # and then with use it to remove the client and remove the client from the list of active sessions.
-        # Reletade to #22
+        pos = ''
         if @clients[0].is_a? Array
-          @clients.each do |client|
-            p 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-            p client
-            p 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-            data = client if client.include? ws
-          end
-        else
-          data = @clients if client[0] == ws
-        end
-        p "THIS IS DATA#{data}"
-        @clients.delete(data)
-        DBConnector.connect.execute('DELETE FROM current_sessions WHERE user_id = ?', data[-1])
-        puts 'WS connection closed'
-        Websocket.remove(ws, data[-1])
-      end
+          @clients.each_with_index do |client, index|
+            next unless client.include? ws
 
+            pos = index
+            DBConnector.connect.execute('DELETE FROM current_sessions WHERE user_id = ?',
+                                        @clients[index].last)
+            Websocket.remove(ws, @clients[index].last)
+            @clients.delete_at(pos)
+          end
+        end
+        puts 'WS connection closed'
+      end
       ws.rack_response
     else
       slim :index
     end
   end
+
+  # Handles browser based connection
   get '/' do
-    # TODO [#22]: Verify user session if connecting from gosu front end
-    #
-    # Currently the cookie is not present and there by redirects the user before establishing ws
-    p 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-    p "Session ID: #{session.id}"
-    p "Cookie:     #{request.cookies}"
-    p "User ID:    #{session[:user_id]}"
-    p 'XXXXXXXXXXXXXXXXXXXXXXXXXXXX'
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
@@ -128,6 +118,7 @@ class Server < Sinatra::Base
       slim :index
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   before '/admin*' do |s|
     unless s == '/login'
@@ -254,7 +245,8 @@ class Server < Sinatra::Base
   get '/api/weather/:user_id' do
     if params[:user_id] &&
        !DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?', params[:user_id]).nil? &&
-       DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?', params[:user_id]) != [[nil]]
+       DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?',
+                                   params[:user_id]) != [[nil]]
       db = DBConnector.connect
       db.results_as_hash = true
       x = db.execute('SELECT lat, long FROM Location WHERE user_id = ?', params[:user_id]).first
