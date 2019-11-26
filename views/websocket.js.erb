@@ -13,8 +13,16 @@ function useWebSocket(ws) {
            count = 0
            console.log('Connected to ws')
         }
+        // When recieves message, checks message type and sends data to rendering function in main.js
         ws.onmessage = function (message) {
             console.log(JSON.parse(message.data))
+            if (message["channel"] == "weather"){
+                message = message['message']
+                weather_data = message[0]
+                weatherComponent(weather_data)
+            }
+
+
         }
         ws.onclose = function () {
             console.log('Disconnected from ws')
