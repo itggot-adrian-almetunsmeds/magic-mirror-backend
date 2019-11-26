@@ -8,9 +8,10 @@ function translations(lang){
 }
 
 const translation = JSON.parse(translations('en'));
+const wrapper = document.getElementById("main-wrapper");
 
+// Creates a time component with time and date and puts it in the slim document
 function timeComponent(){
-    let wrapper = document.getElementById("main-wrapper");
     let timeComponent = document.createElement("div");
     timeComponent.classList.add("time-component");
     let clock = document.createElement("div");
@@ -20,6 +21,8 @@ function timeComponent(){
     timeComponent.appendChild(clock);
     timeComponent.appendChild(date);
     wrapper.appendChild(timeComponent);
+    let days_hash = {1: "mon", 2: "tue", 3: "wen", 4: "thu", 5: "fri", 6: "sat", 7: "sun"};
+    let months_hash = {1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "june", 7: "july", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"};
     let update = setInterval(function(){
         let time = new Date();
         let hours = time.getHours();
@@ -36,16 +39,28 @@ function timeComponent(){
                 }
         clock.innerHTML = (hours + ":" + minutes + ":" + seconds);
 
-        transl = translation['time']
-        let days_hash = {1: "mon", 2: "tue", 3: "wen", 4: "thu", 5: "fri", 6: "sat", 7: "sun"};
-        let months_hash = {1: "jan", 2: "feb", 3: "mar", 4: "apr", 5: "may", 6: "june", 7: "july", 8: "aug", 9: "sep", 10: "oct", 11: "nov", 12: "dec"};
+        transl = translation['time'];
         let day = transl[days_hash[time.getDay()]];
         let day_of_month = time.getDate(); 
-        let month = transl[months_hash[time.getMonth() + 1]]
+        let month = transl[months_hash[time.getMonth() + 1]];
         let year = time.getFullYear();
 
         date.innerHTML = (day + " " + day_of_month + " " + month + " " + year);
     }, 500)
+}
+
+function weatherComponent(data){
+    let weatherComponent = document.createElement('div');
+    weatherComponent.classList.add('weather-component');
+    let currentWeather = document.createElement('div');
+    currentWeather.classList.add('current-weather');
+    let upcomingWeather = document.createElement('div');
+    upcomingWeather.classList.add('upcoming-weather');
+    wrapper.appendChild(weatherComponent);
+    weatherComponent.appendChild(currentWeather);
+    weatherComponent.appendChild(upcomingWeather);
+    currentWeatherData = data[0]
+    
 }
 
 timeComponent()
