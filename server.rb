@@ -57,7 +57,7 @@ class Server < Sinatra::Base
 
       ws.on(:close) do |_event|
         p @clients[0].last
-        # TODO: When closing the connection the server crashes
+        # TODO [$5ddd1c8fad677300085d468a]: When closing the connection the server crashes
         #
         # When disconnecting the user_id has to be retrived from the @client list
         # and then with use it to remove the client and remove the client from the list of active sessions.
