@@ -40,6 +40,8 @@
         "stop_id": "",
         "user_id": "",
         "search_stop_id": "",
-        "search": ""
+        "search": "",
+        "calendar_configuration": "",
+        "already_authorized": ""
     }
 }

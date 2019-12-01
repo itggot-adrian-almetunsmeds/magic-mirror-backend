@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'db_connector.rb'
 # Google related
 require 'google/apis/calendar_v3'
 require 'googleauth'
@@ -38,19 +39,26 @@ class Calendar
     if @credentials.nil?
       @url = @authorizer.get_authorization_url(base_url: OOB_URI)
     else
-      authorize_2
+      authorize_2(nil)
     end
   end
 
   # Retrives and completes authentication.
-  def authorize_2(code)
-    @credentials = @authorizer.get_and_store_credentials_from_code(
-      user_id: @user_id, code: code, base_url: OOB_URI
-    )
-    @credentials
+  def authorize_2(code) # rubocop:disable Metrics/MethodLength
+    if !code.nil?
+      begin
+        @credentials = @authorizer.get_and_store_credentials_from_code(
+          user_id: @user_id, code: code, base_url: OOB_URI
+        )
+      rescue StandardError
+        raise 'Authorization failed.'
+      end
+    else
+      @credentials
+    end
   end
 
-  # Initializes google calendar api
+  # Initializes Google calendar api
   def initialize
     @credentials = nil
     @url = nil
@@ -60,28 +68,26 @@ class Calendar
     @service.authorization = authorize
   end
 
-  # Retrives the next events
+  # Fetches the next events
   def next(amount = 10, cal_id = 'primary')
     amount = 1 if amount.zero?
-    # Fetch the next 10 events for the user
     calendar_id = cal_id
     response = @service.list_events(calendar_id,
                                     max_results: amount,
                                     single_events: true,
                                     order_by: 'startTime',
                                     time_min: DateTime.now.rfc3339)
-    puts 'Upcoming events:'
-    puts 'No upcoming events found' if response.items.empty?
-    response.items.each do |event|
-      start = event.start.date || event.start.date_time
-      puts "- #{event.summary} (#{start})"
-    end
+    return 'No upcoming events found' if response.items.empty?
+
+    response.items
+  end
+
+  def unauthenticate
+    File.delete(TOKEN_PATH) if File.exist?(TOKEN_PATH)
+  end
+
+  def self.fetch
+    x = new
+    x.next
   end
 end
-
-x = Calendar.new
-unless x.url.nil?
-  p x.url
-  x.authorize_2(gets)
-end
-x.next 0, 'primary'

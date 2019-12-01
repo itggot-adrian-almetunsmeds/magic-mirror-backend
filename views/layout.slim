@@ -4,4 +4,7 @@ html
     head
         title Magic Mirror
     body
+        - if @error
+            div.error
+                h4 #{@error}
         == yield

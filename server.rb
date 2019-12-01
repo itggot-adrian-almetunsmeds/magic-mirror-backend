@@ -14,6 +14,8 @@ class Server < Sinatra::Base
 
   before do
     SassCompiler.compile
+    @error = session[:error]
+    session[:error] = nil
   end
 
   # DEFAULT PAGE
@@ -78,6 +80,19 @@ class Server < Sinatra::Base
   # ADMIN PAGES
 
   get '/admin' do
+    Calendar.fetch
+    if session[:authorized]
+      @calendar_authorized = true
+      session[:authorized] = false
+    else
+      @calendar_authorized = false
+    end
+    @url = session[:url]
+    unless @url.nil?
+      @url = @url.gsub('&amp;', '')
+      @url = @url.gsub(';', '&')
+    end
+    session[:url] = nil
     if !session[:stops].nil?
       @transit = PublicTransport.stopID(session[:stops])
       session[:stops] = nil
@@ -133,6 +148,31 @@ class Server < Sinatra::Base
 
   post '/admin/user/remove' do
     User.remove('id', params[:user_id])
+    redirect '/admin'
+  end
+
+  calendar = nil
+
+  before '/admin/calendar/url' do
+    calendar = Calendar.new
+  end
+
+  post '/admin/calendar/url' do
+    if calendar.url.nil?
+      session[:authorized] = true
+    else
+      session[:authorized] = false
+      session[:url] = calendar.url
+    end
+    redirect '/admin'
+  end
+
+  post '/admin/calendar/authorize' do
+    begin
+      calendar.authorize_2(params['code'])
+    rescue StandardError => e
+      session[:error] = e.message
+    end
     redirect '/admin'
   end
 
