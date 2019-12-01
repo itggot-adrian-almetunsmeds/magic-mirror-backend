@@ -33,6 +33,7 @@ class Websocket
     unless x.nil?
       Websocket.send_message(websocket, 'weather', Weather.get(user_id))
       Websocket.send_message(websocket, 'traffic', PublicTransport.get(user_id))
+      Websocket.send_message(websocket, 'calendar', Calendar.fetch(user_id))
     end
     Async.quue(5, Websocket, 'update_data', websocket, user_id)
   end

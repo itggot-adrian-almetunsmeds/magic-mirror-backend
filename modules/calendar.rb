@@ -88,6 +88,10 @@ class Calendar
 
   def self.fetch
     x = new
-    x.next
+    # TODO: Add user configuration for retriving specific calendar
+    #
+    # In the users db add a calendar and amout configuration
+    # Then retrive them and pass them to next
+    x.next(10)
   end
 end

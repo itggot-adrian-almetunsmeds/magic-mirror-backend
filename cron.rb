@@ -3,6 +3,8 @@
 require_relative 'modules/db_connector'
 require_relative 'modules/public_transport'
 require_relative 'modules/weather'
+require_relative 'modules/calendar'
+
 x = DBConnector.connect.execute('SELECT * FROM current_sessions').first
 z = DBConnector.connect
 z.results_as_hash = true
@@ -22,6 +24,8 @@ unless x.nil?
   end
 
   # EVERY 20 MINUTES
+
+  # TODO: Add calendar caching
 
   x.each do |id|
     k = z.execute('SELECT lat, long FROM Location WHERE user_id = ?', id).first
