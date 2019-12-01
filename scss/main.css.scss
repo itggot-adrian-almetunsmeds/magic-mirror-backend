@@ -12,11 +12,41 @@ body {
   background-color: $primary-color;
   width: 100%;
   height: 100%;
-  padding: 5px;
+  // padding: 5px;
   height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+  "weather time"
+  "weather calendar"
+  "weather calendar"
+  "empty1 publictransit"
+  "empty1 publictransit"
+  "empty1 publictransit"
+  "empty empty"
+  "empty empty"
+  "empty empty"
+  "empty empty"
+  ;
+  
 }
+
+.time-component{
+  padding: 10px 20px 10px 10px;
+  grid-area: time;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.clock{
+  font-size: 2rem;
+}
+
 #admin-wrapper{
-  background-color: $secondary-color;
+  background-color: lightgrey;
+  color: black;
   min-height: 100vh;
   padding: 5px;
   h1 {

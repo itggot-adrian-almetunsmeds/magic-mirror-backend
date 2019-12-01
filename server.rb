@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+require 'securerandom'
 # require 'faye/websocket'
-# rubocop:disable Metrics/ClassLength
 # Webserver handeling all routes
-class Server < Sinatra::Base
+class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   Dir['modules/**/*.rb'].each do |file|
     require_relative file
   end
@@ -24,12 +24,67 @@ class Server < Sinatra::Base
     @clients = [] # Websocket clients
   end
 
-  # rubocop:disable Metrics/BlockLength
-  get '/' do
-    # TODO [#22]: Verify user session if connecting from gosu front end
-    #
-    # Currently the cookie is not present and there by redirects the user before establishing ws
+  # Generates a token to be used as identifier when connecting from gosu
+  get '/token/:user_id' do
+    token = SecureRandom.hex(10)
+    DBConnector.connect.execute('INSERT INTO tokens (user_id, token) VALUES (?, ?)',
+                                params[:user_id], token)
+    token
+  end
 
+  # rubocop:disable Metrics/BlockLength
+
+  # Handles gosu based connection
+  get '/socket' do
+    if Faye::WebSocket.websocket?(request.env)
+      ws = Faye::WebSocket.new(request.env)
+      ws.on(:open) do |_event|
+        puts 'WS connection opened'
+      end
+
+      ws.on(:message) do |msg|
+        db_data = DBConnector.connect.execute('SELECT * FROM tokens WHERE token = ?', msg.data).first
+        if db_data[1].include? msg.data
+          @clients << [ws, db_data[0]]
+          if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                         db_data[0]) == [[nil]] ||
+             DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                         db_data[0]) == []
+            DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)',
+                                        db_data[0])
+          end
+          Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
+          Websocket.send_message(ws, 'weather', [Weather.get(db_data[0])])
+          Websocket.store(ws, db_data[0])
+          Websocket.send_message(ws, 'test', 'message received')
+        else
+          ws.close
+        end
+      end
+
+      ws.on(:close) do |_event|
+        pos = ''
+        if @clients[0].is_a? Array
+          @clients.each_with_index do |client, index|
+            next unless client.include? ws
+
+            pos = index
+            DBConnector.connect.execute('DELETE FROM current_sessions WHERE user_id = ?',
+                                        @clients[index].last)
+            Websocket.remove(ws, @clients[index].last)
+            @clients.delete_at(pos)
+          end
+        end
+        puts 'WS connection closed'
+      end
+      ws.rack_response
+    else
+      slim :index
+    end
+  end
+
+  # Handles browser based connection
+  get '/' do
     redirect '/login' unless session[:user_id]
     if Faye::WebSocket.websocket?(request.env)
       ws = Faye::WebSocket.new(request.env)
@@ -208,6 +263,7 @@ class Server < Sinatra::Base
   end
 
   post '/login' do
+    p "Session ID Login: #{session.id}"
     @user = User.login(params[:name], params[:password])
     if @user.is_a? Integer
       session[:user_id] = @user
@@ -229,7 +285,8 @@ class Server < Sinatra::Base
   get '/api/weather/:user_id' do
     if params[:user_id] &&
        !DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?', params[:user_id]).nil? &&
-       DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?', params[:user_id]) != [[nil]] # rubocop:disable Metrics/LineLength
+       DBConnector.connect.execute('SELECT * FROM Location WHERE user_id = ?',
+                                   params[:user_id]) != [[nil]]
       db = DBConnector.connect
       db.results_as_hash = true
       x = db.execute('SELECT lat, long FROM Location WHERE user_id = ?', params[:user_id]).first
@@ -249,4 +306,3 @@ class Server < Sinatra::Base
     slim :error
   end
 end
-# rubocop:enable Metrics/ClassLength
