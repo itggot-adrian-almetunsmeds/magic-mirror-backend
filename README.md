@@ -1,9 +1,20 @@
 # Magic-mirror-backend
 <img src="https://github.com/itggot-adrian-almetunsmeds/magic-mirror-backend/workflows/Ruby/badge.svg" alt="Build status">
+<img src="https://github.com/itggot-adrian-almetunsmeds/magic-mirror-backend/workflows/Docs/badge.svg" alt="Docs status">
 <br>
 The backend source code for a magic mirror
 <br>
 <br>
+
+## Setup
+
+### Google Calendar
+
+1. Navigate to [developers.google.com](https://console.developers.google.com/)
+2. Create a project
+3. Under the credentials tab click Create credentials and select OAuth Client ID
+4. Under application type select Other and if required fill in information
+5. Press the download button and save the file as ``` credentials.json ``` in the root directory
 
 ## Running
 
