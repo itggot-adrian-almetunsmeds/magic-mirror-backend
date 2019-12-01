@@ -40,6 +40,8 @@
         "stop_id": "Stop ID",
         "user_id": "User ID",
         "search_stop_id": "Search stop",
-        "search": "Search"
+        "search": "Search",
+        "calendar_configuration": "Calendar Configuration",
+        "already_authorized": "Already authorized"
     }
 }

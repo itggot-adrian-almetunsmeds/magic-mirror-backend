@@ -91,6 +91,31 @@ script src="/js/admin.js"
                 input type="number" name="stop_id" value="0"/
                 input type="number" name="user_id" value="0"/
                 input type="submit" value="#{JSON.parse(Translation.get_component(lang, 'configuration'))['add']}"/
+        
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component(lang, 'configuration'))['calendar_configuration']}
+            - if !@calendar_authorized
+                - if @url
+                    script
+                        | let encodedStr = '#{@url}';
+                        |
+                        | var parser = new DOMParser;
+                        | var dom = parser.parseFromString
+                        |  (encodedStr, 'text/html');
+                        | console.log(dom);
+                        | window.open(dom.body.textContent, '_', 'location=yes');
+                - else
+                    form action="/admin/calendar/url" method="post"
+                        button type="submit" Authenticate
+                    p When pressing authenticate a new page will open where you will retrive a code that has to be inserted below
+
+                form action="/admin/calendar/authorize" method="post"
+                    input type="text" placeholder="API-KEY" name="code"/
+                    button type="submit" Insert
+            - else
+                p #{JSON.parse(Translation.get_component(lang, 'configuration'))['already_authorized']}
+
+
     - else
         h1 #{JSON.parse(Translation.get_component("en", 'configuration'))['admin_configuration']}
 
@@ -180,3 +205,26 @@ script src="/js/admin.js"
                 input type="number" name="stop_id" value="0"/
                 input type="number" name="user_id" value="0"/
                 input type="submit" value="#{JSON.parse(Translation.get_component("en", 'configuration'))['add']}"/
+
+        div#configuration-div
+            h4 #{JSON.parse(Translation.get_component("en", 'configuration'))['calendar_configuration']}
+            - if !@calendar_authorized
+                - if @url
+                    script
+                        | let encodedStr = '#{@url}';
+                        |
+                        | var parser = new DOMParser;
+                        | var dom = parser.parseFromString
+                        |  (encodedStr, 'text/html');
+                        | console.log(dom);
+                        | window.open(dom.body.textContent, '_', 'location=yes');
+                - else
+                    form action="/admin/calendar/url" method="post"
+                        button type="submit" Authenticate
+                    p When pressing authenticate a new page will open where you will retrive a code that has to be inserted below
+
+                form action="/admin/calendar/authorize" method="post"
+                    input type="text" placeholder="API-KEY" name="code"/
+                    button type="submit" Insert
+            - else
+                p #{JSON.parse(Translation.get_component("en", 'configuration'))['already_authorized']}
