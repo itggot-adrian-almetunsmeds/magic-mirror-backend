@@ -88,7 +88,7 @@ class Calendar
 
   def self.fetch
     x = new
-    # TODO [$5de3e0584138b20007e4bd6a]: Add user configuration for retriving specific calendar
+    # TODO [#28]: Add user configuration for retriving specific calendar
     #
     # In the users db add a calendar and amout configuration
     # Then retrive them and pass them to next
