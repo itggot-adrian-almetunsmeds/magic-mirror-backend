@@ -55,6 +55,8 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
           end
           Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
           Websocket.send_message(ws, 'weather', [Weather.get(db_data[0])])
+          z = Calendar.new
+          Websocket.send_message(websocket, 'calendar', z.next)
           Websocket.store(ws, db_data[0])
           Websocket.send_message(ws, 'test', 'message received')
         else
@@ -135,7 +137,6 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   # ADMIN PAGES
 
   get '/admin' do
-    Calendar.fetch
     if session[:authorized]
       @calendar_authorized = true
       session[:authorized] = false
