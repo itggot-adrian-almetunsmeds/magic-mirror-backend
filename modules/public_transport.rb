@@ -78,7 +78,7 @@ class PublicTransport
     z = z.execute('SELECT Name FROM PublicTransit WHERE user_id = ?', id).first
     q = current(id)
     if q == []
-      ['No data']
+      'No data'
     else
       [z['Name'], q]
     end
