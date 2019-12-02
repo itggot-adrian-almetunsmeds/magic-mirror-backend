@@ -36,6 +36,7 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS transport;')
     db.execute('DROP TABLE IF EXISTS weather;')
     db.execute('DROP TABLE IF EXISTS tokens;')
+    db.execute('DROP TABLE IF EXISTS calendar;')
   end
 
   # Creates all tables for the db
@@ -76,13 +77,24 @@ class Seeder
                 "name"              TEXT NOT NULL,
                 "password"          TEXT NOT NULL,
                 "lang"              TEXT,
-                "type"              Text
+                "type"              Text,
+                "calendar"          TEXT
             );
     SQL
 
     db.execute <<-SQL
             CREATE TABLE "current_sessions" (
                 "user_id"               INTEGER
+                );
+    SQL
+
+    db.execute <<-SQL
+            CREATE TABLE "calendar" (
+                "user_id"               INTEGER,
+                "summary"               TEXT NOT NULL,
+                "start_time"            TEXT NOT NULL,
+                "end_time"              TEXT NOT NULL,
+                "status"                TEXT NOT NULL
                 );
     SQL
 

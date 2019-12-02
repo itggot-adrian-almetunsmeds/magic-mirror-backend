@@ -53,9 +53,10 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
             DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)',
                                         db_data[0])
           end
+          Websocket.connection_made
           Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
-          Websocket.send_message(ws, 'weather', [Weather.get(db_data[0])])
-          Websocket.send_message(websocket, 'calendar', Calendar.fetch(db_data[0]))
+          Websocket.send_message(ws, 'weather', Weather.get(db_data[0]))
+          Websocket.send_message(websocket, 'calendar', Calendar.retrive(db_data[0]))
           Websocket.store(ws, db_data[0])
           Websocket.send_message(ws, 'test', 'message received')
         else
@@ -99,8 +100,10 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
                                       session[:user_id])
         end
         puts "WS connection opened by user #{session[:user_id]}"
+        Websocket.connection_made
         Websocket.send_message(ws, 'traffic', PublicTransport.get(session[:user_id]))
-        Websocket.send_message(ws, 'weather', [Weather.get(session[:user_id])])
+        Websocket.send_message(ws, 'weather', Weather.get(session[:user_id]))
+        Websocket.send_message(ws, 'calendar', Calendar.retrive(session[:user_id]))
         Websocket.store(ws, session[:user_id])
       end
 
@@ -197,7 +200,7 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   end
 
   post '/admin/user/new' do
-    User.new(params[:name], params[:password], params[:lang], params[:admin])
+    User.new(params[:name], params[:password], params[:lang], params[:admin], params[:calendar])
     redirect '/admin'
   end
 
@@ -213,7 +216,9 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   end
 
   post '/admin/calendar/url' do
-    if calendar.url.nil?
+    if calendar.error
+      session[:error] = calendar.error
+    elsif calendar.url.nil?
       session[:authorized] = true
     else
       session[:authorized] = false

@@ -25,9 +25,9 @@ unless x.nil?
 
   # EVERY 20 MINUTES
 
-  # TODO [#27]: Add calendar caching
 
   x.each do |id|
+    Calendar.fetch(id)
     k = z.execute('SELECT lat, long FROM Location WHERE user_id = ?', id).first
     if !k.nil? && !k['lat'].nil? && !k['long'].nil?
       puts 'Updated weather'

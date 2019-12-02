@@ -10,7 +10,7 @@ require 'fileutils'
 
 # Handles calendar methods
 class Calendar
-  attr_reader :url
+  attr_reader :url, :error
 
   # Setup of Google API
   # Credentials.json must excist containing the credentials of the user as
@@ -31,7 +31,12 @@ class Calendar
   #
   # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
   def authorize
-    client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
+    begin
+      client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
+    rescue
+      @error = "Missing file named #{CREDENTIALS_PATH} or the file content might be wrong"
+      return 'Error'
+    end
     token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
     @authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
     @user_id = 'default'
@@ -44,7 +49,7 @@ class Calendar
   end
 
   # Retrives and completes authentication.
-  def authorize_2(code) # rubocop:disable Metrics/MethodLength
+  def authorize_2(code)
     if !code.nil?
       begin
         @credentials = @authorizer.get_and_store_credentials_from_code(
@@ -68,7 +73,7 @@ class Calendar
     @service.authorization = authorize
   end
 
-  # Fetches the next events
+  # Fetches the comming events from gooogle calendar
   def next(amount = 10, cal_id = 'primary')
     amount = 1 if amount.zero?
     calendar_id = cal_id
@@ -79,19 +84,65 @@ class Calendar
                                     time_min: DateTime.now.rfc3339)
     return 'No upcoming events found' if response.items.empty?
 
+    response.items.each_with_index do |event, index|
+      # TODO: Use a method that does not assume UTC +1
+      if !event.start.date.nil?
+        w = event.start.date + 'T00:00:00+01:00'
+        response.items[index].start.date_time = DateTime.parse(w).strftime('%FT%R')
+      else
+        response.items[index].start.date_time = event.start.date_time.strftime('%FT%R')
+      end
+      if !event.end.date.nil?
+        w = event.end.date + 'T00:00:00+01:00'
+        response.items[index].end.date_time = DateTime.parse(w).strftime('%FT%R')
+      else
+        response.items[index].end.date_time = event.end.date_time.strftime('%FT%R')
+      end
+    end
     response.items
   end
 
+  # Deauthenticates a user by removing the token file
   def unauthenticate
     File.delete(TOKEN_PATH) if File.exist?(TOKEN_PATH)
   end
 
-  def self.fetch
-    x = new
-    # TODO [#28]: Add user configuration for retriving specific calendar
-    #
-    # In the users db add a calendar and amout configuration
-    # Then retrive them and pass them to next
-    x.next(10)
+  # Caches calendar data in db
+  def self.fetch(user_id = nil)
+    if user_id.nil?
+      calendars = DBConnector.connect.execute('SELECT id, calendar FROM Users')
+    else
+      calendars = DBConnector.connect.execute('SELECT id, calendar FROM Users WHERE id = ?', user_id)
+    end
+    if calendars != [[]] && calendars != [[nil]] && calendars != []
+      calendars.each do |user|
+        cal_id = user[1]
+        user_id = user[0]
+        x = new
+        events = if cal_id.nil?
+          x.next(10)
+        else
+          x.next(10, cal_id)
+        end
+        DBConnector.connect.execute('DELETE FROM calendar WHERE user_id = ?', user_id)
+        events.each do |event|
+          DBConnector.connect.execute('INSERT INTO calendar (user_id, summary, start_time, ' \
+            'end_time, status) VALUES (?,?,?,?,?)', user_id, event.summary, event.start.date_time,
+                                      event.end.date_time, event.status)
+        end
+      end
+    end
+  end
+
+  # Retrives calendar data from db cache
+  def self.retrive(user_id)
+    x = DBConnector.connect
+    x.results_as_hash = true
+    data = x.execute('SELECT * FROM calendar WHERE user_id = ?', user_id)
+    if data.length == 0
+      "No data"
+    else
+      data
+    end
   end
 end
