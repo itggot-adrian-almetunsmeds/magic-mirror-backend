@@ -2,3 +2,5 @@ Gemfile.lock
 .yardoc
 db/configuration.db
 .env
+credentials.json
+token.yaml

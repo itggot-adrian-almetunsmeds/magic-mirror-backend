@@ -41,8 +41,7 @@ class PublicTransport
 
   # Gets the up and comming departues from TrafikLabs
   #
-  # rubocop:disable Metrics/MethodLength
-  def self.departures(stop_id) # rubocop:disable Metrics/AbcSize
+  def self.departures(stop_id)
     @config = DBConnector.connect
     @config.results_as_hash = true
     @config = @config.execute('SELECT * FROM ApiKeys').first
@@ -62,7 +61,6 @@ class PublicTransport
       ['No data available']
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   # Gets the current departures for a given user
   #

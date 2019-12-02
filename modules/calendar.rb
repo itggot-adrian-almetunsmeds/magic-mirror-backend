@@ -33,7 +33,7 @@ class Calendar
   def authorize
     begin
       client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
-    rescue
+    rescue StandardError
       @error = "Missing file named #{CREDENTIALS_PATH} or the file content might be wrong"
       return 'Error'
     end
@@ -109,21 +109,21 @@ class Calendar
 
   # Caches calendar data in db
   def self.fetch(user_id = nil)
-    if user_id.nil?
-      calendars = DBConnector.connect.execute('SELECT id, calendar FROM Users')
-    else
-      calendars = DBConnector.connect.execute('SELECT id, calendar FROM Users WHERE id = ?', user_id)
-    end
-    if calendars != [[]] && calendars != [[nil]] && calendars != []
+    calendars = if user_id.nil?
+                  DBConnector.connect.execute('SELECT id, calendar FROM Users')
+                else
+                  DBConnector.connect.execute('SELECT id, calendar FROM Users WHERE id = ?', user_id)
+                end
+    unless calendars == [[]] || calendars == [[nil]] || calendars == []
       calendars.each do |user|
         cal_id = user[1]
         user_id = user[0]
         x = new
         events = if cal_id.nil?
-          x.next(10)
-        else
-          x.next(10, cal_id)
-        end
+                   x.next(10)
+                 else
+                   x.next(10, cal_id)
+                 end
         DBConnector.connect.execute('DELETE FROM calendar WHERE user_id = ?', user_id)
         events.each do |event|
           DBConnector.connect.execute('INSERT INTO calendar (user_id, summary, start_time, ' \
@@ -139,8 +139,8 @@ class Calendar
     x = DBConnector.connect
     x.results_as_hash = true
     data = x.execute('SELECT * FROM calendar WHERE user_id = ?', user_id)
-    if data.length == 0
-      "No data"
+    if data.empty?
+      'No data'
     else
       data
     end

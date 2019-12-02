@@ -24,8 +24,7 @@ class WebHandler
   #
   # Returns a url-encoded string
   #
-  # rubocop:disable Metrics/MethodLength
-  def self.encode(link) # rubocop:disable Metrics/AbcSize
+  def self.encode(link)
     link = link.downcase
     i = 0
     while i < link.length
@@ -39,12 +38,11 @@ class WebHandler
       i += 1
     end
 
-    # TODO [#20]: Make this process neater.
+    # TODO: [#20]: Make this process neater.
     # The entire method is questionable in how it operates
     link.gsub('\u00E4', '%C3%A4')
     link.gsub('å', '%C3%A5')
     link.gsub('ä', '%C3%A4')
     link.gsub('ö', '%C3%B6')
   end
-  # rubocop:enable Metrics/MethodLength
 end

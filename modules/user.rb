@@ -39,10 +39,11 @@ class User
 
   # Adds a new user to the db
   def self.new(name, pass, lang, admin, calendar)
-    if calendar == nil
+    if calendar.nil?
       DBConnector.insert('users', %w[name password lang type], [name, pass, lang, admin])
     else
-      DBConnector.insert('users', %w[name password lang type calendar], [name, pass, lang, admin, calendar])
+      DBConnector.insert('users', %w[name password lang type calendar],
+                         [name, pass, lang, admin, calendar])
     end
   end
 end
