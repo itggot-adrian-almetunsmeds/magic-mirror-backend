@@ -85,7 +85,7 @@ class Calendar
     return 'No upcoming events found' if response.items.empty?
 
     response.items.each_with_index do |event, index|
-      # TODO: Use a method that does not assume UTC +1
+      # TODO [$5de570a07a85e3000b897fd6]: Use a method that does not assume UTC +1
       if !event.start.date.nil?
         w = event.start.date + 'T00:00:00+01:00'
         response.items[index].start.date_time = DateTime.parse(w).strftime('%FT%R')
