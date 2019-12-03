@@ -15,11 +15,14 @@ function useWebSocket(ws) {
         }
         // When recieves message, checks message type and sends data to rendering function in main.js
         ws.onmessage = function (message) {
-            console.log(JSON.parse(message.data))
+            console.log(JSON.parse(message.data));
+            message = JSON.parse(message.data);
+            console.log(message["channel"]);
             if (message["channel"] == "weather"){
-                message = message['message']
-                weather_data = message[0]
-                weatherComponent(weather_data)
+                console.log("message recieved");
+                message = message['message'];
+                weather_data = message[0];
+                weatherComponent(weather_data);
             }
 
 
