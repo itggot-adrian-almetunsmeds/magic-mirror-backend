@@ -56,7 +56,7 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
           Websocket.connection_made
           Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
           Websocket.send_message(ws, 'weather', Weather.get(db_data[0]))
-          Websocket.send_message(websocket, 'calendar', Calendar.retrive(db_data[0]))
+          Websocket.send_message(ws, 'calendar', Calendar.retrive(db_data[0]))
           Websocket.store(ws, db_data[0])
           Websocket.send_message(ws, 'test', 'message received')
         else
