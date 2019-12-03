@@ -323,7 +323,6 @@
       <pre class="lines">
 
 
-42
 43
 44
 45
@@ -396,10 +395,22 @@
 112
 113
 114
-115</pre>
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'db/seeder.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'db/seeder.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_tables'>create_tables</span><span class='lparen'>(</span><span class='id identifier rubyid_db'>db</span><span class='rparen'>)</span> <span class='comment'># rubocop:disable Metrics/MethodLength
 </span>  <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span> <span class='heredoc_beg'>&lt;&lt;-SQL</span>
@@ -438,13 +449,24 @@
               &quot;name&quot;              TEXT NOT NULL,
               &quot;password&quot;          TEXT NOT NULL,
               &quot;lang&quot;              TEXT,
-              &quot;type&quot;              Text
+              &quot;type&quot;              Text,
+              &quot;calendar&quot;          TEXT
           );
 </span><span class='heredoc_end'>  SQL
 </span>
   <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span> <span class='heredoc_beg'>&lt;&lt;-SQL</span>
 <span class='tstring_content'>          CREATE TABLE &quot;current_sessions&quot; (
               &quot;user_id&quot;               INTEGER
+              );
+</span><span class='heredoc_end'>  SQL
+</span>
+  <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span> <span class='heredoc_beg'>&lt;&lt;-SQL</span>
+<span class='tstring_content'>          CREATE TABLE &quot;calendar&quot; (
+              &quot;user_id&quot;               INTEGER,
+              &quot;summary&quot;               TEXT NOT NULL,
+              &quot;start_time&quot;            TEXT NOT NULL,
+              &quot;end_time&quot;              TEXT NOT NULL,
+              &quot;status&quot;                TEXT NOT NULL
               );
 </span><span class='heredoc_end'>  SQL
 </span>
@@ -515,7 +537,8 @@
 36
 37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'db/seeder.rb', line 30</span>
@@ -529,6 +552,7 @@
   <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DROP TABLE IF EXISTS transport;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DROP TABLE IF EXISTS weather;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DROP TABLE IF EXISTS tokens;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_db'>db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DROP TABLE IF EXISTS calendar;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -561,19 +585,19 @@
       <pre class="lines">
 
 
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127</pre>
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'db/seeder.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'db/seeder.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_populate_tables'>populate_tables</span><span class='lparen'>(</span><span class='id identifier rubyid_db'>db</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_users'>users</span> <span class='op'>=</span> <span class='lbracket'>[</span>
@@ -650,7 +674,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Dec  1 15:12:15 2019 by
+  Generated on Tue Dec  3 12:39:05 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.3).
 </div>
