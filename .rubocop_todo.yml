@@ -31,6 +31,7 @@ Metrics/PerceivedComplexity:
 Style/CommentAnnotation:
   Exclude:
     - 'modules/web_handler.rb'
+    - 'modules/calendar.rb'
 
 # Offense count: 1
 # Configuration parameters: MinBodyLength.

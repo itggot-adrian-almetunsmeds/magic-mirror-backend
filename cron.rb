@@ -25,9 +25,12 @@ unless x.nil?
 
   # EVERY 20 MINUTES
 
-
   x.each do |id|
-    Calendar.fetch(id)
+    begin
+      Calendar.fetch(id)
+    rescue StandardError
+      puts 'Unable to update calendar'
+    end
     k = z.execute('SELECT lat, long FROM Location WHERE user_id = ?', id).first
     if !k.nil? && !k['lat'].nil? && !k['long'].nil?
       puts 'Updated weather'
