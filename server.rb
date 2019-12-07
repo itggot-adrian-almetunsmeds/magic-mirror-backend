@@ -44,22 +44,27 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
 
       ws.on(:message) do |msg|
         db_data = DBConnector.connect.execute('SELECT * FROM tokens WHERE token = ?', msg.data).first
-        if db_data[1].include? msg.data
-          @clients << [ws, db_data[0]]
-          if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
-                                         db_data[0]) == [[nil]] ||
-             DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
-                                         db_data[0]) == []
-            DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)',
-                                        db_data[0])
+        begin
+          if db_data[1].include? msg.data
+            @clients << [ws, db_data[0]]
+            if DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                           db_data[0]) == [[nil]] ||
+               DBConnector.connect.execute('SELECT * FROM current_sessions WHERE user_id = ?',
+                                           db_data[0]) == []
+              DBConnector.connect.execute('INSERT INTO current_sessions (user_id) VALUES (?)',
+                                          db_data[0])
+            end
+            Websocket.connection_made
+            Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
+            Websocket.send_message(ws, 'weather', Weather.get(db_data[0]))
+            Websocket.send_message(ws, 'calendar', Calendar.retrive(db_data[0]))
+            Websocket.store(ws, db_data[0])
+            Websocket.send_message(ws, 'test', 'message received')
+          else
+            ws.close
           end
-          Websocket.connection_made
-          Websocket.send_message(ws, 'traffic', PublicTransport.get(db_data[0]))
-          Websocket.send_message(ws, 'weather', Weather.get(db_data[0]))
-          Websocket.send_message(ws, 'calendar', Calendar.retrive(db_data[0]))
-          Websocket.store(ws, db_data[0])
-          Websocket.send_message(ws, 'test', 'message received')
-        else
+        rescue StandardError
+          print '/socket caused a fatal error'
           ws.close
         end
       end
