@@ -21,8 +21,7 @@ function useWebSocket(ws) {
             if (message["channel"] == "weather"){
                 console.log("message recieved");
                 message = message['message'];
-                weather_data = message[0];
-                weatherComponent(weather_data);
+                weatherComponent(message);
             }
 
 
