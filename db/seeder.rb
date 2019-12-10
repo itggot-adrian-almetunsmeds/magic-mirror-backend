@@ -23,7 +23,7 @@ class Seeder
   # Returns a database object
   #
   def self.connect
-    SQLite3::Database.new 'db/configuration.db'
+    SQLite3::Database.new 'configuration.db'
   end
 
   # Drops all tables if they exists
@@ -138,3 +138,5 @@ class Seeder
     end
   end
 end
+
+Seeder.seed!
