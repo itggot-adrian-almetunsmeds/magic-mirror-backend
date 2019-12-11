@@ -51,9 +51,9 @@ function timeComponent(){
 
 function weatherComponent(data){
     console.log("Weather data recieved")
-    if( document.querySelector('.apb')){
+    if (document.querySelector('.weather-component') != null){
         var weatherComponent = document.querySelector('.weather-component');
-        weatherComponent.innerHTML = ''
+        weatherComponent.innerHTML = '';
     }else{
         var weatherComponent = document.createElement('div');
         weatherComponent.classList.add('weather-component');
@@ -65,15 +65,21 @@ function weatherComponent(data){
     wrapper.appendChild(weatherComponent);
     weatherComponent.appendChild(currentWeather);
     weatherComponent.appendChild(upcomingWeather);
+    console.log("datan:")
     console.log(data);
     
-    
+    let currentTemp = document.createElement('div');
+    currentTemp.classList.add('current-temp');
+    currentWeather.appendChild(currentTemp);
+    currentTemp.innerHTML = data[0].temp
+
     let currentSymbol = document.createElement('div');
     currentSymbol.classList.add('symbol')
     currentSymbol.classList.add('current-symbol')
     currentWeather.appendChild(currentSymbol);
     currentSymbolImage = document.createElement('img');
-    currentSymbolImage.src = `img/weather/${data.symbol}.svg`;
+    currentSymbolImage.src = `img/weather/${data[0].symbol}.svg`;
+    console.log(data[0].symbol)
     currentSymbolImage.classList.add('symbol');
     currentSymbol.appendChild(currentSymbolImage);
     
