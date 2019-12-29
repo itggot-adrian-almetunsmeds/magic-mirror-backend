@@ -28,6 +28,7 @@ unless x.nil?
   x.each do |id|
     begin
       Calendar.fetch(id)
+      puts 'Updated calendar'
     rescue StandardError
       puts 'Unable to update calendar'
     end
