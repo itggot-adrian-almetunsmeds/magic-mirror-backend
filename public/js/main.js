@@ -153,13 +153,16 @@ function calendarComponent(data) {
         header = document.createElement('p');
         header.innerHTML = (new Date(Date.parse(dayDate))).customFormat("#DDD# #D# #MMM#");
         day.append(header);
+        eventList = document.createElement('div');
+        eventList.classList.add('event-list');
 
         for (i = 0; i < data.length; i++) {
             temp = isDate(dayDate, data[i])
             if (temp != false) {
-                day.append(temp)
+                eventList.append(temp)
             }
         };
+        day.append(eventList)
         collection.append(day);
         dayDate.setDate(dayDate.getDate() + 1);
     }
@@ -188,8 +191,10 @@ function isDate(object, calendarEntry) {
         if (isAllDay(calendarEntry, object) == 'All Day') {
             // Render as all day event
             times = document.createElement('div');
-            times.classList.add('times')
-            times.innerHTML = 'All Day';
+            times.classList.add('times');
+            pTag = document.createElement('p');
+            pTag.innerHTML = 'All Day';
+            times.append(pTag)
             title = document.createElement('p');
             title.innerHTML = calendarEntry.summary
             event.append(times)
@@ -246,7 +251,6 @@ function isAllDay(calendarEntry, object = nil) {
 function beginsDate(calendarEntry, object) {
     let time = new Date(calendarEntry.start_time)
     if (time.getDate() == object.getDate() && time.getMonth() == object.getMonth()) {
-        console.log('Start this date')
         return true
     } else {
         return false
@@ -256,7 +260,6 @@ function beginsDate(calendarEntry, object) {
 function endsDate(calendarEntry, object) {
     let time = new Date(calendarEntry.end_time)
     if (time.getDate() == object.getDate() && time.getMonth() == object.getMonth()) {
-        console.log('Ends this date')
         return true
     } else {
         return false

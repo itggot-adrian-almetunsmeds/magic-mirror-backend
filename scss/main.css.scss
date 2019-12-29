@@ -12,24 +12,59 @@ body {
   background-color: $primary-color;
   width: 100%;
   height: 100%;
-  // padding: 5px;
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: 
-  "weather time"
-  "weather calendar"
-  "weather calendar"
-  "empty1 publictransit"
-  "empty1 publictransit"
-  "empty1 publictransit"
-  "empty empty"
-  "empty empty"
-  "empty empty"
-  "empty empty"
+  "weather none time"
+  "weather none calendar"
+  "weather none calendar"
+  "empty1 none publictransit"
+  "empty1 none publictransit"
+  "empty1 none publictransit"
+  "empty none empty2"
+  "empty none empty2"
+  "empty none empty2"
+  "empty none empty2"
   ;
-  
+  grid-row-gap: 3em;
+}
+
+.weather-component{
+  grid-area: weather;
+}
+
+.calendar-component{
+  grid-area: calendar;
+  border-top: white solid 1.5px;
+  .day{
+    p{
+      margin: 4px;
+    }
+    display: grid;
+    grid-template-columns: 20% auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "text text" "nothing events";
+    .event-list{
+      grid-template-areas: events;
+    }
+    .event{
+      display: grid;
+      grid-template-columns: 4em auto;
+      .times{
+        display: grid;
+        grid-template-rows: 50% 50%;
+        font-size: 0.9em;
+        p{
+          display: flex;
+          margin: 0;
+          align-items: center;
+          grid-row: span 2;
+        }
+      }
+    }
+  }
 }
 
 .time-component{
