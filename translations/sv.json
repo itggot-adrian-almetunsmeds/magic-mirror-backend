@@ -5,14 +5,17 @@
         "arrives": "Anl?nder",
         "arrives-in": "Anl?nder om"
     },
+    "calendar":{
+        "all_day": "Hela Dagen"
+    },
     "time": {
-        "mon": "M�ndag",
+        "mon": "Måndag",
         "tue": "Tisdag",
         "wen": "Onsdag",
         "thu": "Torsdag",
         "fri": "Fredag",
-        "sat": "L�rdag",
-        "sun": "S�ndag",
+        "sat": "Lördag",
+        "sun": "Söndag",
         "jan": "Januari",
         "feb": "Februari",
         "mar": "Mars",

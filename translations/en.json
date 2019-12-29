@@ -5,6 +5,9 @@
         "arrives": "Arrives",
         "arrives_in": "Arrives in"
     },
+    "calendar":{
+        "all_day": "All Day"
+    },
     "time": {
         "mon": "Monday",
         "tue": "Tuesday",
