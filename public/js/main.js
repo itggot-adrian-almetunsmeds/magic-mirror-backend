@@ -125,8 +125,195 @@ function weatherComponent(data) {
     console.log(data[0].symbol)
     currentSymbolImage.classList.add('symbol');
     currentSymbol.appendChild(currentSymbolImage);
-    
-    
 }
 
 timeComponent()
+
+
+function calendarComponent(data) {
+    if (document.querySelector('.calendar-component') != null) {
+        var calendarComponent = document.querySelector('.calendar-component');
+        calendarComponent.innerHTML = '';
+    } else {
+        var calendarComponent = document.createElement('div');
+        calendarComponent.classList.add('calendar-component');
+    }
+    var collection = document.createElement('div');
+    collection.classList.add('calendar-list');
+
+    dayDate = new Date;
+    dayDate.setHours(0, 0, 0, 0);
+    dayDateOffSett = new Date;
+    dayDateOffSett.setDate(dayDateOffSett.getDate() + 1);
+    dayDateOffSett.setHours(0, 0, 0, 59);
+
+    for (iterations = 0; iterations < 5; iterations++) {
+        day = document.createElement('div');
+        day.classList.add('day');
+        header = document.createElement('p');
+        header.innerHTML = (new Date(Date.parse(dayDate))).customFormat("#DDD# #D# #MMM#");
+        day.append(header);
+
+        for (i = 0; i < data.length; i++) {
+            temp = isDate(dayDate, data[i])
+            if (temp != false) {
+                day.append(temp)
+            }
+
+
+
+
+
+
+            //     var endTime = null
+            //     var startTime = null
+            //     var allDay = null
+            //     var event = null
+            //     console.log(data[i])
+            //     // These have to be separate if conditions as multiple can pass at the same run.
+            //     if ((Date.parse(data[i].start_time) <= Date.parse(dayDate)) && Date.parse(data[i].end_time) >= Date.parse(dayDateOffSett)) // All day event
+            //     {
+            //         console.log(data[i].summary + " This spans the entire day")
+            //         allDay = 'All Day'
+            //     } else if (Date.parse(data[i].start_time).getDate == Date.parse(dayDate).getDate || Date.parse(data[i].end_time).getDate == Date.parse(dayDate).getDate) {
+            //         if ((Date.parse(data[i].start_time) >= Date.parse(dayDate)) && (Date.parse(data[i].start_time) < Date.parse(dayDateOffSett))) // Starts today // > 00:00 && < 24:00
+            //         {
+            //             console.log(data[i].summary + " This starts today")
+            //             startTime = (new Date(Date.parse(data[i].start_time))).customFormat('#hhhh# : #mm#');
+            //         }
+            //         if (Date.parse(data[i].end_time) >= Date.parse(dayDate) && Date.parse(data[i].end_time) <= Date.parse(dayDateOffSett)) // Ends today // > 00:00 && < 24:00
+            //         {
+            //             console.log(data[i].summary + " This ends today")
+            //             endTime = (new Date(Date.parse(data[i].end_time))).customFormat('#hhhh# : #mm#');
+            //         }
+            //     }
+            //     // Appends things to view
+            // if (allDay != null || endTime != null || startTime != null) {
+            //     // console.log('XXXXXXXXXXXXXXXXXXXX')
+            //     // console.log(event)
+            //     // console.log(endTime)
+            //     // console.log(startTime)
+            //     // console.log(allDay)
+            //     event = document.createElement('div');
+            //     event.classList.add('event')
+            //     // console.log(event)
+            //     // console.log('XXXXXXXXXXXXXXXXXXXX')
+            //     title = document.createElement('p');
+            //     title.innerHTML = data[i].summary;
+            //     if (allDay != null) {
+            //         event.append(allDay);
+            //     }
+            //     if (startTime != null) {
+            //         event.append(startTime);
+            //     }
+            //     if (endTime != null) {
+            //         event.append(endTime);
+            //     }
+            //     event.append(title);
+            // }
+            // if (event != null) {
+            //     day.append(event);
+            // };
+        };
+        collection.append(day);
+        dayDate.setDate(dayDate.getDate() + 1);
+    }
+    calendarComponent.append(collection);
+    wrapper.append(calendarComponent);
+}
+
+// Takes a Date object as an object and a calendarEntry as a hash
+function isDate(object, calendarEntry) {
+    temp = calendarEntry.start_time
+    temp = new Date(temp)
+    temp.setHours(0)
+    temp.setMinutes(0)
+    startTime = Date.parse(temp)
+    temp = calendarEntry.end_time
+    temp = new Date(temp)
+    temp.setHours(0)
+    temp.setMinutes(0)
+    endTime = Date.parse(temp)
+    now = Date.parse(object)
+    if (now >= startTime && now <= endTime) {
+        // It "is" today
+        event = document.createElement('div');
+        event.classList.add('event');
+
+        if (isAllDay(calendarEntry, object) == 'All Day') {
+            // Render as all day event
+            times = document.createElement('div');
+            times.classList.add('times')
+            times.innerHTML = 'All Day';
+            title = document.createElement('p');
+            title.innerHTML = calendarEntry.summary
+            event.append(times)
+            event.append(title)
+            return event
+        } else {
+            if (endTime.getHours() == 00 && endTime.getMinutes() == 00) {
+                return false
+                // TODO: Refine the method of not rendering edge cases
+                // 
+                // If the event ends at 00:00 it will be displayed as a ending "today" when the expected behaviour would be to have it render the previous day and have the end time be 24:00
+            }
+
+            // Render this as a non all day event
+            times = document.createElement('div');
+            times.classList.add('times')
+            if (beginsDate(calendarEntry, object)) {
+                startTime = document.createElement('div');
+                startTime.innerHTML = (new Date(Date.parse(calendarEntry.start_time))).customFormat('#hhhh# : #mm#');
+                times.append(startTime);
+            }
+            if (endsDate(calendarEntry, object)) {
+                endTime = document.createElement('div');
+                endTime.innerHTML = (new Date(Date.parse(calendarEntry.end_time))).customFormat('#hhhh# : #mm#');
+                times.append(endTime);
+            }
+            title = document.createElement('p');
+            title.innerHTML = calendarEntry.summary
+            event.append(times)
+            event.append(title)
+            return event
+        }
+    } else {
+        // Do not render this day
+        return false
+    }
+}
+
+function isAllDay(calendarEntry, object = nil) {
+    object.setHours(0)
+    object.setMinutes(0)
+    object.setSeconds(0)
+    let objectOffset = new Date(object)
+    objectOffset.setDate(objectOffset.getDate() + 1)
+    startTime = new Date(Date.parse(calendarEntry.start_time))
+    endTime = new Date(Date.parse(calendarEntry.end_time))
+    if (Date.parse(startTime) <= Date.parse(object) && Date.parse(endTime) >= Date.parse(objectOffset)) {
+        return 'All Day'
+    } else {
+        return false
+    }
+}
+
+function beginsDate(calendarEntry, object) {
+    let time = new Date(calendarEntry.start_time)
+    if (time.getDate() == object.getDate() && time.getMonth() == object.getMonth()) {
+        console.log('Start this date')
+        return true
+    } else {
+        return false
+    }
+}
+
+function endsDate(calendarEntry, object) {
+    let time = new Date(calendarEntry.end_time)
+    if (time.getDate() == object.getDate() && time.getMonth() == object.getMonth()) {
+        console.log('Ends this date')
+        return true
+    } else {
+        return false
+    }
+}
