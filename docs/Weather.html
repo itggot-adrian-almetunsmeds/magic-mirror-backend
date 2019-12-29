@@ -210,8 +210,6 @@
       <pre class="lines">
 
 
-14
-15
 16
 17
 18
@@ -245,10 +243,12 @@
 46
 47
 48
-49</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/weather.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'modules/weather.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lparen'>(</span><span class='id identifier rubyid_lat'>lat</span><span class='comma'>,</span> <span class='id identifier rubyid_long'>long</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WebHandler.html" title="WebHandler (class)">WebHandler</a></span></span><span class='period'>.</span><span class='id identifier rubyid_request'><span class='object_link'><a href="WebHandler.html#request-class_method" title="WebHandler.request (method)">request</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://opendata-download-metfcst.smhi.se/api/category/</span><span class='tstring_end'>&#39;</span></span>\
@@ -305,6 +305,8 @@
     
 <p>Gets the cached weather from the db</p>
 
+<p>rubocop:disable Metrics/PerceivedComplexity</p>
+
 
   </div>
 </div>
@@ -317,28 +319,50 @@
       <pre class="lines">
 
 
-57
-58
-59
 60
 61
 62
 63
 64
 65
-66</pre>
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'modules/weather.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'modules/weather.rb', line 60</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_z'>z</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="DBConnector.html#connect-class_method" title="DBConnector.connect (method)">connect</a></span></span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span> <span class='comment'># rubocop:disable Metrics/CyclomaticComplexity
+</span>  <span class='id identifier rubyid_z'>z</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="DBConnector.html" title="DBConnector (class)">DBConnector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connect'><span class='object_link'><a href="DBConnector.html#connect-class_method" title="DBConnector.connect (method)">connect</a></span></span>
   <span class='id identifier rubyid_z'>z</span><span class='period'>.</span><span class='id identifier rubyid_results_as_hash'>results_as_hash</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_o'>o</span> <span class='op'>=</span> <span class='id identifier rubyid_z'>z</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT * FROM weather WHERE user_id = ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_o'>o</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No data</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_o'>o</span>
+    <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_weather'>weather</span><span class='op'>|</span>
+      <span class='id identifier rubyid_valid_time'>valid_time</span> <span class='op'>=</span> <span class='const'>DateTime</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_weather'>weather</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>time</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>&gt;</span> <span class='int'>4</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_valid_time'>valid_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>!=</span> <span class='int'>6</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_valid_time'>valid_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>!=</span> <span class='int'>12</span> <span class='op'>&amp;&amp;</span>
+         <span class='id identifier rubyid_valid_time'>valid_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>!=</span> <span class='int'>18</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_valid_time'>valid_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>!=</span> <span class='int'>0o0</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_output'>output</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_weather'>weather</span> <span class='kw'>unless</span> <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>8</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_i'>i</span> <span class='op'>+=</span> <span class='int'>1</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_output'>output</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -351,7 +375,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Dec 29 20:20:06 2019 by
+  Generated on Sun Dec 29 20:44:16 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.3).
 </div>
