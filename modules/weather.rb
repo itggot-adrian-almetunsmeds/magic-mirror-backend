@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'db_connector'
+
 # Handles weather
 class Weather
   # rubocop:disable Metrics/AbcSize
@@ -54,14 +56,27 @@ class Weather
 
   # Gets the cached weather from the db
   #
-  def self.get(id)
+  # rubocop:disable Metrics/PerceivedComplexity
+  def self.get(id) # rubocop:disable Metrics/CyclomaticComplexity
     z = DBConnector.connect
     z.results_as_hash = true
     o = z.execute('SELECT * FROM weather WHERE user_id = ?', id)
     if o == []
       'No data'
     else
-      o
+      i = 0
+      output = []
+      o.each do |weather|
+        valid_time = DateTime.parse(weather['time'])
+        if i > 4 && valid_time.hour != 6 && valid_time.hour != 12 &&
+           valid_time.hour != 18 && valid_time.hour != 0o0
+        else
+          output << weather unless output.length > 8
+        end
+        i += 1
+      end
+      output
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 end
