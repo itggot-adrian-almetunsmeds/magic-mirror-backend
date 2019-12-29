@@ -36,6 +36,7 @@ body {
 }
 
 .calendar-component{
+  position: relative;
   grid-area: calendar;
   border-top: white solid 1.5px;
   .day{
@@ -43,7 +44,7 @@ body {
       margin: 4px;
     }
     display: grid;
-    grid-template-columns: 20% auto;
+    grid-template-columns: 25% auto;
     grid-template-rows: auto auto;
     grid-template-areas: "text text" "nothing events";
     .event-list{
@@ -65,6 +66,19 @@ body {
       }
     }
   }
+}
+.calendar-component:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -250px;
+  left: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom, 
+                    rgba(255,255,255, 0), 
+                    rgb(0, 0, 0) 90%);
+  width: 100%;
+  height: 10em;
 }
 
 .time-component{
