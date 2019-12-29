@@ -10,21 +10,18 @@ function connectWebsocket() {
 function useWebSocket(ws) {
     if (ws && count < 2) {
         ws.onopen = function () {
-           count = 0
-           console.log('Connected to ws')
+            count = 0
+            console.log('Connected to ws')
         }
-        // When recieves message, checks message type and sends data to rendering function in main.js
+        // When receiving a message, checks message type and sends data to specified rendering function in main.js
         ws.onmessage = function (message) {
-            console.log(JSON.parse(message.data));
-            message = JSON.parse(message.data);
-            console.log(message["channel"]);
-            if (message["channel"] == "weather"){
-                console.log("message recieved");
-                message = message['message'];
+            response = JSON.parse(message.data);
+            message = response['message'];
+            if (response["channel"] == "weather" && message != "No data") {
                 weatherComponent(message);
+            } else if (response["channel"] == "calendar" && message != "No data") {
+                calendarComponent(message)
             }
-
-
         }
         ws.onclose = function () {
             console.log('Disconnected from ws')
