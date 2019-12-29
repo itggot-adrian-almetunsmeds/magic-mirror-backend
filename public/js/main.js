@@ -159,61 +159,6 @@ function calendarComponent(data) {
             if (temp != false) {
                 day.append(temp)
             }
-
-
-
-
-
-
-            //     var endTime = null
-            //     var startTime = null
-            //     var allDay = null
-            //     var event = null
-            //     console.log(data[i])
-            //     // These have to be separate if conditions as multiple can pass at the same run.
-            //     if ((Date.parse(data[i].start_time) <= Date.parse(dayDate)) && Date.parse(data[i].end_time) >= Date.parse(dayDateOffSett)) // All day event
-            //     {
-            //         console.log(data[i].summary + " This spans the entire day")
-            //         allDay = 'All Day'
-            //     } else if (Date.parse(data[i].start_time).getDate == Date.parse(dayDate).getDate || Date.parse(data[i].end_time).getDate == Date.parse(dayDate).getDate) {
-            //         if ((Date.parse(data[i].start_time) >= Date.parse(dayDate)) && (Date.parse(data[i].start_time) < Date.parse(dayDateOffSett))) // Starts today // > 00:00 && < 24:00
-            //         {
-            //             console.log(data[i].summary + " This starts today")
-            //             startTime = (new Date(Date.parse(data[i].start_time))).customFormat('#hhhh# : #mm#');
-            //         }
-            //         if (Date.parse(data[i].end_time) >= Date.parse(dayDate) && Date.parse(data[i].end_time) <= Date.parse(dayDateOffSett)) // Ends today // > 00:00 && < 24:00
-            //         {
-            //             console.log(data[i].summary + " This ends today")
-            //             endTime = (new Date(Date.parse(data[i].end_time))).customFormat('#hhhh# : #mm#');
-            //         }
-            //     }
-            //     // Appends things to view
-            // if (allDay != null || endTime != null || startTime != null) {
-            //     // console.log('XXXXXXXXXXXXXXXXXXXX')
-            //     // console.log(event)
-            //     // console.log(endTime)
-            //     // console.log(startTime)
-            //     // console.log(allDay)
-            //     event = document.createElement('div');
-            //     event.classList.add('event')
-            //     // console.log(event)
-            //     // console.log('XXXXXXXXXXXXXXXXXXXX')
-            //     title = document.createElement('p');
-            //     title.innerHTML = data[i].summary;
-            //     if (allDay != null) {
-            //         event.append(allDay);
-            //     }
-            //     if (startTime != null) {
-            //         event.append(startTime);
-            //     }
-            //     if (endTime != null) {
-            //         event.append(endTime);
-            //     }
-            //     event.append(title);
-            // }
-            // if (event != null) {
-            //     day.append(event);
-            // };
         };
         collection.append(day);
         dayDate.setDate(dayDate.getDate() + 1);
