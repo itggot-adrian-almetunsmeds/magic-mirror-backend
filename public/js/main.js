@@ -1,9 +1,9 @@
-function translations(lang){
+function translations(lang) {
     var xmlHttp = new XMLHttpRequest();
     url = (window.location.protocol + "//" + window.location.hostname + ':9292' + '/api/translations/' + lang)
-    
-    xmlHttp.open( "GET", url, false ); // false for synchronous request
-    xmlHttp.send( null );
+
+    xmlHttp.open("GET", url, false); // false for synchronous request
+    xmlHttp.send(null);
     return xmlHttp.responseText;
 }
 
@@ -70,12 +70,12 @@ function timeComponent() {
     }, 500)
 }
 
-function weatherComponent(data){
+function weatherComponent(data) {
     console.log("Weather data recieved")
-    if (document.querySelector('.weather-component') != null){
+    if (document.querySelector('.weather-component') != null) {
         var weatherComponent = document.querySelector('.weather-component');
         weatherComponent.innerHTML = '';
-    }else{
+    } else {
         var weatherComponent = document.createElement('div');
         weatherComponent.classList.add('weather-component');
     }
@@ -88,7 +88,7 @@ function weatherComponent(data){
     weatherComponent.appendChild(upcomingWeather);
     console.log("datan:")
     console.log(data);
-    
+
     let currentTemp = document.createElement('div');
     currentTemp.classList.add('current-temp');
     currentWeather.appendChild(currentTemp);
