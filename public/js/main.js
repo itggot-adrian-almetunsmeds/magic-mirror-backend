@@ -198,7 +198,7 @@ function isDate(object, calendarEntry) {
         } else {
             if (endTime.getHours() == 00 && endTime.getMinutes() == 00) {
                 return false
-                // TODO: Refine the method of not rendering edge cases
+                // TODO [$5e08fe9c385a2500073e3c8c]: Refine the method of not rendering edge cases
                 // 
                 // If the event ends at 00:00 it will be displayed as a ending "today" when the expected behaviour would be to have it render the previous day and have the end time be 24:00
             }
