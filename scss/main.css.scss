@@ -40,6 +40,7 @@ body {
   grid-area: calendar;
   border-top: white solid 1.5px;
   .day{
+    margin-bottom: 1px;
     p{
       margin: 4px;
     }
@@ -53,6 +54,7 @@ body {
     .event{
       display: grid;
       grid-template-columns: 4em auto;
+      margin-top: 1px;
       .times{
         display: grid;
         grid-template-rows: 50% 50%;
@@ -71,7 +73,7 @@ body {
   content: "";
   position: absolute;
   z-index: 1;
-  bottom: -250px;
+  bottom: -250px; // Decrease this value to fade earlier
   left: 0;
   pointer-events: none;
   background-image: linear-gradient(to bottom, 
