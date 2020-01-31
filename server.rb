@@ -273,7 +273,6 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   end
 
   post '/login' do
-    p "Session ID Login: #{session.id}"
     @user = User.login(params[:name], params[:password])
     if @user.is_a? Integer
       session[:user_id] = @user
