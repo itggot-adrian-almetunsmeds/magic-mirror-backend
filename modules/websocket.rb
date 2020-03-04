@@ -9,7 +9,7 @@ class Websocket
   include SuckerPunch::Job
 
   def self.connection_made
-    system('ruby cron.rb')
+    # system('ruby cron.rb')
   end
 
   # Parses websocket message
