@@ -11,7 +11,7 @@ Z.results_as_hash = true
 def update_minute
   p 'update min'
   x = DBConnector.connect.execute('SELECT * FROM current_sessions').first
-  x&.each do |id|
+  x.each do |id|
     q = Z.execute('SELECT * FROM PublicTransit WHERE user_id = ?', id.last.to_i)
     if q == []
       puts 'Did not update Transit'
