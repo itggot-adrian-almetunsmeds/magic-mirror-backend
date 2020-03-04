@@ -49,6 +49,7 @@ class PublicTransport
     "#{@config['stolptidstabeller']}"\
     "&id=#{stop_id}&format=json&passlist=0")
     @json = JSON.parse(response.body)
+    print @json['errorText'] unless @json['errorText'].nil?
     if @json['errorText'].nil?
       traffic = []
       @json['Departure'].each do |bus|
