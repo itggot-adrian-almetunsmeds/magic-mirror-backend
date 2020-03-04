@@ -93,7 +93,6 @@ function timeComponent() {
 }
 
 function weatherComponent(data) {
-    console.log("Weather data recieved")
     if (document.querySelector('.weather-component') != null) {
         var weatherComponent = document.querySelector('.weather-component');
         weatherComponent.innerHTML = '';

@@ -17,10 +17,14 @@ function useWebSocket(ws) {
         ws.onmessage = function (message) {
             response = JSON.parse(message.data);
             message = response['message'];
+            console.log(response['channel']+'-data received:')
+            console.log(message)
             if (response["channel"] == "weather" && message != "No data") {
                 weatherComponent(message);
             } else if (response["channel"] == "calendar" && message != "No data") {
                 calendarComponent(message)
+            } else if (response["channel"] == "traffic" && message != "No data") {
+                publicTransit(message)
             }
         }
         ws.onclose = function () {
