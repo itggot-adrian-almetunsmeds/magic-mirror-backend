@@ -78,12 +78,12 @@ def run()
   running = true
   count = 0
   while running
-    p "started sleeping"
-    sleep 3
+    p "starting sleep"
+    sleep 30
     p "sleept"
     update_minute()
     count += 1
-    if count == 1200
+    if count == 40
       update_twenty()
       count = 0
     end
