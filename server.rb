@@ -166,12 +166,12 @@ class Server < Sinatra::Base # rubocop:disable Metrics/ClassLength
   end
 
   post '/admin/public-transit/update' do
-    PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
+    PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id].to_i)
     redirect '/admin'
   end
 
   post '/admin/public-transit/new' do
-    PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id])
+    PublicTransport.stop_add(params[:name], params[:stop_id], params[:user_id].to_i)
     redirect '/admin'
   end
 
