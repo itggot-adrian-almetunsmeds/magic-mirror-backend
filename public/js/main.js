@@ -316,3 +316,7 @@ function addError(error, id) {
 }
 
 
+
+function publicTransit(data) {
+    console.log('This ran')
+}
