@@ -236,12 +236,12 @@
   <span class='id identifier rubyid_running'>running</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span>
   <span class='kw'>while</span> <span class='id identifier rubyid_running'>running</span>
-    <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>started sleeping</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>3</span>
+    <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>starting sleep</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>30</span>
     <span class='id identifier rubyid_p'>p</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sleept</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_update_minute'><span class='object_link'><a href="#update_minute-instance_method" title="#update_minute (method)">update_minute</a></span></span><span class='lparen'>(</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='int'>1200</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='int'>40</span>
       <span class='id identifier rubyid_update_twenty'><span class='object_link'><a href="#update_twenty-instance_method" title="#update_twenty (method)">update_twenty</a></span></span><span class='lparen'>(</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='kw'>end</span>
@@ -453,7 +453,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Mar  4 19:03:26 2020 by
+  Generated on Wed Mar  4 19:12:07 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.24 (ruby-2.6.5).
 </div>
