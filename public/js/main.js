@@ -264,3 +264,55 @@ function endsDate(calendarEntry, object) {
         return false
     }
 }
+
+function checkConnection() {
+    var today = new Date();
+    var image = new Image();
+    image.src = 'https://www.google.com/chrome/static/images/chrome-logo.svg?' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    setTimeout
+        (
+            function () {
+                if (!image.complete || !image.naturalWidth) {
+                    addError('No network connection detected. Last online: ' + today.getHours() + ":" + today.getMinutes(), 400);
+                } else {
+                    removeError(400);
+                }
+            },
+            1000
+        );
+}
+
+setInterval(function () {
+    checkConnection()
+}, 10000);
+
+
+function removeError(id) {
+    if (document.getElementById(id) != null) {
+        element = document.getElementById(id)
+        element.parentNode.removeChild(element)
+        if (document.querySelectorAll('.error_content').length == 1) {
+            document.querySelector('#error_bar').classList.remove('scroll')
+        }
+        if (document.querySelector('#error_bar').innerHTML == '') {
+            document.getElementById('holder').classList.add('hidden');
+        }
+    }
+}
+
+function addError(error, id) {
+    if (document.getElementById(id) == null) {
+        let h = document.getElementById('error_bar');
+        o = document.createElement('span');
+        o.classList.add('error_content');
+        o.innerHTML = error
+        o.id = id
+        h.append(o)
+        document.getElementById('holder').classList.remove('hidden')
+        if (document.querySelectorAll('.error_content').length > 1) {
+            document.querySelector('#error_bar').classList.add('scroll')
+        }
+    }
+}
+
+
