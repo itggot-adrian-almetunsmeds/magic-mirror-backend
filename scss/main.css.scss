@@ -78,10 +78,23 @@ body {
   }
 }
 
+.traffic-component {
+  grid-area: publictransit;
 
+  .transit-list {
+    div{
+      display: grid;
+      grid-template-columns: 2em auto 2em;
+      span {
+        text-align: left;
+      }
+    }
+  }
+}
 
-
-
+.scroll-hidden{
+  display: block;
+}
 
 .weather-component{
   grid-area: weather;
