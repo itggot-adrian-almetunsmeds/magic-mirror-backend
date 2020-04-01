@@ -94,34 +94,40 @@ function timeComponent() {
 
 function weatherComponent(data) {
     if (document.querySelector('.weather-component') != null) {
-        var weatherComponent = document.querySelector('.weather-component');
-        weatherComponent.innerHTML = '';
+        var weather_component = document.querySelector('.weather-component');
+        weather_component.innerHTML = '';
     } else {
-        var weatherComponent = document.createElement('div');
-        weatherComponent.classList.add('weather-component');
+        var weather_component = document.createElement('div');
+        weather_component.classList.add('weather-component');
     }
-    let currentWeather = document.createElement('div');
-    currentWeather.classList.add('current-weather');
-    let upcomingWeather = document.createElement('div');
-    upcomingWeather.classList.add('upcoming-weather');
-    wrapper.appendChild(weatherComponent);
-    weatherComponent.appendChild(currentWeather);
-    weatherComponent.appendChild(upcomingWeather);
 
-    let currentTemp = document.createElement('div');
-    currentTemp.classList.add('current-temp');
-    currentWeather.appendChild(currentTemp);
-    currentTemp.innerHTML = data[0].temp
-
-    let currentSymbol = document.createElement('div');
-    currentSymbol.classList.add('symbol')
-    currentSymbol.classList.add('current-symbol')
-    currentWeather.appendChild(currentSymbol);
-    currentSymbolImage = document.createElement('img');
-    currentSymbolImage.src = `img/weather/${data[0].symbol}.svg`;
-    // console.log(data[0].symbol)
-    currentSymbolImage.classList.add('symbol');
-    currentSymbol.appendChild(currentSymbolImage);
+    for (element in data) {
+        let holder = document.createElement('div')
+        if (element == 0) {
+            holder.classList.add('current')
+        }
+        temp = document.createElement('img')
+        temp.src = `img/weather/${data[element].symbol}.svg`;
+        holder.append(temp)
+        temp = document.createElement('span')
+        temp.innerHTML = data[element].temp.split(' ')[0] + "&#176;C"
+        holder.append(temp)
+        temp = document.createElement('span')
+        x = new Date(data[element].time)
+        console.log(x.getDate())
+        console.log(new Date().getDate())
+        if (x.getDate() == new Date().getDate()) {
+            temp.innerHTML = x.customFormat("#hh#:#mm#")
+        } else {
+            temp.innerHTML = x.customFormat("#DDD# #hh#:#mm#")
+        }
+        holder.append(temp)
+        temp = document.createElement('span')
+        temp.innerHTML = data[element].wind_speed
+        holder.append(temp)
+        weather_component.append(holder)
+    }
+    wrapper.append(weather_component)
 }
 
 timeComponent()

@@ -1,4 +1,5 @@
-$font-stack: Helvetica, sans-serif;
+$font-stack: Helvetica,
+sans-serif;
 $primary-color: black;
 $secondary-color: hotpink;
 $text-color: white;
@@ -9,7 +10,8 @@ body {
   margin: 0;
   overflow-x: hidden;
 }
-#main-wrapper{
+
+#main-wrapper {
   background-color: $primary-color;
   width: 100%;
   height: 100%;
@@ -17,18 +19,18 @@ body {
   display: grid;
   grid-template-rows: 0 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: 
-  "alert alert alert"
-  "weather none time"
-  "weather none calendar"
-  "weather none calendar"
-  "empty1 none publictransit"
-  "empty1 none publictransit"
-  "empty1 none publictransit"
-  "empty none empty2"
-  "empty none empty2"
-  "empty none empty2"
-  "empty none empty2"
+  grid-template-areas:
+    "alert alert alert"
+    "weather none time"
+    "weather none calendar"
+    "weather none calendar"
+    "empty1 none publictransit"
+    "empty1 none publictransit"
+    "empty1 none publictransit"
+    "empty none empty2"
+    "empty none empty2"
+    "empty none empty2"
+    "empty none empty2"
   ;
   grid-row-gap: 3em;
 }
@@ -50,6 +52,7 @@ body {
   margin-left: 1em;
   white-space: nowrap;
 }
+
 #holder {
   margin-bottom: -3em;
   grid-area: alert;
@@ -59,9 +62,10 @@ body {
   min-width: 100%;
   height: 3em;
   background: red;
-  color: white;  
+  color: white;
 }
-.scroll{
+
+.scroll {
   -webkit-animation-name: move;
   -webkit-animation-duration: 20s;
   -webkit-animation-iteration-count: infinite;
@@ -73,6 +77,7 @@ body {
   0% {
     margin-left: 100%;
   }
+
   100% {
     margin-left: -120%;
   }
@@ -82,9 +87,10 @@ body {
   grid-area: publictransit;
 
   .transit-list {
-    div{
+    div {
       display: grid;
       grid-template-columns: 2em auto 2em;
+
       span {
         text-align: left;
       }
@@ -92,39 +98,73 @@ body {
   }
 }
 
-.scroll-hidden{
+.scroll-hidden {
   display: block;
 }
 
-.weather-component{
+.weather-component {
   grid-area: weather;
+
+  div {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+    grid-row-gap: 8px;
+  }
+
+  .current {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+
+    img {
+      width: 40px;
+      height: 40px;
+      grid-row: 1 / span 2;
+    }
+
+    span:nth-of-type(1) {
+      font-size: 1.2em;
+    }
+
+    span:nth-of-type(2) {
+      display: none;
+    }
+  }
 }
 
-.calendar-component{
+.calendar-component {
   position: relative;
   grid-area: calendar;
   border-top: white solid 1.5px;
-  .day{
+
+  .day {
     margin-bottom: 1px;
-    p{
+
+    p {
       margin: 4px;
     }
+
     display: grid;
     grid-template-columns: 25% auto;
     grid-template-rows: auto auto;
-    grid-template-areas: "text text" "nothing events";
-    .event-list{
+    grid-template-areas: "text text""nothing events";
+
+    .event-list {
       grid-template-areas: events;
     }
-    .event{
+
+    .event {
       display: grid;
       grid-template-columns: 4em auto;
       margin-top: 1px;
-      .times{
+
+      .times {
         display: grid;
         grid-template-rows: 50% 50%;
         font-size: 0.9em;
-        p{
+
+        p {
           display: flex;
           margin: 0;
           align-items: center;
@@ -134,6 +174,7 @@ body {
     }
   }
 }
+
 .calendar-component:after {
   content: "";
   position: absolute;
@@ -141,14 +182,14 @@ body {
   bottom: -250px; // Decrease this value to fade earlier
   left: 0;
   pointer-events: none;
-  background-image: linear-gradient(to bottom, 
-                    rgba(255,255,255, 0), 
-                    rgb(0, 0, 0) 90%);
+  background-image: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgb(0, 0, 0) 90%);
   width: 100%;
   height: 10em;
 }
 
-.time-component{
+.time-component {
   padding: 10px 20px 10px 10px;
   grid-area: time;
   display: flex;
@@ -156,59 +197,69 @@ body {
   align-items: flex-end;
 }
 
-.clock{
+.clock {
   font-size: 2rem;
 }
 
-#admin-wrapper{
+#admin-wrapper {
   background-color: lightgrey;
   color: black;
   min-height: 100vh;
   padding: 5px;
+
   h1 {
     margin-top: 0;
   }
-  #configuration-div{
+
+  #configuration-div {
     margin-left: 20px;
     padding: 5px;
   }
-  #submit{
+
+  #submit {
     width: initial;
   }
-  input{
+
+  input {
     min-width: calc(20vw + 3px);
   }
-  table{
-    th{
+
+  table {
+    th {
       text-align: left;
       min-width: 20vw;
     }
-    th, td{
+
+    th,
+    td {
       padding-left: 3px;
     }
   }
-  form{
-    input{
+
+  form {
+    input {
       margin-left: 3px;
     }
   }
 }
 
-#login-wrapper{
+#login-wrapper {
   background: lightgrey;
   padding: 10px 10vw;
   min-height: 100vh;
   color: black;
-  h1{
+
+  h1 {
     margin-top: 0;
   }
 }
-.error{
+
+.error {
   padding: 1.33em;
   background: red;
 }
 
-.symbol{
+.symbol {
   fill: white;
   scale: 2;
 }
