@@ -107,8 +107,6 @@ function weatherComponent(data) {
     wrapper.appendChild(weatherComponent);
     weatherComponent.appendChild(currentWeather);
     weatherComponent.appendChild(upcomingWeather);
-    console.log("datan:")
-    console.log(data);
 
     let currentTemp = document.createElement('div');
     currentTemp.classList.add('current-temp');
@@ -121,12 +119,60 @@ function weatherComponent(data) {
     currentWeather.appendChild(currentSymbol);
     currentSymbolImage = document.createElement('img');
     currentSymbolImage.src = `img/weather/${data[0].symbol}.svg`;
-    console.log(data[0].symbol)
+    // console.log(data[0].symbol)
     currentSymbolImage.classList.add('symbol');
     currentSymbol.appendChild(currentSymbolImage);
 }
 
 timeComponent()
+
+
+function publicTransit(data) {
+    if (document.querySelector('.traffic-component') != null) {
+        var trafficComponent = document.querySelector('.traffic-component');
+        trafficComponent.innerHTML = '';
+    } else {
+        var trafficComponent = document.createElement('div');
+        trafficComponent.classList.add('traffic-component');
+    }
+    var collection = document.createElement('div');
+    collection.classList.add('transit-list');
+    for (var element in data[1]) {
+        if (element < 5) {
+            holder = document.createElement('div')
+            temp = document.createElement('span')
+            temp.innerHTML = data[1][element].line
+            holder.append(temp)
+            temp = document.createElement('span')
+            temp.innerHTML = data[1][element].direction
+            temp.classList.add('scroll-hidden')
+            holder.append(temp)
+            temp = document.createElement('span')
+
+            if (data[1][element].rtTime == null && data[1][element]['time'].substr(0, 2) < new Date().getHours()) {
+                reserve = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, data[1][element]['time'].substr(0, 2), data[1][element]['time'].substr(3, 2))
+                now_ = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate(), new Date().getHours(), new Date().getMinutes())
+            } else if (data[1][element].rtTime == null) {
+                reserve = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, data[1][element]['time'].substr(0, 2), data[1][element]['time'].substr(3, 2))
+                now_ = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, new Date().getHours(), new Date().getMinutes())
+            } else if (data[1][element]['rtTime'].substr(0, 2) < new Date().getHours()) {
+                reserve = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, data[1][element]['rtTime'].substr(0, 2), data[1][element]['rtTime'].substr(3, 2))
+                now_ = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate(), new Date().getHours(), new Date().getMinutes())
+            } else {
+                reserve = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, data[1][element]['rtTime'].substr(0, 2), data[1][element]['rtTime'].substr(3, 2))
+                now_ = new Date(new Date().getFullYear() + 1, new Date().getMonth() + 1, new Date().getDate() + 1, new Date().getHours(), new Date().getMinutes())
+            }
+
+            delta = reserve - now_
+            delta = delta * 10 ** -3 / 60
+            temp.innerHTML = delta
+            holder.append(temp)
+            collection.append(holder)
+        }
+    }
+    trafficComponent.append(collection)
+    wrapper.append(trafficComponent)
+}
 
 
 function calendarComponent(data) {
@@ -313,10 +359,4 @@ function addError(error, id) {
             document.querySelector('#error_bar').classList.add('scroll')
         }
     }
-}
-
-
-
-function publicTransit(data) {
-    console.log('This ran')
 }
