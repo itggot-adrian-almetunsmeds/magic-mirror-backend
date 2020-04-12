@@ -172,8 +172,12 @@ function publicTransit(data) {
             delta = reserve - now_
             delta = delta * 10 ** -3 / 60
             temp.innerHTML = delta
-            holder.append(temp)
-            collection.append(holder)
+
+            if (delta < 200) {
+                holder.append(temp)
+                collection.append(holder)
+            }
+
         }
     }
     trafficComponent.append(collection)
