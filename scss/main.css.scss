@@ -28,9 +28,9 @@ body {
     "empty1 none publictransit"
     "empty1 none publictransit"
     "empty none empty2"
-    "empty none empty2"
-    "empty none empty2"
-    "empty none empty2"
+    "empty random empty2"
+    "empty none2 empty2"
+    "empty none2 empty2"
   ;
   grid-row-gap: 3em;
 }
@@ -262,4 +262,14 @@ body {
 .symbol {
   fill: white;
   scale: 2;
+}
+
+.random-message {
+  h1 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  grid-area: random;
 }

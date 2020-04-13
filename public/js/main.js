@@ -32,6 +32,28 @@ Date.prototype.customFormat = function (formatString) {
     return formatString.replace("#hhhh#", hhhh).replace("#hhh#", hhh).replace("#hh#", hh).replace("#h#", h).replace("#mm#", mm).replace("#m#", m).replace("#ss#", ss).replace("#s#", s).replace("#ampm#", ampm).replace("#AMPM#", AMPM);
 };
 
+const randomMsg = ['Good Morning', 'Good Evening', 'Good Afternoon', 'Good Night', 'Morning', 'Looking Good', 'Have a god day', 'Is the weather any good today?']
+
+function randomMessage() {
+    var holder
+
+    if (document.querySelector('.random-message') != null) {
+        holder = document.querySelector('.random-message')
+        holder.innerHTML = ''
+    } else {
+        holder = document.createElement('div')
+        holder.classList.add('random-message')
+    }
+    let content = document.createElement('h1')
+    content.innerHTML = randomMsg[Math.floor(Math.random(0, randomMsg.length - 1))]
+    console.log(Math.random(0, randomMsg.length - 1))
+    console.log(holder)
+    holder.append(content)
+    wrapper.append(holder)
+}
+
+setInterval(randomMessage, 8000)
+
 // Creates a time component with time and date and puts it in the slim document
 function timeComponent() {
     let timeComponent = document.createElement("div");
