@@ -32,7 +32,7 @@ Date.prototype.customFormat = function (formatString) {
     return formatString.replace("#hhhh#", hhhh).replace("#hhh#", hhh).replace("#hh#", hh).replace("#h#", h).replace("#mm#", mm).replace("#m#", m).replace("#ss#", ss).replace("#s#", s).replace("#ampm#", ampm).replace("#AMPM#", AMPM);
 };
 
-const randomMsg = ['Good Morning', 'Good Evening', 'Good Afternoon', 'Good Night', 'Morning', 'Looking Good', 'Have a god day', 'Is the weather any good today?']
+var randomMsg = ['Good Morning', 'Good Evening', 'Good Afternoon', 'Good Night', 'Morning', 'Looking Good', 'Have a god day', 'Is the weather any good today?']
 
 function randomMessage() {
     var holder
@@ -45,14 +45,44 @@ function randomMessage() {
         holder.classList.add('random-message')
     }
     let content = document.createElement('h1')
-    content.innerHTML = randomMsg[Math.floor(Math.random(0, randomMsg.length - 1))]
-    console.log(Math.random(0, randomMsg.length - 1))
-    console.log(holder)
+    content.innerHTML = randomMsg[Math.floor(Math.random() * randomMsg.length)]
     holder.append(content)
     wrapper.append(holder)
 }
 
 setInterval(randomMessage, 8000)
+
+function initiateNews() {
+    setInterval(newsToggle, 10000)
+}
+
+function newsToggle() {
+    
+}
+
+
+function newsComponent() {
+    var holder
+
+    if (document.querySelector('.news') != null) {
+        holder = document.querySelector('.news')
+        holder.innerHTML = ''
+    } else {
+        holder = document.createElement('div')
+        holder.classList.add('news')
+    }
+
+    temp = document.createElement('h1')
+    temp.innerHTML = news['title']
+    holder.append(temp)
+
+    temp = document.createElement('h3')
+    temp.innerHTML = news['source']
+    holder.append(temp)
+
+    wrapper.append(holder)
+}
+
 
 // Creates a time component with time and date and puts it in the slim document
 function timeComponent() {
@@ -136,8 +166,8 @@ function weatherComponent(data) {
         holder.append(temp)
         temp = document.createElement('span')
         x = new Date(data[element].time)
-        console.log(x.getDate())
-        console.log(new Date().getDate())
+        // console.log(x.getDate())
+        // console.log(new Date().getDate())
         if (x.getDate() == new Date().getDate()) {
             temp.innerHTML = x.customFormat("#hh#:#mm#")
         } else {
